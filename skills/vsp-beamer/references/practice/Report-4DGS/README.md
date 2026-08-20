@@ -1,7 +1,7 @@
 # Report-4DGS
 
 - Root source: `practice/Report-4DGS/Report-4DGS.tex`
-- Theme: `report`
+- Theme: `report-red`
 - Scenario: long-form technical paper and hardware architecture discussion
 - Structure: seven chapters, dense figures, formulas, comparisons, and conclusion
 - Assets: many local split-page figures under `img/`

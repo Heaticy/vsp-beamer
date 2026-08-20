@@ -1,7 +1,7 @@
 # Report-4DSloMo
 
 - Root source: `practice/Report-4DSloMo/Report-4DSloMo.tex`
-- Theme: `report`
+- Theme: `report-red`
 - Scenario: compact research method presentation
 - Content: asynchronous capture, high-speed scene reconstruction, method explanation, and results
 - Assets: local figures under `img/`

@@ -6,7 +6,7 @@ Read this reference when converting a VSP-Marp deck, generating a new deck from 
 
 VSP-Beamer should preserve the high-level VSP-Marp contract:
 
-- the same seven theme names and use cases
+- the same six theme names and use cases
 - cover, contents, section transitions, body pages, summary, and end page
 - a stable display/heading/body/footer/code type hierarchy
 - layout chosen from content shape and image aspect ratio

@@ -31,7 +31,7 @@ The shared font scale is mapped from the VSP-Marp 1280x720 design tokens and sho
 
 Match VSP-Marp's `trans` contract:
 
-- Red, purple, report, tutorial, and SHTU transitions use a full `VSPPrimary` canvas with centered white `section title` text.
+- Red, purple, tutorial, and SHTU transitions use a full `VSPPrimary` canvas with centered white `section title` text.
 - SHTU transition pages deliberately suppress the ShanghaiTech master background, just as Marp excludes `.trans` from that background selector.
 - Nailong transitions use `shared-assets/nailong/nailong-bg.png` over white at 45% opacity, with centered white text and a restrained dark shadow.
 - Do not draw an underline or decorative horizontal rule below the centered section title.
@@ -51,7 +51,7 @@ Match Marp's `bq-*` structure with a colored title strip and a shared light body
 | `bq-black` | `vspquoteblack` | `VSPCalloutBlack` |
 | `bq-yellow` | `vspquoteyellow` | `VSPCalloutYellow` |
 
-The default header follows the exported Marp preset: tutorial red/SHTU/purple use `VSPCalloutRed`, report presets and Nailong use their current `VSPPrimary`. Variant environments always use the explicitly named color.
+The default header follows the exported Marp preset: tutorial red/SHTU/purple use `VSPCalloutRed`, report-red and Nailong use their current `VSPPrimary`. Variant environments always use the explicitly named color.
 
 Pass the callout title as the required environment argument, then place the body inside:
 
@@ -91,4 +91,4 @@ The optional argument controls the pill label and defaults to `Speaker`. The com
 
 ## Change isolation
 
-A shared edit must preserve all seven theme entries. Put SHTU-specific behavior inside `\ifvsp@shtu`, Nailong-specific behavior inside `\ifvsp@nailong`, and report/tutorial differences inside the existing report conditional. After shared edits, run `make check`.
+A shared edit must preserve all six theme entries. Put SHTU-specific behavior inside `\ifvsp@shtu`, Nailong-specific behavior inside `\ifvsp@nailong`, and report/tutorial differences inside the existing report conditional. After shared edits, run `make check`.

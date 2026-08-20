@@ -1,7 +1,7 @@
 # Report-MaskGaussian
 
 - Root source: `practice/Report-MaskGaussian/Report-MaskGaussian.tex`
-- Theme: `report`
+- Theme: `report-red`
 - Scenario: concise algorithm paper review
 - Content: pruning motivation, probabilistic masks, Gumbel-Softmax formulas, rasterization, losses, and results
 - Assets: one local figure

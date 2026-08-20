@@ -10,7 +10,6 @@ Read `../../references/theme-system.md` before changing theme code.
 ## Theme selection
 
 - `report-red`: default for paper, project, progress, and formal technical reports
-- `report`: neutral conservative report
 - `report-nailong`: light, playful report
 - `tutorial-red`: general teaching and recitation
 - `tutorial-red-shtu`: ShanghaiTech teaching with branded background

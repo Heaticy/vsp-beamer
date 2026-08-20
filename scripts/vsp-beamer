@@ -160,7 +160,7 @@ verify_install() {
   release="$(current_release)" || { printf '%s: not installed\n' "$PROGRAM" >&2; return 1; }
   for file in \
     beamerthemeVSP.sty beamerthemetutorial-red-shtu.sty beamerthemetutorial-purple.sty \
-    beamerthemetutorial-nailong.sty beamerthemereport.sty beamerthemereport-red.sty \
+    beamerthemetutorial-nailong.sty beamerthemereport-red.sty \
     beamerthemereport-nailong.sty shanghaitech-master.png \
     ShanghaiTech_Logo_RGBA.png nailong-bg.png; do
     local found

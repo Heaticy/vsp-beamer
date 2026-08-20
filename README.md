@@ -74,7 +74,7 @@ make status
 make verify-install
 ```
 
-安装只写用户目录，不需要 `sudo`，也不会复制或覆盖模板、practice 或用户文稿。安装内容包括七个主题入口、共享主题、背景、Logo 和 Nailong 素材；Noto CJK 是系统前置依赖，不会重复打进 TDS 包。卸载和回滚使用：
+安装只写用户目录，不需要 `sudo`，也不会复制或覆盖模板、practice 或用户文稿。安装内容包括六个主题入口、共享主题、背景、Logo 和 Nailong 素材；Noto CJK 是系统前置依赖，不会重复打进 TDS 包。卸载和回滚使用：
 
 ```bash
 make rollback
@@ -103,8 +103,8 @@ VSP_SKIP_UPDATE_CHECK=1 make
 ## 目录结构
 
 ```text
-themes/                 Beamer 共享主题和 7 个主题入口
-templates/              7 份完整、可直接编辑的标准模板
+themes/                 Beamer 共享主题和 6 个主题入口
+templates/              6 份完整、可直接编辑的标准模板
 practice/               5 份完整内容型演示及其本地图片
 shared-assets/          Logo、背景和示例图片
 skills/vsp-beamer/      Agent Skill 入口
@@ -123,8 +123,7 @@ scripts/                PDF 审计、更新检查和安装管理器
 | `templates/tutorial-red-shtu.tex` | `tutorial-red-shtu` | 上海科技大学教学 |
 | `templates/tutorial-purple.tex` | `tutorial-purple` | 紫色教学 |
 | `templates/tutorial-nailong.tex` | `tutorial-nailong` | 奶龙黄色教学 |
-| `templates/report.tex` | `report` | 通用报告 |
-| `templates/report-red.tex` | `report-red` | 红色报告 |
+| `templates/report-red.tex` | `report-red` | 默认红色报告 |
 | `templates/report-nailong.tex` | `report-nailong` | 奶龙黄色报告 |
 
 每份模板均包含封面、目录、章节页、固定标题、双栏/三栏、图片、列表、引用、代码和尾页。
@@ -162,7 +161,7 @@ plan  start  resume  generate  render
 audit theme  assets  export    polish
 ```
 
-根入口位于 `skills/vsp-beamer/SKILL.md`。每项能力也可以通过 `skills/vsp-beamer/skills/<capability>/SKILL.md` 独立执行；Skill 内含七份模板快照、五份 practice 摘要和十项能力评测集。
+根入口位于 `skills/vsp-beamer/SKILL.md`。每项能力也可以通过 `skills/vsp-beamer/skills/<capability>/SKILL.md` 独立执行；Skill 内含六份模板快照、五份 practice 摘要和十项能力评测集。
 
 ## 主题使用
 
