@@ -10,10 +10,11 @@ check:
   stage: check
   tags:
     - latex-runner
-  image: registry.gitlab.com/islandoftex/images/texlive:latest
   before_script:
-    - apt-get update
-    - apt-get install -y make fonts-noto-cjk mupdf-tools poppler-utils imagemagick jq
+    - command -v make latexmk xelatex mutool pdfinfo pdftoppm identify jq fc-match
+    - fc-match --format='%{family}\n' 'Noto Serif CJK SC' | grep -F 'Noto Serif CJK SC'
+    - fc-match --format='%{family}\n' 'Noto Sans CJK SC' | grep -F 'Noto Sans CJK SC'
+    - fc-match --format='%{family}\n' 'Noto Sans Mono CJK SC' | grep -F 'Noto Sans Mono CJK SC'
   script:
     - make release
   artifacts:
