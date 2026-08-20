@@ -1,0 +1,65 @@
+{
+  "skill_name": "vsp-beamer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "vb:plan 我有一篇 18 页的芯片论文和 14 张图，要做 20 分钟组会汇报。先规划页面、主题、图片和验证方案，不要开始写 tex。",
+      "expected_output": "A plan-only response with audience, theme rationale, section/page estimate, figure strategy, risks, output paths, and render/audit plan.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "vsp-beamer:start 用 practice/new-paper/ 里的论文材料做完整中文汇报，从素材检查一直做到最终 PDF。",
+      "expected_output": "Execution of assets, generate, render, audit, repair if needed, and export with progress and evidence.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "vb:resume 上次已经有 templates/my-talk.tex 和 build/templates/my-talk.pdf，但还没检查截图，接着做。",
+      "expected_output": "Breakpoint detection that preserves existing work and continues at visual/PDF audit rather than restarting.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "vb:generate 把现有 VSP-Marp 教学稿迁移成 tutorial-red-shtu 的 Beamer TeX。保留结构和图片比例，不要 Node、HTML class 或远程 COS。",
+      "expected_output": "Semantic local-asset XeLaTeX source using VSP helper APIs and Marp-to-Beamer layout mapping, without rendering unless requested.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "vb:render 编译 templates/tutorial-red-shtu.tex，输出用默认位置；失败的话把最小原因查清楚。",
+      "expected_output": "Makefile-driven XeLaTeX render to build/templates/tutorial-red-shtu.pdf with page/log summary or focused diagnosis.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "vb:audit 逐页审计 build/templates/tutorial-red-shtu.pdf，背景品牌、字体、图片比例、重叠和越界都要检查，并给分级报告。",
+      "expected_output": "Automated PDF/log checks plus every-page raster evidence, Major/Minor/Suggestion findings, scores, and repair roadmap.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "vb:theme 共享主题的代码和封面字号要与 VSP-Marp 基本一致，但字号必须固定在主题里，tex 不要局部补丁。",
+      "expected_output": "A centralized shared-theme typography change based on Marp parity, isolated behavior, visual comparison, and full check.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "vb:assets 检查 practice/Report-4DGS 的所有图片路径、尺寸和比例，告诉我哪些图该全宽、哪些适合分栏。",
+      "expected_output": "A local asset inventory with existence, dimensions, aspect ratio, ownership, layout recommendation, and missing/corrupt findings.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "vb:polish 根据审计结果修 tutorial-red-shtu：右上校名被标题栏挡住，页脚压住建筑，章节标题还有难看的断行。",
+      "expected_output": "Evidence-driven Major-first source/theme repairs, rerender, affected-page raster review, and full check for shared changes.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "vb:export 整理仓库准备发 GitHub 和 GitLab。删掉 dist 和缓存，只保留本地 build PDF，检查 CI、许可证、忽略规则和大文件。",
+      "expected_output": "Release-ready cleanup and metadata checks without committing or pushing, with verified build outputs and remaining remote steps.",
+      "files": []
+    }
+  ]
+}

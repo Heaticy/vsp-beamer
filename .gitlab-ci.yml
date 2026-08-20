@@ -1,0 +1,18 @@
+stages:
+  - check
+
+check:
+  stage: check
+  image: registry.gitlab.com/islandoftex/images/texlive:latest
+  before_script:
+    - apt-get update
+    - apt-get install -y make fonts-noto-cjk mupdf-tools poppler-utils imagemagick jq
+  script:
+    - make release
+  artifacts:
+    name: "vsp-beamer-pdfs-$CI_COMMIT_REF_SLUG"
+    paths:
+      - build/**/*.pdf
+      - build/*.tds.tar.gz
+    expire_in: 14 days
+    when: always

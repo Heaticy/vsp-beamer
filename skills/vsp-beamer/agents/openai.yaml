@@ -1,0 +1,7 @@
+interface:
+  display_name: "VSP-Beamer"
+  short_description: "Plan, render, audit, and polish Beamer slides"
+  brand_color: "#AE3A44"
+  default_prompt: "Use $vsp-beamer to plan, generate, render, audit, and polish an XeLaTeX Beamer deck from my materials."
+policy:
+  allow_implicit_invocation: true

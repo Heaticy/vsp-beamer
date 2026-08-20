@@ -1,0 +1,26 @@
+{
+  "name": "vsp-beamer",
+  "version": "0.2.0",
+  "description": "Complete VSP-Beamer skill bundle for planning, asset checks, XeLaTeX generation, rendering, PDF audit, polishing, resume, theme work, and export.",
+  "author": {
+    "name": "VSP"
+  },
+  "license": "MIT",
+  "keywords": [
+    "slides",
+    "beamer",
+    "latex",
+    "xelatex",
+    "ppt",
+    "audit",
+    "presentation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "VSP-Beamer",
+    "shortDescription": "Plan and produce XeLaTeX Beamer decks with audit and export workflows.",
+    "longDescription": "VSP-Beamer provides namespace subskills for slide planning, local asset checks, semantic TeX generation and migration, Make/XeLaTeX rendering, PDF visual audit, theme work, polish, resume, and release-ready export.",
+    "developerName": "VSP",
+    "category": "Productivity"
+  }
+}

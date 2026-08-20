@@ -1,0 +1,384 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[UTF8,fontset=none]{ctex}
+\usepackage{booktabs}
+\usepackage{array}
+\usetheme{tutorial-red-shtu}
+
+\title[CS100 Recitation `-1`]{CS100 Recitation \texttt{-1}}
+\subtitle{Makefile}
+\author{Chaofan Li / Yunxiang He}
+\institute{ShanghaiTech University}
+\date{}
+\newcommand{\VSPsourceheader}{~\emph{CS100} \emph{Recitation 13} \emph{Fall 2025}}
+
+\begin{document}
+\VSPtitleframe
+
+\begin{frame}{Contents}
+  \tableofcontents
+\end{frame}
+
+\section{Introduction \& Installation}
+
+\begin{frame}[fragile,shrink=12]{What is Make?}
+\footnotesize
+\begin{itemize}
+\item
+  \textbf{Make}: 一个自动化构建工具，通过读取 Makefile 来决定如何编译程序。
+\item
+  \textbf{Makefile}: Make 的配置文件（默认名称 \texttt{Makefile}），描述了文件之间的依赖关系。
+\end{itemize}
+
+Makefile 最初为 C/C++ 设计，但适用于任何基于文件依赖的构建系统（如 LaTeX, Java 等）。
+
+如果说手动编译文件是项目构建中的``手敲二进制''，Makefile 就是构建中的汇编代码。后续的 CMake、XMake 等工具，就如同 C /C++ 等更加高级的语言。
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{Installing Make}
+\footnotesize
+\textbf{Via Package Manager (Ubuntu)} 通常包含在 \texttt{build-essential} 中。
+
+\begin{verbatim}
+sudo apt install make
+\end{verbatim}
+
+\textbf{Compiling from Source (源码编译)} 为什么？Make 4.4+ 对 \texttt{.NOTPARALLEL} 支持更好。Ubuntu 24.04 默认是 4.3。
+
+\begin{verbatim}
+wget https://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz # 1. Download
+tar -xzvf make-4.4.1.tar.gz                         # 2. Extract
+./configure --prefix=/usr/local                     # 3. Configure
+make && make install                                # 4. Build & Install
+\end{verbatim}
+\end{frame}
+
+\section{0. The Hard Way}
+
+\begin{frame}[fragile,shrink=12]{场景假设}
+\footnotesize
+假设我们有一个简单的 C++ 项目： - \texttt{main.cpp}: 主程序 - \texttt{utils.cpp}: 工具函数实现 - \texttt{utils.h}: 工具函数声明
+
+\textbf{手动编译}
+
+\begin{verbatim}
+g++ main.cpp utils.cpp -o app
+\end{verbatim}
+
+\textbf{问题} 1. \textbf{繁琐}：每次都要敲长命令。(可以通过写成脚本来解决) 2. \textbf{低效}：即使只改了 \texttt{main.cpp}，\texttt{utils.cpp} 也会被重新编译（全量编译）。
+\end{frame}
+
+\section{1. Basic Rules}
+
+\begin{frame}[fragile,shrink=12]{Makefile 的核心：规则 (Rules)}
+\footnotesize
+\begin{verbatim}
+Target (目标): Dependencies (依赖)
+    Command (命令)  <-- 必须以 TAB 开头
+\end{verbatim}
+
+\textbf{我们的第一个 Makefile}
+
+\begin{verbatim}
+all: main.cpp utils.cpp
+    g++ main.cpp utils.cpp -o app
+\end{verbatim}
+
+相当于把手动编译命令一一对应的写进了 Makefile。
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{Make 的智慧：增量编译}
+\footnotesize
+我们首先将上面的 Makefile 改写成更合理的形式：
+
+\begin{verbatim}
+app: main.o utils.o
+    g++ main.o utils.o -o app
+
+main.o: main.cpp utils.h
+    g++ -c main.cpp -o main.o
+
+utils.o: utils.cpp utils.h
+    g++ -c utils.cpp -o utils.o
+\end{verbatim}
+
+在这个 Makefile 中，我们将大的编译过程拆分成了更小的 Targets, 每个 Target 只负责生成一个文件。
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{Make 的智慧：增量编译}
+\footnotesize
+Make 是``懒惰''的（也是聪明的）：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Target 不存在}：执行命令。
+\item
+  \textbf{Target 存在}：检查 \textbf{时间戳 (Timestamp)}。
+
+  \begin{itemize}
+  \item
+    如果任何一个 \textbf{Dependency} 比 \textbf{Target} 新 -\textgreater{} \textbf{重新编译}。
+  \item
+    如果 \textbf{Target} 比所有 \textbf{Dependency} 都新 -\textgreater{} \textbf{跳过}。
+  \end{itemize}
+\end{enumerate}
+
+这样，如果我们只修改 \texttt{main.cpp}，使用刚才的新 Makefile，则 Make 只会重编 \texttt{main.o} 和 \texttt{app}，而不会重编 \texttt{utils.o}。
+\end{frame}
+
+\section{2. Variables}
+
+\begin{frame}[fragile,shrink=12]{消除硬编码 (Hardcoding)}
+\footnotesize
+上面的 Makefile 把编译器 \texttt{g++} 写死了。如果想换 \texttt{clang++} 怎么办？
+
+\textbf{使用变量}
+
+\begin{verbatim}
+CXX := g++
+CXXFLAGS := -Wall -g
+app: main.o utils.o
+    $(CXX) main.o utils.o -o app
+main.o: main.cpp utils.h
+    $(CXX) $(CXXFLAGS) -c main.cpp -o main.o
+**...**
+\end{verbatim}
+
+\begin{itemize}
+\item
+  \textbf{定义}: \texttt{VAR\ :=\ value}
+\item
+  \textbf{引用}: \texttt{\$(VAR)} 或 \texttt{\$\{VAR\}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{变量赋值方式}
+\footnotesize
+\begin{itemize}
+\item
+  \textbf{\texttt{:=} (Simple/Immediate)}（\textbf{推荐默认使用}）:
+
+  \begin{itemize}
+  \item
+    \textbf{立即展开}。定义时就确定值。类似 C++ 的``传值''。
+  \end{itemize}
+\item
+  \textbf{\texttt{=} (Recursive)}:
+
+  \begin{itemize}
+  \item
+    \textbf{延后展开}。使用时才确定值。类似 C++ 的``传引用''。
+  \end{itemize}
+
+\begin{verbatim}
+X = foo
+Y = $(X) bar    # Y 存储的是表达式 "$(X) bar"，不是计算结果
+X = baz         # 修改 X
+all:
+    @echo "X = $(X)"  # 输出: baz
+    @echo "Y = $(Y)"  # 输出: baz bar（使用时才展开，所以用新的 X）
+\end{verbatim}
+\item
+  \textbf{\texttt{?=} (Conditional)}:
+
+  \begin{itemize}
+  \item
+    如果变量\textbf{未定义}，则赋值。常用于允许用户通过命令行覆盖配置。
+  \item
+    非常适合作为参数的默认值设置！
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{自动化变量与模式规则}
+\footnotesize
+每个 \texttt{.cpp} 都要写一遍规则太麻烦了。
+
+\textbf{Pattern Rule (模式规则)} 使用 \texttt{\%} 通配符：
+
+\begin{verbatim}
+%.o: %.cpp
+    $(CXX) $(CXXFLAGS) -c $< -o $@
+\end{verbatim}
+
+\textbf{Automatic Variables (自动化变量)} - \textbf{\texttt{\$@}}: \textbf{Target} (目标文件) - \textbf{\texttt{\$\textless{}}}: \textbf{First Dependency} (第一个依赖) - \textbf{\texttt{\$\^{}}}: \textbf{All Dependencies} (所有依赖)
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{自动扫描源文件}
+\footnotesize
+如果文件很多，手动列出 \texttt{main.o\ utils.o\ ...} 也很累。
+
+\textbf{常用函数} - \textbf{\texttt{wildcard}}: 扫描匹配的文件。 \texttt{makefile\ \ \ \ \ SRC\ :=\ \$(wildcard\ *.cpp)\ \ \#\ 结果:\ main.cpp\ utils.cpp} - \textbf{\texttt{patsubst}}: 模式替换。 \texttt{makefile\ \ \ \ \ OBJ\ :=\ \$(patsubst\ \%.cpp,\ \%.o,\ \$(SRC))\ \#\ 结果:\ main.o\ utils.o}
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{The \texttt{shell} Function (Shell 函数)}
+\footnotesize
+\texttt{wildcard} 功能有限，有时我们需要更强大的命令（如递归查找、系统检测）。这时候，我们可以使用 \texttt{shell} 函数调用系统命令：
+
+\begin{verbatim}
+**Platform**
+UNAME := $(shell uname -s)
+
+**Source directory**
+SRC_DIR := src
+SRCS := $(shell find ${SRC_DIR} -name "*.cpp")
+\end{verbatim}
+
+Makefile 会执行 \texttt{uname\ -s} 和 \texttt{find\ ...}，并将输出结果赋值给变量。
+\end{frame}
+
+\section{3. Header Dependencies}
+
+\begin{frame}[fragile,shrink=12]{The Problem: Header Files}
+\footnotesize
+\textbf{场景}: 你修改了 \texttt{utils.h}，但没有修改 \texttt{main.cpp}。 \textbf{结果}: Make 认为 \texttt{main.o} 是最新的，\textbf{不会重新编译}。 \textbf{原因}: Makefile 只知道 \texttt{main.o:\ main.cpp}，不知道它还依赖 \texttt{utils.h}。
+
+我们需要让 Make \textbf{自动学会}这些依赖关系！
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{Solution: Automatic Dependency Generation}
+\footnotesize
+\textbf{原理}: 1. \textbf{编译期}: 编译器 (\texttt{gcc/g++}) 分析 \texttt{\#include}，生成依赖文件 (\texttt{.d})。 2. \textbf{读取期}: Makefile 使用 \texttt{-include} 指令读取这些 \texttt{.d} 文件。
+
+\textbf{关键 Flags}: - \textbf{\texttt{-MMD}}: 生成依赖文件 (忽略系统头文件)。 - \textbf{\texttt{-MP}}: 为头文件生成伪目标 (防止删除头文件后报错)。
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{Implementation}
+\footnotesize
+\begin{verbatim}
+DEPFLAGS := -MMD -MP
+
+**1. 在编译命令中加入 DEPFLAGS**
+%.o: %.cpp
+    $(CXX) $(CXXFLAGS) $(DEPFLAGS) -c $< -o $@
+
+**2. 引入生成的依赖文件 (.d)**
+**使用 "-" 忽略文件不存在的错误 (首次编译时)**
+DEPS := $(OBJ:.o=.d)
+-include $(DEPS)
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{How it works}
+\footnotesize
+编译 \texttt{main.cpp} 时，生成 \texttt{main.d}：
+
+\begin{verbatim}
+main.o: main.cpp utils.h
+utils.h:
+\end{verbatim}
+
+Makefile 执行 \texttt{-include\ main.d} 后，内存中增加了上面的规则。 现在，\textbf{修改 \texttt{utils.h} 会触发 \texttt{main.o} 重编！}
+\end{frame}
+
+\section{4. Phony Targets}
+
+\begin{frame}[fragile,shrink=12]{.PHONY（伪目标）}
+\footnotesize
+有些目标不是为了生成文件，而是执行动作（如清理、运行）。
+
+\begin{verbatim}
+.PHONY: clean run
+
+clean:
+    rm -f app *.o
+
+run: app
+    ./app
+\end{verbatim}
+
+\begin{itemize}
+\item
+  \textbf{为什么要用 \texttt{.PHONY}？}
+
+  \begin{itemize}
+  \item
+    如果恰好有一个文件叫 \texttt{clean}，\texttt{make\ clean} 会以为目标已完成而不执行。
+  \item
+    声明为 \texttt{.PHONY} 强制 Make 忽略文件检查，总是执行命令。
+  \item
+    类似的，有一些仿真操作依赖外部文件的修改，或者需要反复重新运行而不修改内容，也可以声明为 \texttt{.PHONY}。
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{5. Advanced Features}
+
+\begin{frame}[fragile,shrink=12]{宏 (Macros)}
+\footnotesize
+定义多行命令块，封装复杂逻辑。
+
+\begin{verbatim}
+define NOTIFY_DONE
+    @echo "------------------------"
+    @echo "Build [$@] Completed!"
+    @echo "------------------------"
+endef
+
+app: $(OBJ)
+    $(CXX) $(OBJ) -o app
+    $(NOTIFY_DONE)
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{条件判断 (Conditionals)}
+\footnotesize
+根据变量值改变构建行为（如 Debug/Release 模式）。
+
+\begin{verbatim}
+DEBUG ?= 1
+ifeq ($(DEBUG), 1)
+    CXXFLAGS += -g -O0
+else
+    CXXFLAGS += -O2
+endif
+\end{verbatim}
+
+\textbf{使用}: \texttt{make\ DEBUG=0} (构建 Release 版)
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{命令前缀 (Command Prefixes)}
+\footnotesize
+控制命令的回显和错误处理。
+
+\begin{itemize}
+\item
+  \textbf{\texttt{@}}: \textbf{静默执行}。只输出命令结果，不打印命令本身。
+\item
+  \textbf{\texttt{-}}: \textbf{忽略错误}。即使命令失败（如删除不存在的文件），也继续执行。
+\end{itemize}
+
+\begin{verbatim}
+clean:
+    -rm *.o       # 即使文件不存在也不报错
+    @echo "Clean Done!"  # 只输出 "Clean Done!"
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile,shrink=12]{目标特定变量 (Target-specific Variables)}
+\footnotesize
+只为某个特定目标修改变量值。
+
+\begin{verbatim}
+**默认是 Release**
+CXXFLAGS := -O2
+
+**当执行 make debug 时，CXXFLAGS 会追加 -g**
+debug: CXXFLAGS += -g
+debug: app
+\end{verbatim}
+
+这比全局修改变量更灵活！
+\end{frame}
+
+\section{Summary}
+
+\begin{frame}[fragile,shrink=12]{Summary}
+\footnotesize
+我们的 CS100 HW 7 将使用 Makefile 来管理编译流程，希望这节课的内容可以帮助大家更好的理解和使用 Makefile\textasciitilde{}
+
+这学期的 CS100 Tutorial 就到这里啦，祝大家学习顺利，项目成功！
+\end{frame}
+
+\VSPendframe{Chaofan Li \textcolor{white!60}{/} Yunxiang He \textcolor{white!60}{/} ShanghaiTech-CS100}
+\end{document}
