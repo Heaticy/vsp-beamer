@@ -187,7 +187,7 @@ audit theme  assets  export    polish
 \end{document}
 ```
 
-主题共享实现位于 `themes/beamerthemeVSP.sty`。`\VSPsetspeaker[Speaker]{姓名}{详情}` 统一设置封面的标签、姓名和详情，同时同步标准 Beamer `\author`/`\institute` 元数据；直接使用 `\author` 和 `\institute` 仍然兼容。强调样式对齐 Marp：`\textbf{...}` 渲染主题色加粗（对应 `**strong**`），`\alert{...}` 只染主题色不加粗。通过仓库 Makefile 构建时会自动配置 `TEXINPUTS`，文稿中不需要硬编码主题绝对路径。
+主题共享实现位于 `themes/beamerthemeVSP.sty`。`\VSPsetspeaker[Speaker]{姓名}{详情}` 统一设置封面的标签、姓名和详情，同时同步标准 Beamer `\author`/`\institute` 元数据；直接使用 `\author` 和 `\institute` 仍然兼容。强调样式对齐 Marp：`\textbf{...}` 渲染主题色加粗（对应 `**strong**`），`\alert{...}` 只染主题色不加粗。页尾提供三格信息栏：`\VSPsetupfootline{课程与节次}{年份}{主讲者}`，无背景图的主题变体逐页展示并在尾页底部同步展示，shtu变体因背景图占据页底而仅在尾页底部展示。通过仓库 Makefile 构建时会自动配置 `TEXINPUTS`，文稿中不需要硬编码主题绝对路径。
 
 代码块使用 `lstlisting`（放在 `[fragile]` frame 中），主题提供统一的 `vsp` 代码样式（浅色底、主题色框线、行号），不要使用原始 `verbatim`。
 

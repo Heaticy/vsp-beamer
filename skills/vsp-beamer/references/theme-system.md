@@ -75,6 +75,16 @@ Set presenter metadata through the shared speaker API:
 
 The optional argument controls the pill label and defaults to `Speaker`. The command also updates Beamer's standard `\author` and `\institute` metadata, so existing PDF metadata and third-party Beamer tooling continue to work. Plain `\author`/`\institute` remain compatible, but use `\VSPsetspeaker` in VSP templates so the label, name, and detail line stay one component.
 
+Fill the three-slot footline with the course metadata API:
+
+```tex
+\VSPsetupfootline{CS100 Recitation 1}{Fall 2026}{Presenter Name}
+```
+
+- The three slots are left course and session, middle term, right speaker; they default to empty, so decks opt in per use.
+- On plain-canvas variants the footline renders the row on every page; the end frame repeats the same row at the bottom in both variants.
+- On SHTU (or any variant whose background image occupies the bottom corners) the row would be occluded: the footline keeps the centered compact page number, and the course row renders only on the end frame.
+
 - `tutorial-red-shtu` follows Marp `cover_e`: diagonal white/primary cover field, top-left ShanghaiTech mark, left content column, and bottom-right white university wordmark.
 - Its `\VSPendframe` follows Marp `lastpage`: white canvas, primary horizontal band, centered white display title, and bottom metadata.
 - Do not substitute the generic white-background title layout for SHTU.
@@ -87,7 +97,7 @@ The optional argument controls the pill label and defaults to `Speaker`. The com
 - Keep non-SHTU themes on their existing opaque white canvas.
 - SHTU cover/end pages intentionally own their Marp-matched full-page fills; ordinary body pages keep the transparent background layering.
 - Stop frame-title rules before the right-top university name.
-- Keep the footline away from the skyline and motto; a centered compact page number is appropriate.
+- Keep the footline away from the skyline and motto; a centered compact page number is appropriate, and the `\VSPsetupfootline` row belongs on the end frame only.
 - Place body content in the large central white area instead of adding a second opaque panel.
 
 ## Change isolation

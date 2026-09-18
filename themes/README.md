@@ -16,7 +16,7 @@
 \VSPsetspeaker{Presenter Name}{School or team}
 ```
 
-仓库 Makefile 会自动设置 `TEXINPUTS`。`\VSPsetspeaker[Speaker]{姓名}{详情}` 为所有主题提供统一的封面演讲者组件，并同步 Beamer 的 `\author`/`\institute`；旧写法仍兼容。在其他工程使用时，推荐先安装用户级运行时包：
+仓库 Makefile 会自动设置 `TEXINPUTS`。`\VSPsetspeaker[Speaker]{姓名}{详情}` 为所有主题提供统一的封面演讲者组件，并同步 Beamer 的 `\author`/`\institute`；旧写法仍兼容。`\VSPsetupfootline{课程与节次}{年份}{主讲者}` 设置页尾三格信息栏，无背景图的主题变体逐页展示并在尾页底部同步展示，shtu变体因背景图占据页底而仅在尾页底部展示。在其他工程使用时，推荐先安装用户级运行时包：
 
 ```bash
 make install

@@ -196,6 +196,8 @@
 \setbeamertemplate{footline}{%
   \leavevmode
   \ifvsp@shtu
+    % The shtu background image carries artwork in the bottom corners, so the
+    % three-slot row would be occluded; it renders on the end frame only.
     \hbox{%
       \begin{beamercolorbox}[wd=\paperwidth,ht=0.31cm,dp=0.20cm,center]{footline}%
         \tikz[baseline=(p.base)]\node[draw=VSPTeal,text=VSPMuted,rounded corners=1.3pt,
@@ -205,14 +207,14 @@
     }
   \else
     \hbox{%
-      \begin{beamercolorbox}[wd=.72\paperwidth,ht=0.31cm,dp=0.10cm,leftskip=.72cm]{footline}%
-        \color{VSPMuted}\usebeamerfont{footline}\insertshorttitle
-        \ifx\insertsectionhead\@empty\else\hspace{0.8em}{\color{VSPTeal}/}\hspace{0.8em}\insertsectionhead\fi
+      \begin{beamercolorbox}[wd=.38\paperwidth,ht=0.31cm,dp=0.10cm,leftskip=.72cm]{footline}%
+        \color{VSPMuted}\usebeamerfont{footline}\vsp@footleft
       \end{beamercolorbox}%
-      \begin{beamercolorbox}[wd=.28\paperwidth,ht=0.31cm,dp=0.10cm,rightskip=.38cm plus1fil]{footline}%
-        \hfill\tikz[baseline=(p.base)]\node[draw=VSPTeal,text=VSPMuted,rounded corners=1.3pt,
-        inner xsep=4pt,inner ysep=1.5pt,font=\usebeamerfont{page number}] (p)
-        {\insertframenumber\,/\,\inserttotalframenumber};
+      \begin{beamercolorbox}[wd=.24\paperwidth,ht=0.31cm,dp=0.10cm,center]{footline}%
+        \color{VSPMuted}\usebeamerfont{footline}\vsp@footmid
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.38\paperwidth,ht=0.31cm,dp=0.10cm,rightskip=.72cm plus1fil]{footline}%
+        \hfill\color{VSPMuted}\usebeamerfont{footline}\vsp@footright
       \end{beamercolorbox}%
     }
   \fi
@@ -349,12 +351,24 @@
           {\usebeamerfont{end title}Thank You};
         \node[text=VSPText,align=center,text width=.88\paperwidth] at ([yshift=.10\paperheight]current page.south)
           {\usebeamerfont{end subtitle}#1};
+        \node[anchor=south west,inner sep=0pt,text=VSPMuted,font=\usebeamerfont{footline}]
+          at ([xshift=.72cm,yshift=.10cm]current page.south west) {\vsp@footleft};
+        \node[anchor=south,inner sep=0pt,text=VSPMuted,font=\usebeamerfont{footline}]
+          at ([yshift=.10cm]current page.south) {\vsp@footmid};
+        \node[anchor=south east,inner sep=0pt,text=VSPMuted,font=\usebeamerfont{footline}]
+          at ([xshift=-.72cm,yshift=.10cm]current page.south east) {\vsp@footright};
       \else
         \fill[VSPPrimary] (current page.south west) rectangle (current page.north east);
         \node[text=white] at ([yshift=.25cm]current page.center)
           {\usebeamerfont{end title}Thank You};
         \node[text=white!82] at ([yshift=-.52cm]current page.center)
           {\usebeamerfont{end subtitle}#1};
+        \node[anchor=south west,inner sep=0pt,text=white!82,font=\usebeamerfont{footline}]
+          at ([xshift=.72cm,yshift=.10cm]current page.south west) {\vsp@footleft};
+        \node[anchor=south,inner sep=0pt,text=white!82,font=\usebeamerfont{footline}]
+          at ([yshift=.10cm]current page.south) {\vsp@footmid};
+        \node[anchor=south east,inner sep=0pt,text=white!82,font=\usebeamerfont{footline}]
+          at ([xshift=-.72cm,yshift=.10cm]current page.south east) {\vsp@footright};
       \fi
     \end{tikzpicture}
   \end{frame}}
@@ -392,6 +406,14 @@
       {\vsp@speakerlabel}\hspace{.18cm}\vsp@speakername\\[.05cm]
     \hspace*{1.48cm}{\color{VSPMuted}\fontsize{8.50}{11.7}\selectfont\vsp@speakerdetail}
   \end{minipage}}
+
+\newcommand{\VSPsetupfootline}[3]{%
+  \def\vsp@footleft{#1}%
+  \def\vsp@footmid{#2}%
+  \def\vsp@footright{#3}}
+\def\vsp@footleft{}
+\def\vsp@footmid{}
+\def\vsp@footright{}
 
 \newtcolorbox{vspcallout}[2][VSPPrimary]{%
   size=minimal,
