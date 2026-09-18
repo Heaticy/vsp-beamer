@@ -26,7 +26,7 @@ The shared font scale is mapped from the VSP-Marp 1280x720 design tokens and sho
 | Code | 7.09 / 8.51 pt (`20px`) |
 
 - Keep body, cover, frame-title, section, footer, page-number, and code sizes on the named VSP-Marp preset commands in `beamerthemeVSP.sty`; do not add local `\small` or arbitrary `\fontsize` patches.
-- Marp `strong` parity is opt-in: `\VSPstrong{...}` renders bold in `VSPAccent`. Never renew `\textbf` globally — Beamer's own titles, labels, and block headers rely on its standard meaning.
+- Marp emphasis parity: `\textbf` is renewed globally to bold in `VSPAccent` (Marp `strong`), while `\alert` colors only (`alerted text` is `VSPAccent`). Beamer's own titles, labels, and block headers use font templates, not `\textbf`, so they are unaffected.
 
 ## Section transition pages
 
