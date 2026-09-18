@@ -213,17 +213,17 @@ VSP-Beamer 提供多种列表和提示框样式，适合报告展示使用。下
 \begin{frame}[fragile]{4. Code Examples}
 命令行代码适合展示安装、构建和运行步骤。保持命令短、注释少，避免一页放太多终端输出。
 
-\begin{verbatim}
+\begin{lstlisting}
 sudo apt install make
 make build
 make test
-\end{verbatim}
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]{4. Code Examples}
 Makefile 或配置类代码适合分块展示：先给最小规则，再解释变量和依赖关系。
 
-\begin{verbatim}
+\begin{lstlisting}
 CXX := g++
 CXXFLAGS := -Wall -O2
 
@@ -232,7 +232,7 @@ app: main.o utils.o
 
 %.o: %.cpp
     $(CXX) $(CXXFLAGS) -c $< -o $@
-\end{verbatim}
+\end{lstlisting}
 \end{frame}
 
 \VSPendframe{VSP-Beamer \textcolor{white!60}{/} ShanghaiTech \textcolor{white!60}{/} Local theme assets}

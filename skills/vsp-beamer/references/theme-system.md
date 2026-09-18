@@ -20,12 +20,13 @@ The shared font scale is mapped from the VSP-Marp 1280x720 design tokens and sho
 | Subtitle | 14.88 / 17.85 pt (`42px`) |
 | Heading / frame title | 13.47 / 16.16 pt (`38px`) |
 | Subheading | 10.63 / 12.76 pt (`30px`) |
-| Section transition | 22.68 / 27.22 pt (`64px`) |
+| Section transition | 35.43 / 42.52 pt (`100px`, Marp `section.trans h2` = `4rem`) |
 | Footer | 7.8 / 9.45 pt (`22px`) |
 | Page number | 4.25 / 5.1 pt (`12px`) |
 | Code | 7.09 / 8.51 pt (`20px`) |
 
 - Keep body, cover, frame-title, section, footer, page-number, and code sizes on the named VSP-Marp preset commands in `beamerthemeVSP.sty`; do not add local `\small` or arbitrary `\fontsize` patches.
+- Marp `strong` parity is opt-in: `\VSPstrong{...}` renders bold in `VSPAccent`. Never renew `\textbf` globally — Beamer's own titles, labels, and block headers rely on its standard meaning.
 
 ## Section transition pages
 

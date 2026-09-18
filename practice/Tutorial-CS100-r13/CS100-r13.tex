@@ -24,9 +24,9 @@
 \footnotesize
 \begin{itemize}
 \item
-  \textbf{Make}: 一个自动化构建工具，通过读取 Makefile 来决定如何编译程序。
+  \VSPstrong{Make}: 一个自动化构建工具，通过读取 Makefile 来决定如何编译程序。
 \item
-  \textbf{Makefile}: Make 的配置文件（默认名称 \texttt{Makefile}），描述了文件之间的依赖关系。
+  \VSPstrong{Makefile}: Make 的配置文件（默认名称 \texttt{Makefile}），描述了文件之间的依赖关系。
 \end{itemize}
 
 Makefile 最初为 C/C++ 设计，但适用于任何基于文件依赖的构建系统（如 LaTeX, Java 等）。
@@ -36,20 +36,20 @@ Makefile 最初为 C/C++ 设计，但适用于任何基于文件依赖的构建�
 
 \begin{frame}[fragile,shrink=12]{Installing Make}
 \footnotesize
-\textbf{Via Package Manager (Ubuntu)} 通常包含在 \texttt{build-essential} 中。
+\VSPstrong{Via Package Manager (Ubuntu)} 通常包含在 \texttt{build-essential} 中。
 
-\begin{verbatim}
+\begin{lstlisting}[language=bash]
 sudo apt install make
-\end{verbatim}
+\end{lstlisting}
 
-\textbf{Compiling from Source (源码编译)} 为什么？Make 4.4+ 对 \texttt{.NOTPARALLEL} 支持更好。Ubuntu 24.04 默认是 4.3。
+\VSPstrong{Compiling from Source (源码编译)} 为什么？Make 4.4+ 对 \texttt{.NOTPARALLEL} 支持更好。Ubuntu 24.04 默认是 4.3。
 
-\begin{verbatim}
+\begin{lstlisting}[language=bash]
 wget https://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz # 1. Download
 tar -xzvf make-4.4.1.tar.gz                         # 2. Extract
 ./configure --prefix=/usr/local                     # 3. Configure
 make && make install                                # 4. Build & Install
-\end{verbatim}
+\end{lstlisting}
 \end{frame}
 
 \section{0. The Hard Way}
@@ -58,30 +58,30 @@ make && make install                                # 4. Build & Install
 \footnotesize
 假设我们有一个简单的 C++ 项目： - \texttt{main.cpp}: 主程序 - \texttt{utils.cpp}: 工具函数实现 - \texttt{utils.h}: 工具函数声明
 
-\textbf{手动编译}
+\VSPstrong{手动编译}
 
-\begin{verbatim}
+\begin{lstlisting}[language=bash]
 g++ main.cpp utils.cpp -o app
-\end{verbatim}
+\end{lstlisting}
 
-\textbf{问题} 1. \textbf{繁琐}：每次都要敲长命令。(可以通过写成脚本来解决) 2. \textbf{低效}：即使只改了 \texttt{main.cpp}，\texttt{utils.cpp} 也会被重新编译（全量编译）。
+\VSPstrong{问题} 1. \VSPstrong{繁琐}：每次都要敲长命令。(可以通过写成脚本来解决) 2. \VSPstrong{低效}：即使只改了 \texttt{main.cpp}，\texttt{utils.cpp} 也会被重新编译（全量编译）。
 \end{frame}
 
 \section{1. Basic Rules}
 
 \begin{frame}[fragile,shrink=12]{Makefile 的核心：规则 (Rules)}
 \footnotesize
-\begin{verbatim}
+\begin{lstlisting}
 Target (目标): Dependencies (依赖)
     Command (命令)  <-- 必须以 TAB 开头
-\end{verbatim}
+\end{lstlisting}
 
-\textbf{我们的第一个 Makefile}
+\VSPstrong{我们的第一个 Makefile}
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 all: main.cpp utils.cpp
     g++ main.cpp utils.cpp -o app
-\end{verbatim}
+\end{lstlisting}
 
 相当于把手动编译命令一一对应的写进了 Makefile。
 \end{frame}
@@ -90,7 +90,7 @@ all: main.cpp utils.cpp
 \footnotesize
 我们首先将上面的 Makefile 改写成更合理的形式：
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 app: main.o utils.o
     g++ main.o utils.o -o app
 
@@ -99,7 +99,7 @@ main.o: main.cpp utils.h
 
 utils.o: utils.cpp utils.h
     g++ -c utils.cpp -o utils.o
-\end{verbatim}
+\end{lstlisting}
 
 在这个 Makefile 中，我们将大的编译过程拆分成了更小的 Targets, 每个 Target 只负责生成一个文件。
 \end{frame}
@@ -111,15 +111,15 @@ Make 是``懒惰''的（也是聪明的）：
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{Target 不存在}：执行命令。
+  \VSPstrong{Target 不存在}：执行命令。
 \item
-  \textbf{Target 存在}：检查 \textbf{时间戳 (Timestamp)}。
+  \VSPstrong{Target 存在}：检查 \VSPstrong{时间戳 (Timestamp)}。
 
   \begin{itemize}
   \item
-    如果任何一个 \textbf{Dependency} 比 \textbf{Target} 新 -\textgreater{} \textbf{重新编译}。
+    如果任何一个 \VSPstrong{Dependency} 比 \VSPstrong{Target} 新 -\textgreater{} \VSPstrong{重新编译}。
   \item
-    如果 \textbf{Target} 比所有 \textbf{Dependency} 都新 -\textgreater{} \textbf{跳过}。
+    如果 \VSPstrong{Target} 比所有 \VSPstrong{Dependency} 都新 -\textgreater{} \VSPstrong{跳过}。
   \end{itemize}
 \end{enumerate}
 
@@ -132,23 +132,23 @@ Make 是``懒惰''的（也是聪明的）：
 \footnotesize
 上面的 Makefile 把编译器 \texttt{g++} 写死了。如果想换 \texttt{clang++} 怎么办？
 
-\textbf{使用变量}
+\VSPstrong{使用变量}
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 CXX := g++
 CXXFLAGS := -Wall -g
 app: main.o utils.o
     $(CXX) main.o utils.o -o app
 main.o: main.cpp utils.h
     $(CXX) $(CXXFLAGS) -c main.cpp -o main.o
-**...**
-\end{verbatim}
+# ...
+\end{lstlisting}
 
 \begin{itemize}
 \item
-  \textbf{定义}: \texttt{VAR\ :=\ value}
+  \VSPstrong{定义}: \texttt{VAR\ :=\ value}
 \item
-  \textbf{引用}: \texttt{\$(VAR)} 或 \texttt{\$\{VAR\}}
+  \VSPstrong{引用}: \texttt{\$(VAR)} 或 \texttt{\$\{VAR\}}
 \end{itemize}
 \end{frame}
 
@@ -156,34 +156,34 @@ main.o: main.cpp utils.h
 \footnotesize
 \begin{itemize}
 \item
-  \textbf{\texttt{:=} (Simple/Immediate)}（\textbf{推荐默认使用}）:
+  \VSPstrong{\texttt{:=} (Simple/Immediate)}（\VSPstrong{推荐默认使用}）:
 
   \begin{itemize}
   \item
-    \textbf{立即展开}。定义时就确定值。类似 C++ 的``传值''。
+    \VSPstrong{立即展开}。定义时就确定值。类似 C++ 的``传值''。
   \end{itemize}
 \item
-  \textbf{\texttt{=} (Recursive)}:
+  \VSPstrong{\texttt{=} (Recursive)}:
 
   \begin{itemize}
   \item
-    \textbf{延后展开}。使用时才确定值。类似 C++ 的``传引用''。
+    \VSPstrong{延后展开}。使用时才确定值。类似 C++ 的``传引用''。
   \end{itemize}
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 X = foo
 Y = $(X) bar    # Y 存储的是表达式 "$(X) bar"，不是计算结果
 X = baz         # 修改 X
 all:
     @echo "X = $(X)"  # 输出: baz
     @echo "Y = $(Y)"  # 输出: baz bar（使用时才展开，所以用新的 X）
-\end{verbatim}
+\end{lstlisting}
 \item
-  \textbf{\texttt{?=} (Conditional)}:
+  \VSPstrong{\texttt{?=} (Conditional)}:
 
   \begin{itemize}
   \item
-    如果变量\textbf{未定义}，则赋值。常用于允许用户通过命令行覆盖配置。
+    如果变量\VSPstrong{未定义}，则赋值。常用于允许用户通过命令行覆盖配置。
   \item
     非常适合作为参数的默认值设置！
   \end{itemize}
@@ -194,35 +194,35 @@ all:
 \footnotesize
 每个 \texttt{.cpp} 都要写一遍规则太麻烦了。
 
-\textbf{Pattern Rule (模式规则)} 使用 \texttt{\%} 通配符：
+\VSPstrong{Pattern Rule (模式规则)} 使用 \texttt{\%} 通配符：
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 %.o: %.cpp
     $(CXX) $(CXXFLAGS) -c $< -o $@
-\end{verbatim}
+\end{lstlisting}
 
-\textbf{Automatic Variables (自动化变量)} - \textbf{\texttt{\$@}}: \textbf{Target} (目标文件) - \textbf{\texttt{\$\textless{}}}: \textbf{First Dependency} (第一个依赖) - \textbf{\texttt{\$\^{}}}: \textbf{All Dependencies} (所有依赖)
+\VSPstrong{Automatic Variables (自动化变量)} - \VSPstrong{\texttt{\$@}}: \VSPstrong{Target} (目标文件) - \VSPstrong{\texttt{\$\textless{}}}: \VSPstrong{First Dependency} (第一个依赖) - \VSPstrong{\texttt{\$\^{}}}: \VSPstrong{All Dependencies} (所有依赖)
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{自动扫描源文件}
 \footnotesize
 如果文件很多，手动列出 \texttt{main.o\ utils.o\ ...} 也很累。
 
-\textbf{常用函数} - \textbf{\texttt{wildcard}}: 扫描匹配的文件。 \texttt{makefile\ \ \ \ \ SRC\ :=\ \$(wildcard\ *.cpp)\ \ \#\ 结果:\ main.cpp\ utils.cpp} - \textbf{\texttt{patsubst}}: 模式替换。 \texttt{makefile\ \ \ \ \ OBJ\ :=\ \$(patsubst\ \%.cpp,\ \%.o,\ \$(SRC))\ \#\ 结果:\ main.o\ utils.o}
+\VSPstrong{常用函数} - \VSPstrong{\texttt{wildcard}}: 扫描匹配的文件。 \texttt{makefile\ \ \ \ \ SRC\ :=\ \$(wildcard\ *.cpp)\ \ \#\ 结果:\ main.cpp\ utils.cpp} - \VSPstrong{\texttt{patsubst}}: 模式替换。 \texttt{makefile\ \ \ \ \ OBJ\ :=\ \$(patsubst\ \%.cpp,\ \%.o,\ \$(SRC))\ \#\ 结果:\ main.o\ utils.o}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{The \texttt{shell} Function (Shell 函数)}
 \footnotesize
 \texttt{wildcard} 功能有限，有时我们需要更强大的命令（如递归查找、系统检测）。这时候，我们可以使用 \texttt{shell} 函数调用系统命令：
 
-\begin{verbatim}
-**Platform**
+\begin{lstlisting}[language=make]
+# Platform
 UNAME := $(shell uname -s)
 
-**Source directory**
+# Source directory
 SRC_DIR := src
 SRCS := $(shell find ${SRC_DIR} -name "*.cpp")
-\end{verbatim}
+\end{lstlisting}
 
 Makefile 会执行 \texttt{uname\ -s} 和 \texttt{find\ ...}，并将输出结果赋值给变量。
 \end{frame}
@@ -231,44 +231,44 @@ Makefile 会执行 \texttt{uname\ -s} 和 \texttt{find\ ...}，并将输出结�
 
 \begin{frame}[fragile,shrink=12]{The Problem: Header Files}
 \footnotesize
-\textbf{场景}: 你修改了 \texttt{utils.h}，但没有修改 \texttt{main.cpp}。 \textbf{结果}: Make 认为 \texttt{main.o} 是最新的，\textbf{不会重新编译}。 \textbf{原因}: Makefile 只知道 \texttt{main.o:\ main.cpp}，不知道它还依赖 \texttt{utils.h}。
+\VSPstrong{场景}: 你修改了 \texttt{utils.h}，但没有修改 \texttt{main.cpp}。 \VSPstrong{结果}: Make 认为 \texttt{main.o} 是最新的，\VSPstrong{不会重新编译}。 \VSPstrong{原因}: Makefile 只知道 \texttt{main.o:\ main.cpp}，不知道它还依赖 \texttt{utils.h}。
 
-我们需要让 Make \textbf{自动学会}这些依赖关系！
+我们需要让 Make \VSPstrong{自动学会}这些依赖关系！
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{Solution: Automatic Dependency Generation}
 \footnotesize
-\textbf{原理}: 1. \textbf{编译期}: 编译器 (\texttt{gcc/g++}) 分析 \texttt{\#include}，生成依赖文件 (\texttt{.d})。 2. \textbf{读取期}: Makefile 使用 \texttt{-include} 指令读取这些 \texttt{.d} 文件。
+\VSPstrong{原理}: 1. \VSPstrong{编译期}: 编译器 (\texttt{gcc/g++}) 分析 \texttt{\#include}，生成依赖文件 (\texttt{.d})。 2. \VSPstrong{读取期}: Makefile 使用 \texttt{-include} 指令读取这些 \texttt{.d} 文件。
 
-\textbf{关键 Flags}: - \textbf{\texttt{-MMD}}: 生成依赖文件 (忽略系统头文件)。 - \textbf{\texttt{-MP}}: 为头文件生成伪目标 (防止删除头文件后报错)。
+\VSPstrong{关键 Flags}: - \VSPstrong{\texttt{-MMD}}: 生成依赖文件 (忽略系统头文件)。 - \VSPstrong{\texttt{-MP}}: 为头文件生成伪目标 (防止删除头文件后报错)。
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{Implementation}
 \footnotesize
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 DEPFLAGS := -MMD -MP
 
-**1. 在编译命令中加入 DEPFLAGS**
+# 1. 在编译命令中加入 DEPFLAGS
 %.o: %.cpp
     $(CXX) $(CXXFLAGS) $(DEPFLAGS) -c $< -o $@
 
-**2. 引入生成的依赖文件 (.d)**
-**使用 "-" 忽略文件不存在的错误 (首次编译时)**
+# 2. 引入生成的依赖文件 (.d)
+# 使用 "-" 忽略文件不存在的错误 (首次编译时)
 DEPS := $(OBJ:.o=.d)
 -include $(DEPS)
-\end{verbatim}
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{How it works}
 \footnotesize
 编译 \texttt{main.cpp} 时，生成 \texttt{main.d}：
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 main.o: main.cpp utils.h
 utils.h:
-\end{verbatim}
+\end{lstlisting}
 
-Makefile 执行 \texttt{-include\ main.d} 后，内存中增加了上面的规则。 现在，\textbf{修改 \texttt{utils.h} 会触发 \texttt{main.o} 重编！}
+Makefile 执行 \texttt{-include\ main.d} 后，内存中增加了上面的规则。 现在，\VSPstrong{修改 \texttt{utils.h} 会触发 \texttt{main.o} 重编！}
 \end{frame}
 
 \section{4. Phony Targets}
@@ -277,7 +277,7 @@ Makefile 执行 \texttt{-include\ main.d} 后，内存中增加了上面的规�
 \footnotesize
 有些目标不是为了生成文件，而是执行动作（如清理、运行）。
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 .PHONY: clean run
 
 clean:
@@ -285,11 +285,11 @@ clean:
 
 run: app
     ./app
-\end{verbatim}
+\end{lstlisting}
 
 \begin{itemize}
 \item
-  \textbf{为什么要用 \texttt{.PHONY}？}
+  \VSPstrong{为什么要用 \texttt{.PHONY}？}
 
   \begin{itemize}
   \item
@@ -308,7 +308,7 @@ run: app
 \footnotesize
 定义多行命令块，封装复杂逻辑。
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 define NOTIFY_DONE
     @echo "------------------------"
     @echo "Build [$@] Completed!"
@@ -318,23 +318,23 @@ endef
 app: $(OBJ)
     $(CXX) $(OBJ) -o app
     $(NOTIFY_DONE)
-\end{verbatim}
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{条件判断 (Conditionals)}
 \footnotesize
 根据变量值改变构建行为（如 Debug/Release 模式）。
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 DEBUG ?= 1
 ifeq ($(DEBUG), 1)
     CXXFLAGS += -g -O0
 else
     CXXFLAGS += -O2
 endif
-\end{verbatim}
+\end{lstlisting}
 
-\textbf{使用}: \texttt{make\ DEBUG=0} (构建 Release 版)
+\VSPstrong{使用}: \texttt{make\ DEBUG=0} (构建 Release 版)
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{命令前缀 (Command Prefixes)}
@@ -343,30 +343,30 @@ endif
 
 \begin{itemize}
 \item
-  \textbf{\texttt{@}}: \textbf{静默执行}。只输出命令结果，不打印命令本身。
+  \VSPstrong{\texttt{@}}: \VSPstrong{静默执行}。只输出命令结果，不打印命令本身。
 \item
-  \textbf{\texttt{-}}: \textbf{忽略错误}。即使命令失败（如删除不存在的文件），也继续执行。
+  \VSPstrong{\texttt{-}}: \VSPstrong{忽略错误}。即使命令失败（如删除不存在的文件），也继续执行。
 \end{itemize}
 
-\begin{verbatim}
+\begin{lstlisting}[language=make]
 clean:
     -rm *.o       # 即使文件不存在也不报错
     @echo "Clean Done!"  # 只输出 "Clean Done!"
-\end{verbatim}
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{目标特定变量 (Target-specific Variables)}
 \footnotesize
 只为某个特定目标修改变量值。
 
-\begin{verbatim}
-**默认是 Release**
+\begin{lstlisting}[language=make]
+# 默认是 Release
 CXXFLAGS := -O2
 
-**当执行 make debug 时，CXXFLAGS 会追加 -g**
+# 当执行 make debug 时，CXXFLAGS 会追加 -g
 debug: CXXFLAGS += -g
 debug: app
-\end{verbatim}
+\end{lstlisting}
 
 这比全局修改变量更灵活！
 \end{frame}

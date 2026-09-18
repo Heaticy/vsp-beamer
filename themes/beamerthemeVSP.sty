@@ -143,7 +143,7 @@
 \newcommand{\vspsubtitlefont}{\fontsize{14.88}{17.85}\selectfont}
 \newcommand{\vspheadingfont}{\fontsize{13.47}{16.16}\selectfont}
 \newcommand{\vspsubheadingfont}{\fontsize{10.63}{12.76}\selectfont}
-\newcommand{\vspsectionfont}{\fontsize{22.68}{27.22}\selectfont}
+\newcommand{\vspsectionfont}{\fontsize{35.43}{42.52}\selectfont}
 \newcommand{\vspfooterfont}{\fontsize{7.80}{9.45}\selectfont}
 \newcommand{\vsppagefont}{\fontsize{4.25}{5.10}\selectfont}
 \newcommand{\vspcodefont}{\fontsize{7.09}{8.51}\selectfont}
@@ -170,6 +170,10 @@
   \tikz[baseline=(n.base)]\node[fill=VSPPrimary,text=white,font=\sffamily\scriptsize\bfseries,
   minimum size=1.65em,inner sep=0pt,rounded corners=0.8pt] (n) {\insertenumlabel};}
 \setbeamertemplate{blocks}[rounded][shadow=false]
+
+% Marp `strong` parity as an explicit emphasis macro: bold in the accent
+% color. \textbf keeps its standard meaning; decks opt in per use.
+\newcommand{\VSPstrong}[1]{{\color{VSPAccent}\textbf{#1}}}
 
 \setbeamertemplate{frametitle}{%
   \nointerlineskip
@@ -272,21 +276,29 @@
   \fi\fi
 }
 
+% Display-size section titles must wrap like Marp's CSS: break at spaces or
+% CJK boundaries only, never hyphenate, and never stretch inter-CJK glue.
+% \hyphenchar\font=-1 must follow the font-selecting command.
+\newcommand{\vsp@displaywrap}{\hyphenchar\font=-1 \frenchspacing\xeCJKsetup{CJKglue={\hskip 0pt}}}
+
 \setbeamertemplate{section page}{%
   \begin{tikzpicture}[remember picture,overlay]
     \ifvsp@nailong
       \fill[white] (current page.south west) rectangle (current page.north east);
       \node[opacity=.45,inner sep=0pt] at (current page.center)
         {\includegraphics[width=\paperwidth,height=\paperheight]{\VSPasset{nailong-bg.png}}};
-      \node[text=VSPAmberInk,opacity=.60,align=center,text width=.86\paperwidth]
+      \node[text=VSPAmberInk,opacity=.60,align=center,text width=.86\paperwidth,
+        font=\usebeamerfont{section title}]
         at ([xshift=.025cm,yshift=-.045cm]current page.center)
-        {\usebeamerfont{section title}\insertsection};
-      \node[text=white,align=center,text width=.86\paperwidth] at (current page.center)
-        {\usebeamerfont{section title}\insertsection};
+        {\vsp@displaywrap \insertsection};
+      \node[text=white,align=center,text width=.86\paperwidth,
+        font=\usebeamerfont{section title}] at (current page.center)
+        {\vsp@displaywrap \insertsection};
     \else
       \fill[VSPPrimary] (current page.south west) rectangle (current page.north east);
-      \node[text=white,align=center,text width=.86\paperwidth] at (current page.center)
-        {\usebeamerfont{section title}\insertsection};
+      \node[text=white,align=center,text width=.86\paperwidth,
+        font=\usebeamerfont{section title}] at (current page.center)
+        {\vsp@displaywrap \insertsection};
     \fi
   \end{tikzpicture}%
 }
@@ -305,15 +317,18 @@
         \fill[white] (current page.south west) rectangle (current page.north east);
         \node[opacity=.45,inner sep=0pt] at (current page.center)
           {\includegraphics[width=\paperwidth,height=\paperheight]{\VSPasset{nailong-bg.png}}};
-        \node[text=VSPAmberInk,opacity=.60,align=center,text width=.86\paperwidth]
+        \node[text=VSPAmberInk,opacity=.60,align=center,text width=.86\paperwidth,
+          font=\usebeamerfont{section title}]
           at ([xshift=.025cm,yshift=.135cm]current page.center)
-          {\usebeamerfont{section title}#1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
-        \node[text=white,align=center,text width=.86\paperwidth] at ([yshift=.18cm]current page.center)
-          {\usebeamerfont{section title}#1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
+          {\vsp@displaywrap #1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
+        \node[text=white,align=center,text width=.86\paperwidth,
+          font=\usebeamerfont{section title}] at ([yshift=.18cm]current page.center)
+          {\vsp@displaywrap #1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
       \else
         \fill[VSPPrimary] (current page.south west) rectangle (current page.north east);
-        \node[text=white,align=center,text width=.86\paperwidth] at ([yshift=.18cm]current page.center)
-          {\usebeamerfont{section title}#1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
+        \node[text=white,align=center,text width=.86\paperwidth,
+          font=\usebeamerfont{section title}] at ([yshift=.18cm]current page.center)
+          {\vsp@displaywrap #1\\[8.5pt]{\usebeamerfont{section subtitle}#2}};
       \fi
     \end{tikzpicture}
   \end{frame}}
@@ -432,7 +447,7 @@
   numbers=left,
   numbersep=7pt,
   frame=single,
-  rulecolor=\color{VSPTeal},
+  rulecolor=\color{VSPPrimary!45!white},
   framerule=.4pt,
   framesep=6pt,
   showstringspaces=false,

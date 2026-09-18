@@ -31,7 +31,7 @@
     \item
       以往的方法通常将掩码直接乘以高斯基元的透明度或缩放比例。这种做法的缺陷在于：当掩码为 0 时，该高斯的密度 \(\alpha\) 也变为 0 。在 CUDA 光栅化管线中，\(\alpha = 0\) 的基元会在光栅化之前被直接过滤掉（\(\alpha\)-filtering）。
     \item
-      被遮蔽的高斯基元\textbf{无法接收任何梯度更新}，其参数停滞不前。随着场景的演化，这些基元迅速过时，导致其存在的概率持续走低，最终在后续评估中被彻底丢弃，造成渲染质量骤降。
+      被遮蔽的高斯基元\VSPstrong{无法接收任何梯度更新}，其参数停滞不前。随着场景的演化，这些基元迅速过时，导致其存在的概率持续走低，最终在后续评估中被彻底丢弃，造成渲染质量骤降。
     \end{itemize}
   \end{column}
 \end{columns}
@@ -44,7 +44,7 @@
 
 \begin{frame}[fragile,shrink=12]{2. 概率存在性与掩码光栅化}
 \footnotesize
-为了解决上述优化困境，MaskGaussian 提出将高斯基元建模为\textbf{概率实体（probabilistic entities）} 。
+为了解决上述优化困境，MaskGaussian 提出将高斯基元建模为\VSPstrong{概率实体（probabilistic entities）} 。
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -61,14 +61,14 @@
 \footnotesize
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.48\textwidth}
-    为了实现概率采样且保持端到端可导，MaskGaussian 将掩码生成转化为一个两类别的采样过程 。 * \textbf{参数化：} 为每个高斯基元分配 2 个可学习的掩码分数 。 * \textbf{采样瓶颈：} 标准的 \(argmax\) 操作不可微；而 Compact3DGS 使用的 Straight-Through Estimator (STE) 结合阈值的方法，本质上仍是生成确定性掩码 。消融实验表明，STE 会导致网络陷入次优收敛：分数低于阈值的基元被迅速剪枝，场景无法重新采样探索，导致渲染质量下降（Mip-NeRF360 上 PSNR 降至 27.30）。
+    为了实现概率采样且保持端到端可导，MaskGaussian 将掩码生成转化为一个两类别的采样过程 。 * \VSPstrong{参数化：} 为每个高斯基元分配 2 个可学习的掩码分数 。 * \VSPstrong{采样瓶颈：} 标准的 \(argmax\) 操作不可微；而 Compact3DGS 使用的 Straight-Through Estimator (STE) 结合阈值的方法，本质上仍是生成确定性掩码 。消融实验表明，STE 会导致网络陷入次优收敛：分数低于阈值的基元被迅速剪枝，场景无法重新采样探索，导致渲染质量下降（Mip-NeRF360 上 PSNR 降至 27.30）。
   \end{column}
   \begin{column}{.48\textwidth}
     \begin{itemize}
     \item
-      \textbf{Gumbel-Softmax 的引入：} 本文采用 Gumbel-Softmax 从这两个分数中进行随机采样，生成可微的二值掩码 \(\mathcal{M}_i \in \{0, 1\}\) 。
+      \VSPstrong{Gumbel-Softmax 的引入：} 本文采用 Gumbel-Softmax 从这两个分数中进行随机采样，生成可微的二值掩码 \(\mathcal{M}_i \in \{0, 1\}\) 。
     \item
-      \textbf{Pros：}
+      \VSPstrong{Pros：}
     \end{itemize}
     
     \begin{enumerate}
@@ -94,11 +94,11 @@
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{引入 Gumbel 噪声：} 对于每个类别的 logits \(z_j\)，我们添加一个从标准 Gumbel 分布 (\(G_j \sim \text{Gumbel}(0, 1)\)) 中采样的随机噪声。Gumbel 分布是一种极值分布，其特性使其非常适合用于模拟竞争性选择。
+  \VSPstrong{引入 Gumbel 噪声：} 对于每个类别的 logits \(z_j\)，我们添加一个从标准 Gumbel 分布 (\(G_j \sim \text{Gumbel}(0, 1)\)) 中采样的随机噪声。Gumbel 分布是一种极值分布，其特性使其非常适合用于模拟竞争性选择。
 
-  Gumbel 噪声的引入使得 \texttt{argmax} 操作可以通过一个连续的、可微的近似来替代。具体来说，对于一个分类分布，我们可以通过 \texttt{argmax(logits\ +\ Gumbel\_noise)} 来实现采样，这被称为 \textbf{Gumbel Max Trick}。但 \texttt{argmax} 仍然是不可微的。
+  Gumbel 噪声的引入使得 \texttt{argmax} 操作可以通过一个连续的、可微的近似来替代。具体来说，对于一个分类分布，我们可以通过 \texttt{argmax(logits\ +\ Gumbel\_noise)} 来实现采样，这被称为 \VSPstrong{Gumbel Max Trick}。但 \texttt{argmax} 仍然是不可微的。
 \item
-  \textbf{Softmax 近似：} 为了使 \texttt{argmax} 操作可微，Gumbel-Softmax 将 \texttt{argmax} 替换为带有温度参数 (\(\tau\)) 的 Softmax 函数。 对于扰动后的 logits \(z'_j = z_j + G_j\)，Gumbel-Softmax 的输出 \(y_j\) 为：\(y_j = \frac{e^{(z_j + G_j)/\tau}}{\sum_{k=1}^{K} e^{(z_k + G_k)/\tau}}\) 这里的 \(y = [y_1, y_2, \dots, y_K]\) 是一个\textbf{连续的、近似的、可微分的}概率向量。它类似于 Softmax 输出，但包含了 Gumbel 噪声的影响。
+  \VSPstrong{Softmax 近似：} 为了使 \texttt{argmax} 操作可微，Gumbel-Softmax 将 \texttt{argmax} 替换为带有温度参数 (\(\tau\)) 的 Softmax 函数。 对于扰动后的 logits \(z'_j = z_j + G_j\)，Gumbel-Softmax 的输出 \(y_j\) 为：\(y_j = \frac{e^{(z_j + G_j)/\tau}}{\sum_{k=1}^{K} e^{(z_k + G_k)/\tau}}\) 这里的 \(y = [y_1, y_2, \dots, y_K]\) 是一个\VSPstrong{连续的、近似的、可微分的}概率向量。它类似于 Softmax 输出，但包含了 Gumbel 噪声的影响。
 \end{enumerate}
 \end{frame}
 
@@ -108,7 +108,7 @@
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{2}
 \item
-  \textbf{温度参数 (\(\tau\)) 的作用：}
+  \VSPstrong{温度参数 (\(\tau\)) 的作用：}
 
   \begin{itemize}
   \item
@@ -117,20 +117,20 @@
     当 \(\tau \to 0\) 时，Gumbel-Softmax 的输出趋近于 one-hot 向量，其中概率最大的那个 \(y_j\) 趋近于 1，其他趋近于 0。这使得它在行为上近似于 \texttt{argmax} 操作，但仍然保持可微性。 在实际应用中，通常从较大的 \(\tau\) 开始，并在训练过程中逐渐退火到较小的值，以便在训练初期探索更多可能性，后期收敛到更确定的离散选择。
   \end{itemize}
 \item
-  \textbf{重参数化技巧：} Gumbel-Softmax 之所以能反向传播，是因为它使用了重参数化技巧。传统的采样操作是随机的，导致梯度无法通过。重参数化技巧通过将随机性从采样操作本身转移到\textbf{一个可微分的函数输入}中，从而使得梯度能够正常计算。在 Gumbel-Softmax 中，Gumbel 噪声 \(G_j\) 是独立于模型参数的随机变量。我们通过 Softmax 函数将 \(z_j + G_j\) 转换为概率，而不是直接对 \(G_j\) 进行采样。这样，整个采样过程变成了对 \(z_j\) 和 \(G_j\) 的一个确定性函数，其中只有 \(G_j\) 是随机的。当反向传播时，梯度可以流经 Softmax 函数，并最终更新生成 logits \(z_j\) 的模型参数。
+  \VSPstrong{重参数化技巧：} Gumbel-Softmax 之所以能反向传播，是因为它使用了重参数化技巧。传统的采样操作是随机的，导致梯度无法通过。重参数化技巧通过将随机性从采样操作本身转移到\VSPstrong{一个可微分的函数输入}中，从而使得梯度能够正常计算。在 Gumbel-Softmax 中，Gumbel 噪声 \(G_j\) 是独立于模型参数的随机变量。我们通过 Softmax 函数将 \(z_j + G_j\) 转换为概率，而不是直接对 \(G_j\) 进行采样。这样，整个采样过程变成了对 \(z_j\) 和 \(G_j\) 的一个确定性函数，其中只有 \(G_j\) 是随机的。当反向传播时，梯度可以流经 Softmax 函数，并最终更新生成 logits \(z_j\) 的模型参数。
 \end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{4. Masked-Rasterization 的前向传播}
 \footnotesize
-为了确保被遮蔽的高斯在不影响当前帧渲染颜色的同时保留梯度路径，需要将掩码 \(\mathcal{M}_i\) 嵌入到传统的 \(\alpha\)-blending 公式中： 对于查询像素 \(x\)，渲染颜色 \(c(x)\) 和透射率 \(T_{i+1}\) 的演化公式被重写为： \[c(x) = \sum_{i=1}^{N} \mathcal{M}_{i} \cdot c_{i} \cdot \alpha_{i} \cdot T_{i}\] \[T_{i+1} = \mathcal{M}_{i} \cdot (1 - \alpha_{i}) \cdot T_{i} + (1 - \mathcal{M}_{i}) \cdot T_{i}\] * \textbf{\(\mathcal{M}_i = 1\)：} 公式退化为标准 3DGS 的光栅化过程，基元正常贡献颜色并消耗透射率 。 * \textbf{\(\mathcal{M}_i = 0\)：} 该基元对颜色的贡献被强制清零，且跳过透射率消耗（\(T_{i+1} = T_i\)），确保渲染出的图像就像该基元被物理剪枝了一样 。
+为了确保被遮蔽的高斯在不影响当前帧渲染颜色的同时保留梯度路径，需要将掩码 \(\mathcal{M}_i\) 嵌入到传统的 \(\alpha\)-blending 公式中： 对于查询像素 \(x\)，渲染颜色 \(c(x)\) 和透射率 \(T_{i+1}\) 的演化公式被重写为： \[c(x) = \sum_{i=1}^{N} \mathcal{M}_{i} \cdot c_{i} \cdot \alpha_{i} \cdot T_{i}\] \[T_{i+1} = \mathcal{M}_{i} \cdot (1 - \alpha_{i}) \cdot T_{i} + (1 - \mathcal{M}_{i}) \cdot T_{i}\] * \VSPstrong{\(\mathcal{M}_i = 1\)：} 公式退化为标准 3DGS 的光栅化过程，基元正常贡献颜色并消耗透射率 。 * \VSPstrong{\(\mathcal{M}_i = 0\)：} 该基元对颜色的贡献被强制清零，且跳过透射率消耗（\(T_{i+1} = T_i\)），确保渲染出的图像就像该基元被物理剪枝了一样 。
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{5. Masked-Rasterization 的反向传播}
 \footnotesize
 由于所有参数都参与了前向计算图，我们可以对掩码 \(\mathcal{M}_i\) 求导。定义 \(b_{i+1}\) 为第 \(i\) 个高斯基元背后渲染出的背景颜色： \[b_{i+1} = \sum_{j=i+1}^{N} \mathcal{M}_{j} \cdot c_{j} \cdot \alpha_{j} \cdot T_{j}\] 此时，损失函数 \(L\) 对掩码 \(\mathcal{M}_i\) 的梯度公式为： \[\frac{\partial L}{\partial \mathcal{M}_{i}} = \alpha_{i} \cdot T_{i} \cdot \frac{\partial L}{\partial c(x)} \cdot (c_{i} - b_{i+1})\]
 
-\textbf{梯度的物理意义极其明确，由两部分构成：} 1. \textbf{影响力：\(\alpha_{i} \cdot T_{i}\)。} 这不仅决定了梯度的尺度，且在数学上恰好等价于传统分数剪枝法所使用的重要度指标 。 2. \textbf{颜色收益：\(\frac{\partial L}{\partial c(x)} \cdot (c_{i} - b_{i+1})\)。} 它衡量了使用当前基元颜色 \(c_i\) 与直接暴露出其背后颜色 \(b_{i+1}\) 相比，对优化方向 \(\frac{\partial L}{\partial c(x)}\) 的帮助程度 。如果两者的点积为正，说明激活该基元能降低 Loss，即使它当前处于被掩蔽状态，掩码也会收到正梯度，促使其在未来迭代中增加存在的概率 。
+\VSPstrong{梯度的物理意义极其明确，由两部分构成：} 1. \VSPstrong{影响力：\(\alpha_{i} \cdot T_{i}\)。} 这不仅决定了梯度的尺度，且在数学上恰好等价于传统分数剪枝法所使用的重要度指标 。 2. \VSPstrong{颜色收益：\(\frac{\partial L}{\partial c(x)} \cdot (c_{i} - b_{i+1})\)。} 它衡量了使用当前基元颜色 \(c_i\) 与直接暴露出其背后颜色 \(b_{i+1}\) 相比，对优化方向 \(\frac{\partial L}{\partial c(x)}\) 的帮助程度 。如果两者的点积为正，说明激活该基元能降低 Loss，即使它当前处于被掩蔽状态，掩码也会收到正梯度，促使其在未来迭代中增加存在的概率 。
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{6. 损失函数与剪枝策略}
@@ -144,9 +144,9 @@
   \begin{column}{.48\textwidth}
     \begin{itemize}
     \item
-      在 Mip-NeRF360、Tanks \& Temples 和 Deep Blending 数据集上，平均剪枝率分别达到了 \textbf{62.4\%、67.7\% 和 75.3\%} 。
+      在 Mip-NeRF360、Tanks \& Temples 和 Deep Blending 数据集上，平均剪枝率分别达到了 \VSPstrong{62.4\%、67.7\% 和 75.3\%} 。
     \item
-      帧率（FPS）相应提升了 \textbf{2.05倍、2.19倍 和 3.16倍} 。在峰值显存方面，以 \texttt{truck} 场景为例，原版 3DGS 占用 9.03GB，而 MaskGaussian 仅需 6.45GB 。
+      帧率（FPS）相应提升了 \VSPstrong{2.05倍、2.19倍 和 3.16倍} 。在峰值显存方面，以 \texttt{truck} 场景为例，原版 3DGS 占用 9.03GB，而 MaskGaussian 仅需 6.45GB 。
     \end{itemize}
   \end{column}
   \begin{column}{.48\textwidth}
@@ -157,7 +157,7 @@
       例如，在 \texttt{bicycle} 场景中，Compact3DGS 错误地剔除了轮胎气门嘴和细长的辐条，而本方法能够准确捕获并保留 ；在 \texttt{garden} 场景中，本方法同样成功保全了大量细小的植物枯须 。
     \end{itemize}
     
-    \textbf{抗过拟合效应：} * 在 Deep Blending 数据集上，MaskGaussian 的渲染质量（PSNR: 29.69）甚至超越了原版 3DGS（PSNR: 29.53）。作者将此归功于剪枝带来的正则化效应，有效缓解了显式点云极易产生的过拟合现象 。
+    \VSPstrong{抗过拟合效应：} * 在 Deep Blending 数据集上，MaskGaussian 的渲染质量（PSNR: 29.69）甚至超越了原版 3DGS（PSNR: 29.53）。作者将此归功于剪枝带来的正则化效应，有效缓解了显式点云极易产生的过拟合现象 。
   \end{column}
 \end{columns}
 \end{frame}

@@ -31,7 +31,7 @@ Do not copy the implementation substrate. Beamer uses XeLaTeX, TikZ, Beamer temp
 | `rows-2-*` | text followed by a width-constrained image |
 | `right-fill` | top-aligned columns with the important image or result in the wider column |
 | `bq` / `bq-blue` / `bq-red` / `bq-green` / `bq-purple` / `bq-black` / `bq-yellow` | `vspquote` / `vspquoteblue` / `vspquotered` / `vspquotegreen` / `vspquotepurple` / `vspquoteblack` / `vspquoteyellow` |
-| fenced code | `lstlisting`/`verbatim` using the shared code style |
+| fenced code | `lstlisting` using the shared `vsp` code style (never raw `verbatim`) |
 | `lastpage` | `\VSPendframe{...}` |
 
 Treat these as semantic mappings, not mechanical translations. Adapt widths to actual content and keep the source TeX readable.

@@ -19,7 +19,7 @@ Create concise semantic `.tex`. Rendering belongs to the render capability unles
 2. Preserve the VSP structure: cover, contents, sections, body pages, summary when useful, and end page.
 3. Use `\VSPtitleframe`, `\section`, `\VSPsectionframe` when needed, standard frames, and `\VSPendframe`.
 4. Keep normal slides near 3-6 primary points; split dense material instead of reducing global font sizes.
-5. Preserve formulas as TeX and use `[fragile]` for verbatim/code frames.
+5. Preserve formulas as TeX and use `[fragile]` for code frames (`lstlisting` blocks, never raw `verbatim`).
 6. Choose columns/rows/full-width figures from actual image dimensions and information density.
 7. Use `keepaspectratio`; never force both dimensions without an intentional crop.
 8. Use local repository-relative assets only.

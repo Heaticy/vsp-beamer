@@ -131,6 +131,13 @@ for pdf in "$@"; do
       if ($3>=38 && $5<=ph[p]-20) {
         for (i=1; i<=n; i++) if (pp[i]==p) {
           a=area($2,$3,$4,$5); b=area(xx0[i],yy0[i],xx1[i],yy1[i])
+          dx0=$2-xx0[i]; if (dx0<0) dx0=-dx0
+          dy0=$3-yy0[i]; if (dy0<0) dy0=-dy0
+          dx1=$4-xx1[i]; if (dx1<0) dx1=-dx1
+          dy1=$5-yy1[i]; if (dy1<0) dy1=-dy1
+          # A second text block within a few points on every edge is an
+          # intentional shadow/emboss duplicate, not a collision.
+          if (dx0<3 && dy0<3 && dx1<3 && dy1<3) continue
           overlap_width=max(0,min($4,xx1[i])-max($2,xx0[i]))
           overlap_height=max(0,min($5,yy1[i])-max($3,yy0[i]))
           min_width=min($4-$2,xx1[i]-xx0[i])
