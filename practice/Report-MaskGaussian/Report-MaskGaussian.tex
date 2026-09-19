@@ -29,7 +29,7 @@
   \begin{column}{.48\textwidth}
     \begin{itemize}
     \item
-      以往的方法通常将掩码直接乘以高斯基元的透明度或缩放比例。这种做法的缺陷在于：当掩码为 0 时，该高斯的密度 \(\alpha\) 也变为 0 。在 CUDA 光栅化管线中，\(\alpha = 0\) 的基元会在光栅化之前被直接过滤掉（\(\alpha\)-filtering）。
+      以往的方法通常将掩码直接乘以高斯基元的透明度或缩放比例。这种做法的缺陷在于：当掩码为 0 时，该高斯的密度 \(\alpha\) 也变为 0。在 CUDA 光栅化管线中，\(\alpha = 0\) 的基元会在光栅化之前被直接过滤掉（\(\alpha\)-filtering）。
     \item
       被遮蔽的高斯基元\textbf{无法接收任何梯度更新}，其参数停滞不前。随着场景的演化，这些基元迅速过时，导致其存在的概率持续走低，最终在后续评估中被彻底丢弃，造成渲染质量骤降。
     \end{itemize}
@@ -44,7 +44,7 @@
 
 \begin{frame}[fragile,shrink=12]{2. 概率存在性与掩码光栅化}
 \footnotesize
-为了解决上述优化困境，MaskGaussian 提出将高斯基元建模为\textbf{概率实体（probabilistic entities）} 。
+为了解决上述优化困境，MaskGaussian 提出将高斯基元建模为\textbf{概率实体（probabilistic entities）}。
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -53,7 +53,7 @@
 \item
   为了让未被采样的基元也能感知到它们对当前场景的``潜在贡献''，MaskGaussian 没有将掩码与 \(\alpha\) 绑定，而是让所有高斯基元（无论是否被掩码遮蔽）都通过 \(\alpha\) 过滤，并进入光栅化阶段。
 \item
-  掩码仅在光栅化内部的透射率衰减和颜色累积两个环节发挥作用 。这样既保证了渲染结果的正确性，又打通了反向传播的梯度流 。
+  掩码仅在光栅化内部的透射率衰减和颜色累积两个环节发挥作用。这样既保证了渲染结果的正确性，又打通了反向传播的梯度流。
 \end{enumerate}
 \end{frame}
 
@@ -61,12 +61,16 @@
 \footnotesize
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.48\textwidth}
-    为了实现概率采样且保持端到端可导，MaskGaussian 将掩码生成转化为一个两类别的采样过程 。 * \textbf{参数化：} 为每个高斯基元分配 2 个可学习的掩码分数 。 * \textbf{采样瓶颈：} 标准的 \(argmax\) 操作不可微；而 Compact3DGS 使用的 Straight-Through Estimator (STE) 结合阈值的方法，本质上仍是生成确定性掩码 。消融实验表明，STE 会导致网络陷入次优收敛：分数低于阈值的基元被迅速剪枝，场景无法重新采样探索，导致渲染质量下降（Mip-NeRF360 上 PSNR 降至 27.30）。
+    为了实现概率采样且保持端到端可导，MaskGaussian 将掩码生成转化为一个两类别的采样过程。
+\begin{itemize}
+\item \textbf{参数化：} 为每个高斯基元分配 2 个可学习的掩码分数。
+\item \textbf{采样瓶颈：} 标准的 \(argmax\) 操作不可微；而 Compact3DGS 使用的 Straight-Through Estimator (STE) 结合阈值的方法，本质上仍是生成确定性掩码。消融实验表明，STE 会导致网络陷入次优收敛：分数低于阈值的基元被迅速剪枝，场景无法重新采样探索，导致渲染质量下降（Mip-NeRF360 上 PSNR 降至 27.30）。
+\end{itemize}
   \end{column}
   \begin{column}{.48\textwidth}
     \begin{itemize}
     \item
-      \textbf{Gumbel-Softmax 的引入：} 本文采用 Gumbel-Softmax 从这两个分数中进行随机采样，生成可微的二值掩码 \(\mathcal{M}_i \in \{0, 1\}\) 。
+      \textbf{Gumbel-Softmax 的引入：} 本文采用 Gumbel-Softmax 从这两个分数中进行随机采样，生成可微的二值掩码 \(\mathcal{M}_i \in \{0, 1\}\)。
     \item
       \textbf{Pros：}
     \end{itemize}
@@ -123,19 +127,27 @@
 
 \begin{frame}[fragile,shrink=12]{4. Masked-Rasterization 的前向传播}
 \footnotesize
-为了确保被遮蔽的高斯在不影响当前帧渲染颜色的同时保留梯度路径，需要将掩码 \(\mathcal{M}_i\) 嵌入到传统的 \(\alpha\)-blending 公式中： 对于查询像素 \(x\)，渲染颜色 \(c(x)\) 和透射率 \(T_{i+1}\) 的演化公式被重写为： \[c(x) = \sum_{i=1}^{N} \mathcal{M}_{i} \cdot c_{i} \cdot \alpha_{i} \cdot T_{i}\] \[T_{i+1} = \mathcal{M}_{i} \cdot (1 - \alpha_{i}) \cdot T_{i} + (1 - \mathcal{M}_{i}) \cdot T_{i}\] * \textbf{\(\mathcal{M}_i = 1\)：} 公式退化为标准 3DGS 的光栅化过程，基元正常贡献颜色并消耗透射率 。 * \textbf{\(\mathcal{M}_i = 0\)：} 该基元对颜色的贡献被强制清零，且跳过透射率消耗（\(T_{i+1} = T_i\)），确保渲染出的图像就像该基元被物理剪枝了一样 。
+为了确保被遮蔽的高斯在不影响当前帧渲染颜色的同时保留梯度路径，需要将掩码 \(\mathcal{M}_i\) 嵌入到传统的 \(\alpha\)-blending 公式中： 对于查询像素 \(x\)，渲染颜色 \(c(x)\) 和透射率 \(T_{i+1}\) 的演化公式被重写为： \[c(x) = \sum_{i=1}^{N} \mathcal{M}_{i} \cdot c_{i} \cdot \alpha_{i} \cdot T_{i}\] \[T_{i+1} = \mathcal{M}_{i} \cdot (1 - \alpha_{i}) \cdot T_{i} + (1 - \mathcal{M}_{i}) \cdot T_{i}\]
+\begin{itemize}
+\item \textbf{\(\mathcal{M}_i = 1\)：} 公式退化为标准 3DGS 的光栅化过程，基元正常贡献颜色并消耗透射率。
+\item \textbf{\(\mathcal{M}_i = 0\)：} 该基元对颜色的贡献被强制清零，且跳过透射率消耗（\(T_{i+1} = T_i\)），确保渲染出的图像就像该基元被物理剪枝了一样。
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{5. Masked-Rasterization 的反向传播}
 \footnotesize
 由于所有参数都参与了前向计算图，我们可以对掩码 \(\mathcal{M}_i\) 求导。定义 \(b_{i+1}\) 为第 \(i\) 个高斯基元背后渲染出的背景颜色： \[b_{i+1} = \sum_{j=i+1}^{N} \mathcal{M}_{j} \cdot c_{j} \cdot \alpha_{j} \cdot T_{j}\] 此时，损失函数 \(L\) 对掩码 \(\mathcal{M}_i\) 的梯度公式为： \[\frac{\partial L}{\partial \mathcal{M}_{i}} = \alpha_{i} \cdot T_{i} \cdot \frac{\partial L}{\partial c(x)} \cdot (c_{i} - b_{i+1})\]
 
-\textbf{梯度的物理意义极其明确，由两部分构成：} 1. \textbf{影响力：\(\alpha_{i} \cdot T_{i}\)。} 这不仅决定了梯度的尺度，且在数学上恰好等价于传统分数剪枝法所使用的重要度指标 。 2. \textbf{颜色收益：\(\frac{\partial L}{\partial c(x)} \cdot (c_{i} - b_{i+1})\)。} 它衡量了使用当前基元颜色 \(c_i\) 与直接暴露出其背后颜色 \(b_{i+1}\) 相比，对优化方向 \(\frac{\partial L}{\partial c(x)}\) 的帮助程度 。如果两者的点积为正，说明激活该基元能降低 Loss，即使它当前处于被掩蔽状态，掩码也会收到正梯度，促使其在未来迭代中增加存在的概率 。
+\textbf{梯度的物理意义极其明确，由两部分构成：}
+\begin{enumerate}
+\item \textbf{影响力：\(\alpha_{i} \cdot T_{i}\)。} 这不仅决定了梯度的尺度，且在数学上恰好等价于传统分数剪枝法所使用的重要度指标。
+\item \textbf{颜色收益：\(\frac{\partial L}{\partial c(x)} \cdot (c_{i} - b_{i+1})\)。} 它衡量了使用当前基元颜色 \(c_i\) 与直接暴露出其背后颜色 \(b_{i+1}\) 相比，对优化方向 \(\frac{\partial L}{\partial c(x)}\) 的帮助程度。如果两者的点积为正，说明激活该基元能降低 Loss，即使它当前处于被掩蔽状态，掩码也会收到正梯度，促使其在未来迭代中增加存在的概率。
+\end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{6. 损失函数与剪枝策略}
 \footnotesize
-为了促使模型学习到更稀疏的表示，本文在原有的渲染损失 \(L_{render}\) 基础上引入了针对掩码的正则化项： \[L_{m} = \left( \frac{1}{N} \sum_{i=1}^{N} \mathcal{M}_{i} \right)^{2}\] \[L = L_{render} + \lambda_{m} \cdot L_{m}\] * 实验发现，对掩码均值使用平方损失在约束高斯基元平均数量方面，经验上优于 L1 损失 。 * 为了真正释放显存，需要执行物理删除。策略是对每个高斯基元采样 10 次，如果一次都没有被采样到，说明其存在概率已趋近于 0，则将其彻底移除 。此清理过程在每次稠密化步骤及之后的每 1000 次迭代时触发 。
+为了促使模型学习到更稀疏的表示，本文在原有的渲染损失 \(L_{render}\) 基础上引入了针对掩码的正则化项： \[L_{m} = \left( \frac{1}{N} \sum_{i=1}^{N} \mathcal{M}_{i} \right)^{2}\] \[L = L_{render} + \lambda_{m} \cdot L_{m}\] * 实验发现，对掩码均值使用平方损失在约束高斯基元平均数量方面，经验上优于 L1 损失。 * 为了真正释放显存，需要执行物理删除。策略是对每个高斯基元采样 10 次，如果一次都没有被采样到，说明其存在概率已趋近于 0，则将其彻底移除。此清理过程在每次稠密化步骤及之后的每 1000 次迭代时触发。
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{7. 实验结果}
@@ -144,9 +156,9 @@
   \begin{column}{.48\textwidth}
     \begin{itemize}
     \item
-      在 Mip-NeRF360、Tanks \& Temples 和 Deep Blending 数据集上，平均剪枝率分别达到了 \textbf{62.4\%、67.7\% 和 75.3\%} 。
+      在 Mip-NeRF360、Tanks \& Temples 和 Deep Blending 数据集上，平均剪枝率分别达到了 \textbf{62.4\%、67.7\% 和 75.3\%}。
     \item
-      帧率（FPS）相应提升了 \textbf{2.05倍、2.19倍 和 3.16倍} 。在峰值显存方面，以 \texttt{truck} 场景为例，原版 3DGS 占用 9.03GB，而 MaskGaussian 仅需 6.45GB 。
+      帧率（FPS）相应提升了 \textbf{2.05倍、2.19倍 和 3.16倍}。在峰值显存方面，以 \texttt{truck} 场景为例，原版 3DGS 占用 9.03GB，而 MaskGaussian 仅需 6.45GB。
     \end{itemize}
   \end{column}
   \begin{column}{.48\textwidth}
@@ -154,10 +166,10 @@
     \item
       由于采用概率采样和 Masked-Rasterization，模型避免了对细小基元的误杀。
     \item
-      例如，在 \texttt{bicycle} 场景中，Compact3DGS 错误地剔除了轮胎气门嘴和细长的辐条，而本方法能够准确捕获并保留 ；在 \texttt{garden} 场景中，本方法同样成功保全了大量细小的植物枯须 。
+      例如，在 \texttt{bicycle} 场景中，Compact3DGS 错误地剔除了轮胎气门嘴和细长的辐条，而本方法能够准确捕获并保留；在 \texttt{garden} 场景中，本方法同样成功保全了大量细小的植物枯须。
     \end{itemize}
     
-    \textbf{抗过拟合效应：} * 在 Deep Blending 数据集上，MaskGaussian 的渲染质量（PSNR: 29.69）甚至超越了原版 3DGS（PSNR: 29.53）。作者将此归功于剪枝带来的正则化效应，有效缓解了显式点云极易产生的过拟合现象 。
+    \textbf{抗过拟合效应：} * 在 Deep Blending 数据集上，MaskGaussian 的渲染质量（PSNR: 29.69）甚至超越了原版 3DGS（PSNR: 29.53）。作者将此归功于剪枝带来的正则化效应，有效缓解了显式点云极易产生的过拟合现象。
   \end{column}
 \end{columns}
 \end{frame}

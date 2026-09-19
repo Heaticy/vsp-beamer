@@ -132,7 +132,7 @@ scripts/                PDF 审计、更新检查和安装管理器
 
 | 文件 | 内容 |
 | --- | --- |
-| `practice/Tutorial-CS100-r13/CS100-r13.tex` | CS100 Makefile Recitation |
+| `practice/Tutorial-CS100-r1/CS100-r1.tex` | CS100 Recitation 1 About Linux |
 | `practice/Tutorial-SI100B-pj-intro/Project-00-Intro.tex` | SI100B RISC-V miniCPU Project |
 | `practice/Report-4DGS/Report-4DGS.tex` | ISSCC 2026 4DGS Processor |
 | `practice/Report-4DSloMo/Report-4DSloMo.tex` | 4DSloMo 与 LoRA |
@@ -187,7 +187,7 @@ audit theme  assets  export    polish
 \end{document}
 ```
 
-主题共享实现位于 `themes/beamerthemeVSP.sty`。`\VSPsetspeaker[Speaker]{姓名}{详情}` 统一设置封面的标签、姓名和详情，同时同步标准 Beamer `\author`/`\institute` 元数据；直接使用 `\author` 和 `\institute` 仍然兼容。强调样式对齐 Marp：`\textbf{...}` 渲染主题色加粗（对应 `**strong**`），`\alert{...}` 只染主题色不加粗。页尾提供三格信息栏：`\VSPsetupfootline{课程与节次}{年份}{主讲者}`，无背景图的主题变体逐页展示并在尾页底部同步展示，shtu变体因背景图占据页底而仅在尾页底部展示。通过仓库 Makefile 构建时会自动配置 `TEXINPUTS`，文稿中不需要硬编码主题绝对路径。
+主题共享实现位于 `themes/beamerthemeVSP.sty`。`\VSPsetspeaker[Speaker]{姓名}{详情}` 统一设置封面的标签、姓名和详情，同时同步标准 Beamer `\author`/`\institute` 元数据；直接使用 `\author` 和 `\institute` 仍然兼容。强调样式对齐 Marp：`\alert{...}` 渲染主题色加粗（对应 `**strong**`），`\textbf{...}` 保持标准加粗语义不变色。正文段落之间有 6pt 段间距且首行不缩进。代码排版提供 minimus 兼容接口：行内代码用 `\code{...}`（自带浅色底），代码块用 `\begin{Code}*[语言] \lstinputlisting{...} \end{Code}` 读入外部代码文件（语言为 `bash`/`c`/`cpp`/`python`/`latex`/`plain`，读文件方式不需要 `[fragile]`）。图片和表格可以用 `\begin{Figure}*[小标题]` 与 `\begin{Table}[小标题]`（含 tblr）居中排版并附灰色小标题。页尾提供三格信息栏：`\VSPsetupfootline{课程与节次}{年份}{主讲者}`，无背景图的主题变体逐页展示并在尾页底部同步展示，shtu变体因背景图占据页底而仅在尾页底部展示。通过仓库 Makefile 构建时会自动配置 `TEXINPUTS`，文稿中不需要硬编码主题绝对路径。
 
 代码块使用 `lstlisting`（放在 `[fragile]` frame 中），主题提供统一的 `vsp` 代码样式（浅色底、主题色框线、行号），不要使用原始 `verbatim`。
 

@@ -58,15 +58,15 @@
 \footnotesize
 本文方法正在两个数据集上都取得了最优的效果。 消融实验表明伪影修复模型对同步捕获的视频没有显著提升。与不使用伪影修复模型的异步捕获相比，伪影修复视频扩散模型能够有效去除浮动伪影，恢复精细纹理，并保持时间一致性。
 
-\includegraphics[width=\linewidth,height=.24\textheight,keepaspectratio]{practice/Report-4DSloMo/img/Picgo20260120004243.png}
+\includegraphics[width=\linewidth,height=.20\textheight,keepaspectratio]{practice/Report-4DSloMo/img/Picgo20260120004243.png}
 
 DNA-Rendering:
 
-\includegraphics[width=\linewidth,height=.24\textheight,keepaspectratio]{practice/Report-4DSloMo/img/Picgo20260120003738.png}
+\includegraphics[width=\linewidth,height=.20\textheight,keepaspectratio]{practice/Report-4DSloMo/img/Picgo20260120003738.png}
 
 Neural3DV:
 
-\includegraphics[width=\linewidth,height=.24\textheight,keepaspectratio]{practice/Report-4DSloMo/img/Picgo20260120003753.png}
+\includegraphics[width=\linewidth,height=.20\textheight,keepaspectratio]{practice/Report-4DSloMo/img/Picgo20260120003753.png}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{2.1 LoRA微调}
@@ -75,7 +75,13 @@ LoRA (Low-Rank Adaptation) 是一种参数高效的微调方法，专为大规�
 
 Method： 冻结预训练模型的权重，在Transformer架构的各层注入可训练的秩分解矩阵，大幅减少可训练参数数量。
 
-\textbf{Pros：} - 相比GPT-3 175B全量微调，可训练参数减少10000倍 - GPU显存需求降低3倍 - 在模型性能上与全量微调相当或更优（RoBERTa、DeBERTa、GPT-2、GPT-3等） - 训练吞吐量更高，推理无额外延迟
+\textbf{Pros：}
+\begin{itemize}
+\item 相比GPT-3 175B全量微调，可训练参数减少10000倍
+\item GPU显存需求降低3倍
+\item 在模型性能上与全量微调相当或更优（RoBERTa、DeBERTa、GPT-2、GPT-3等）
+\item 训练吞吐量更高，推理无额外延迟
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{2.2 全量微调的改进}
@@ -163,7 +169,12 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
       参数极少，节省显存
     \end{itemize}
     
-    \textbf{劣势：} - 必须在原始层输出后执行 - 无法与其他层并行计算 - 模型层数变深，增加训练/推理时间
+    \textbf{劣势：}
+\begin{itemize}
+\item 必须在原始层输出后执行
+\item 无法与其他层并行计算
+\item 模型层数变深，增加训练/推理时间
+\end{itemize}
   \end{column}
 \end{columns}
 \end{frame}
@@ -206,7 +217,12 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
     
     令 \(Y = U^T ABV\)，则 \(AB = UYV^T\)
     
-    最优r秩近似只需保留： - U的前r列 - \(\Sigma\) 的前r个最大奇异值 - \(V^T\) 的前r列
+    最优r秩近似只需保留：
+\begin{itemize}
+\item U的前r列
+\item \(\Sigma\) 的前r个最大奇异值
+\item \(V^T\) 的前r列
+\end{itemize}
   \end{column}
 \end{columns}
 \end{frame}
@@ -238,7 +254,12 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
     
     预训练权重 \(W_0 \in \mathbb{R}^{n \times m}\) 的更新量可表示为： \[\Delta W = AB\]
     
-    其中： - \(A \in \mathbb{R}^{n \times r}\)（编码左特征方向） - \(B \in \mathbb{R}^{r \times m}\)（编码右特征方向） - \(r \ll \min(n,m)\)（秩远小于原维度）
+    其中：
+\begin{itemize}
+\item \(A \in \mathbb{R}^{n \times r}\)（编码左特征方向）
+\item \(B \in \mathbb{R}^{r \times m}\)（编码右特征方向）
+\item \(r \ll \min(n,m)\)（秩远小于原维度）
+\end{itemize}
   \end{column}
 \end{columns}
 \end{frame}

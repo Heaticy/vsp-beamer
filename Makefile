@@ -6,7 +6,7 @@ TEXINPUTS_ENV := $(CURDIR)/themes//:$(CURDIR)//:
 VERSION := $(strip $(shell cat VERSION))
 PACKAGE ?= build/vsp-beamer-$(VERSION).tds.tar.gz
 
-DOCUMENTS := $(shell find templates practice -type f -name '*.tex' | sort)
+DOCUMENTS := $(shell find templates practice -type f -name '*.tex' -exec grep -l '\\documentclass' {} + | sort)
 PDFS := $(patsubst %.tex,build/%.pdf,$(DOCUMENTS))
 THEME_FILES := $(shell find themes -type f \( -name '*.sty' -o -name '*.md' \))
 ASSET_FILES := $(shell find shared-assets practice -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' \))
@@ -23,7 +23,8 @@ build: $(PDFS)
 list:
 	@printf '%s\n' $(DOCUMENTS)
 
-build/%.pdf: %.tex $(THEME_FILES) $(ASSET_FILES)
+.SECONDEXPANSION:
+build/%.pdf: %.tex $(THEME_FILES) $(ASSET_FILES) $$(wildcard $$(dir $$*)*.tex)
 	@mkdir -p ".beamer-cache/$*" "$(dir $@)"
 	@echo "[xelatex] $<"
 	@TEXINPUTS="$(TEXINPUTS_ENV)" $(LATEXMK) $(LATEXMK_FLAGS) \
@@ -39,7 +40,7 @@ release-check:
 
 check: release-check build
 	@set -euo pipefail; \
-	pattern='Overfull|Missing character|LaTeX Error|LaTeX Font Warning|Package .* Warning'; \
+	pattern='Overfull|Missing character|LaTeX Error|LaTeX Font Warning|Package .* Warning|Class beamer Warning'; \
 	failed=0; \
 	while IFS= read -r log; do \
 		if grep -En "$$pattern" "$$log"; then failed=1; fi; \

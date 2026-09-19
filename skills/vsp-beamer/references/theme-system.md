@@ -23,10 +23,14 @@ The shared font scale is mapped from the VSP-Marp 1280x720 design tokens and sho
 | Section transition | 35.43 / 42.52 pt (`100px`, Marp `section.trans h2` = `4rem`) |
 | Footer | 7.8 / 9.45 pt (`22px`) |
 | Page number | 4.25 / 5.1 pt (`12px`) |
-| Code | 7.09 / 8.51 pt (`20px`) |
+| Code preset (`\vspcodefont`) | 7.09 / 8.51 pt (`20px`) |
+
+Note: the `vsp` listings style still carries `\vspcodefont`, but the theme applies minimus-code's `\lstset` on top of it (same stacking as liyuxuan3003's CS100Linux build), so code actually renders at the current frame font size with blue bold keywords, red comments, magenta strings, tiny line numbers, and fixed 0.5em columns; only background, rule color, frame spacing, and number sep stay VSP-flavored.
 
 - Keep body, cover, frame-title, section, footer, page-number, and code sizes on the named VSP-Marp preset commands in `beamerthemeVSP.sty`; do not add local `\small` or arbitrary `\fontsize` patches.
-- Marp emphasis parity: `\textbf` is renewed globally to bold in `VSPAccent` (Marp `strong`), while `\alert` colors only (`alerted text` is `VSPAccent`). Beamer's own titles, labels, and block headers use font templates, not `\textbf`, so they are unaffected.
+- Marp emphasis parity: `\alert` colors in `VSPAccent` and bolds (Marp `strong`; `alerted text` is `VSPAccent` with `series=\bfseries`), while `\textbf` keeps its standard meaning. Beamer's own titles, labels, and block headers use font templates, not `\alert`, so they are unaffected.
+- `\parskip` is 6pt with zero `\parindent`, so consecutive paragraphs are visually separated.
+- minimus-code parity: inline code is `\code{...}` (an `\lstinline` wrapper with phantom-math CJK padding; braces only, escape `%` and `\` as `\%`/`\\`). External code files go in `\begin{Code}*[language] \lstinputlisting{...} \end{Code}`, where the language is one of the lst styles `bash`, `c`, `cpp`, `python`, `latex`, `plain` (identifiers paint dark green for the programming languages). Reading from files does not need `[fragile]`; inline `lstlisting` blocks still do. `\begin{Figure}*[caption]` and `\begin{Table}[caption]` center content with a small muted caption (below/above) and never float; `tblr` tables are supported via tabularray.
 
 ## Section transition pages
 

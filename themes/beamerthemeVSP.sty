@@ -13,6 +13,8 @@
 \RequirePackage{listings}
 \RequirePackage{ragged2e}
 \RequirePackage{tabularx}
+\RequirePackage{tabularray}
+\RequirePackage{xurl}
 \RequirePackage{tcolorbox}
 
 % Runtime assets are resolved through Kpathsea, so the same source works both
@@ -171,11 +173,15 @@
   minimum size=1.65em,inner sep=0pt,rounded corners=0.8pt] (n) {\insertenumlabel};}
 \setbeamertemplate{blocks}[rounded][shadow=false]
 
-% Marp emphasis parity: \alert colors only (alerted text is VSPAccent),
-% \textbf colors and bolds. Beamer's own titles and labels use font
-% templates (series=\bfseries), not \textbf, so they are unaffected.
-\let\vsp@textbf\textbf
-\renewcommand{\textbf}[1]{{\color{VSPAccent}\vsp@textbf{#1}}}
+% Marp emphasis parity: \alert colors in the accent color and bolds, while
+% \textbf keeps its standard meaning. Beamer's own titles and labels use font
+% templates (series=\bfseries), not \alert, so they are unaffected.
+\setbeamerfont{alerted text}{series=\bfseries}
+
+% Paragraph spacing: beamer sets \parskip to zero by default, which makes
+% consecutive paragraphs indistinguishable. Restore a 6pt gap between them.
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
 
 \setbeamertemplate{frametitle}{%
   \nointerlineskip
@@ -480,6 +486,75 @@
   keepspaces=true
 }
 \lstset{style=vsp}
+
+% minimus-code layer: liyuxuan3003's CS100Linux loads minimus-code after the
+% theme, and its \lstset overrides the vsp code style with the keys below.
+% Adopted verbatim so code blocks render exactly like his build: normal-size
+% typewriter text, blue bold keywords, red comments, magenta strings, tiny
+% line numbers, fixed 0.5em columns. Keys minimus does not set (background,
+% rule color, frame spacing, number sep, keepspaces) stay VSP-flavored, as
+% they do in his build.
+\lstset{
+  basicstyle=\ttfamily,
+  keywordstyle=\bfseries\color{blue},
+  ndkeywordstyle=\bfseries\color{teal},
+  commentstyle=\color{red},
+  stringstyle=\color{magenta},
+  flexiblecolumns,
+  numbers=left,
+  numberstyle=\tiny\ttfamily,
+  showspaces=false,
+  showstringspaces=false,
+  captionpos=t,
+  frame=lrtb,
+  breaklines=true,
+  columns=fixed,
+  basewidth=0.5em,
+  tabsize=4
+}
+
+% minimus-code parity (https://github.com/liyuxuan3003/minimus): per-language
+% styles paint identifiers dark green on top of the vsp base style. Selecting
+% a language style only adds keys, so the vsp visuals stay in effect.
+\lstdefinestyle{bash}{language=bash}
+\lstdefinestyle{c}{language=C,identifierstyle=\color{black!50!green}}
+\lstdefinestyle{cpp}{language=C++,identifierstyle=\color{black!50!green}}
+\lstdefinestyle{python}{language=Python,identifierstyle=\color{black!50!green}}
+\lstdefinestyle{latex}{language=[LaTeX]TeX}
+\lstdefinestyle{plain}{}
+
+% \code is the inline wrapper of \lstinline from minimus-code: the phantom
+% math on both sides keeps proper spacing next to CJK text. Braces are the
+% only delimiter; % and \ are not allowed (use \% and \\).
+\newcommand{\code}[1]{$\hphantom{}$\lstinline{#1}$\hphantom{}$}
+
+% Code environment, minimus-code interface: starred means unnumbered, the
+% optional argument is a caption printed as a small muted line above the
+% listing, and the mandatory argument is an lst style (default plain). In
+% beamer there is no listing counter or list-of-listings, so numbering is
+% simply omitted. The body typically holds \lstinputlisting, which reads
+% external files and therefore does not need a [fragile] frame.
+\NewDocumentEnvironment{Code}{sO{}G{plain}}{%
+  \lstset{style=#3}%
+  \ifstrempty{#2}{}{\par{\footnotesize\color{VSPMuted}#2\par}\vspace{-6pt}}%
+}{\par}
+
+% Figure and Table, minimus-float interface reduced to beamer form: content
+% is centered without floating, and the optional argument is a caption drawn
+% as a small muted line (below figures, above tables). The star and the
+% trailing !/& modifiers of the minimus interface are accepted and ignored.
+\NewDocumentEnvironment{Figure}{sO{}t!}{%
+  \begin{center}%
+}{%
+  \ifstrempty{#2}{}{\par\vspace{2pt}{\footnotesize\color{VSPMuted}#2\par}}%
+  \end{center}%
+}
+\NewDocumentEnvironment{Table}{sO{}t&t&t!t!}{%
+  \ifstrempty{#2}{}{\begin{center}{\footnotesize\color{VSPMuted}#2\par}\vspace{2pt}\end{center}}%
+  \begin{center}%
+}{%
+  \end{center}%
+}
 
 \AtBeginEnvironment{frame}{\justifying}
 \mode<all>
