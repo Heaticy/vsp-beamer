@@ -523,37 +523,50 @@
 \lstdefinestyle{latex}{language=[LaTeX]TeX}
 \lstdefinestyle{plain}{}
 
+% minimus-compatible conveniences: \code, Code, Figure, Table mirror the
+% interfaces of minimus-code and minimus-float, so decks written against
+% those packages compile unchanged on this theme. Definitions are deferred
+% to \begin{document} and skipped when the real minimus packages are loaded,
+% so both setups coexist regardless of package order.
+\AtBeginDocument{%
 % \code is the inline wrapper of \lstinline from minimus-code: the phantom
 % math on both sides keeps proper spacing next to CJK text. Braces are the
 % only delimiter; % and \ are not allowed (use \% and \\).
-\newcommand{\code}[1]{$\hphantom{}$\lstinline{#1}$\hphantom{}$}
-
+\@ifundefined{code}{%
+  \newcommand{\code}[1]{$\hphantom{}$\lstinline{#1}$\hphantom{}$}%
+}{}%
 % Code environment, minimus-code interface: starred means unnumbered, the
 % optional argument is a caption printed as a small muted line above the
 % listing, and the mandatory argument is an lst style (default plain). In
 % beamer there is no listing counter or list-of-listings, so numbering is
 % simply omitted. The body typically holds \lstinputlisting, which reads
 % external files and therefore does not need a [fragile] frame.
-\NewDocumentEnvironment{Code}{sO{}G{plain}}{%
-  \lstset{style=#3}%
-  \ifstrempty{#2}{}{\par{\footnotesize\color{VSPMuted}#2\par}\vspace{-6pt}}%
-}{\par}
-
+\@ifundefined{Code}{%
+  \NewDocumentEnvironment{Code}{sO{}G{plain}}{%
+    \lstset{style=#3}%
+    \ifstrempty{#2}{}{\par{\footnotesize\color{VSPMuted}#2\par}\vspace{-6pt}}%
+  }{\par}%
+}{}%
 % Figure and Table, minimus-float interface reduced to beamer form: content
 % is centered without floating, and the optional argument is a caption drawn
 % as a small muted line (below figures, above tables). The star and the
 % trailing !/& modifiers of the minimus interface are accepted and ignored.
-\NewDocumentEnvironment{Figure}{sO{}t!}{%
-  \begin{center}%
-}{%
-  \ifstrempty{#2}{}{\par\vspace{2pt}{\footnotesize\color{VSPMuted}#2\par}}%
-  \end{center}%
-}
-\NewDocumentEnvironment{Table}{sO{}t&t&t!t!}{%
-  \ifstrempty{#2}{}{\begin{center}{\footnotesize\color{VSPMuted}#2\par}\vspace{2pt}\end{center}}%
-  \begin{center}%
-}{%
-  \end{center}%
+\@ifundefined{Figure}{%
+  \NewDocumentEnvironment{Figure}{sO{}t!}{%
+    \begin{center}%
+  }{%
+    \ifstrempty{#2}{}{\par\vspace{2pt}{\footnotesize\color{VSPMuted}#2\par}}%
+    \end{center}%
+  }%
+}{}%
+\@ifundefined{Table}{%
+  \NewDocumentEnvironment{Table}{sO{}t&t&t!t!}{%
+    \ifstrempty{#2}{}{\begin{center}{\footnotesize\color{VSPMuted}#2\par}\vspace{2pt}\end{center}}%
+    \begin{center}%
+  }{%
+    \end{center}%
+  }%
+}{}%
 }
 
 \AtBeginEnvironment{frame}{\justifying}
