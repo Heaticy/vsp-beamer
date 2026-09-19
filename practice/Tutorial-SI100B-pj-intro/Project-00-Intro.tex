@@ -9,7 +9,7 @@
 \author{Chaofan Li}
 \institute{ShanghaiTech University}
 \date{}
-\newcommand{\VSPsourcefooter}{~\emph{SI100B EE Part} \emph{Project Introduction} \emph{Dec.5 2025}}
+\VSPsetupfootline{SI100B EE Part Project Introduction}{Dec. 2025}{Chaofan Li}
 
 \begin{document}
 \VSPtitleframe
@@ -44,18 +44,18 @@
 \footnotesize
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.58\textwidth}
-    \textbf{What is RISC-V?} 在计算机体系结构中，\textbf{指令集架构}（ISA）定义了处理器的基本指令规范，而\textbf{微架构}则负责具体实现这些指令的硬件电路设计。
+    \alert{What is RISC-V?} 在计算机体系结构中，\alert{指令集架构}（ISA）定义了处理器的基本指令规范，而\alert{微架构}则负责具体实现这些指令的硬件电路设计。
     
-    主流的指令集包括 x86、ARM、MIPS 等。与它们不同的是， RISC-V 作为一个全新的\textbf{开源指令集架构}正在迅速发展。与闭源的 x86 和 ARM 不同，RISC-V 采用开放标准，允许任何厂商自由使用和实现。
+    主流的指令集包括 x86、ARM、MIPS 等。与它们不同的是， RISC-V 作为一个全新的\alert{开源指令集架构}正在迅速发展。与闭源的 x86 和 ARM 不同，RISC-V 采用开放标准，允许任何厂商自由使用和实现。
   \end{column}
   \begin{column}{.38\textwidth}
-    \textbf{ISA vs. Microarchitecture}
+    \alert{ISA vs. Microarchitecture}
     
     \begin{itemize}
     \item
-      \textbf{ISA}: 软件能看到的指令和寄存器约定。
+      \alert{ISA}: 软件能看到的指令和寄存器约定。
     \item
-      \textbf{Microarchitecture}: 让这些指令真正运行起来的硬件组织。
+      \alert{Microarchitecture}: 让这些指令真正运行起来的硬件组织。
     \item
       本 Project 的目标是用 Logisim 设计一个能执行 RISC-V 子集的 miniCPU。
     \end{itemize}
@@ -70,12 +70,20 @@
 
 \begin{frame}[fragile,shrink=12]{Tasks}
 \footnotesize
-\textbf{Must Part} 1. 实现 miniCPU 的 Datapath，包括 RegFile、ALU、PC、IMem、DMem 等。（20\%）(在gradescope上有测试点) 2. 实现 miniCPU 的 Controller，包括指令译码、控制信号生成等，并与 Datapath 部分连接，实现指令执行。（20\%） 3. 使用 Python 编写一个简单的汇编器，将 RISC-V 汇编代码转换为机器码。（20\%） 4. 手动编写汇编程序，完成指定功能，加载到 miniCPU 的指令存储器中，观察 miniCPU 的运行情况。（15\%） 4. 实验报告。（25\%）
+\alert{Must Part}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item 实现 miniCPU 的 Datapath，包括 RegFile、ALU、PC、IMem、DMem 等。（20\%）（在 gradescope 上有测试点）
+\item 实现 miniCPU 的 Controller，包括指令译码、控制信号生成等，并与 Datapath 部分连接，实现指令执行。（20\%）
+\item 使用 Python 编写一个简单的汇编器，将 RISC-V 汇编代码转换为机器码。（20\%）
+\item 手动编写汇编程序，完成指定功能，加载到 miniCPU 的指令存储器中，观察 miniCPU 的运行情况。（15\%）
+\item 实验报告。（25\%）
+\end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{Tasks}
 \footnotesize
-\textbf{Must Part (Result Example)}
+\alert{Must Part (Result Example)}
 
 \includegraphics[width=\linewidth,height=.54\textheight,keepaspectratio]{practice/Tutorial-SI100B-pj-intro/img/Result.png}
 \end{frame}
@@ -91,7 +99,15 @@
 \end{enumerate}
 
 \begin{vspquote}{Bonus Challenge}
-我觉得自己特别厉害！那么可以尝试以下 Bonus 3. 为 miniCPU 添加向量运算单元，并支持一些向量指令的支持。 4. 为 miniCPU 支持标量-向量双发射。 5. 使用 Spinal HDL 完成 miniCPU 的设计与实现！（\textbf{Recommended}） - 如果你决定使用 Spinal HDL 来实现 miniCPU，你可以不实现 Logisim 版本。请务必提前联系助教！完成相同的任务，使用 Spinal HDL 实现的项目将获得额外的加分。
+我觉得自己特别厉害！那么可以尝试以下 Bonus
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item 为 miniCPU 添加向量运算单元，并支持一些向量指令的支持。
+\item 为 miniCPU 支持标量-向量双发射。
+\item 使用 Spinal HDL 完成 miniCPU 的设计与实现！（\alert{Recommended}）
+\end{enumerate}
+如果你决定使用 Spinal HDL 来实现 miniCPU，你可以不实现 Logisim 版本。请务必提前联系助教！完成相同的任务，使用 Spinal HDL 实现的项目将获得额外的加分。
 \end{vspquote}
 \end{frame}
 
@@ -101,9 +117,9 @@
 \footnotesize
 \begin{itemize}
 \item
-  在我们的 Project 中，我们\textbf{允许任何 AI 工具的使用}。但是，请\textbf{务必确保你理解你的 AI 做了什么}。如果在最终的 Check 中你的回答是``AI 这么写的，我也不太清楚''，那么我们可能会认为你并没有真正理解你的实现，从而影响你的评分。
+  在我们的 Project 中，我们\alert{允许任何 AI 工具的使用}。但是，请\alert{务必确保你理解你的 AI 做了什么}。如果在最终的 Check 中你的回答是``AI 这么写的，我也不太清楚''，那么我们可能会认为你并没有真正理解你的实现，从而影响你的评分。
 \item
-  请同学们在合作中遵守基本的学术诚信原则。\textbf{组间的抄袭}是严格禁止的。
+  请同学们在合作中遵守基本的学术诚信原则。\alert{组间的抄袭}是严格禁止的。
 \item
   允许参考公开的资源实现，但请按照自己的理解进行调整和修改。如果你参考了公开的资源（例如 GitHub 上的开源项目），请务必在报告中注明引用来源。非复制粘贴的参考不会影响你的评分。 \includegraphics[width=\linewidth,height=.54\textheight,keepaspectratio]{practice/Tutorial-SI100B-pj-intro/img/99e4b731e1a0ee359087f8ed1151dea4.jpg}
 \item
@@ -113,7 +129,13 @@
 
 \begin{frame}[fragile,shrink=12]{Grading Policy for Bonus Tasks}
 \footnotesize
-\textbf{Bonus} - Bonus 部分的分数将在基础分数的基础上进行加分。 - 这部分不会有 OJ 测试，但我们会在面对面 Check 的时候，检查你们的实现。 - 你们需要自己设计合适的测试用例，以证明你们的实现是正确的。否则，我们可能会认为你们的实现是不完整的，从而你们的加分也会受到影响。 - 和 Must 一样，即使你们的实现不完整，如果在报告中展现了你们的尝试和思考，并做出有意义的尝试和分析，我们也会给予一定的加分。
+\alert{Bonus}
+\begin{itemize}
+\item Bonus 部分的分数将在基础分数的基础上进行加分。
+\item 这部分不会有 OJ 测试，但我们会在面对面 Check 的时候，检查你们的实现。
+\item 你们需要自己设计合适的测试用例，以证明你们的实现是正确的。否则，我们可能会认为你们的实现是不完整的，从而你们的加分也会受到影响。
+\item 和 Must 一样，即使你们的实现不完整，如果在报告中展现了你们的尝试和思考，并做出有意义的尝试和分析，我们也会给予一定的加分。
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{Who should choose our project?}

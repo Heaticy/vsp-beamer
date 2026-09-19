@@ -10,6 +10,8 @@
 \institute{ShanghaiTech University}
 \date{}
 
+\VSPsetupfootline{4DSloMo Paper Report}{2026}{丁麒涵}
+
 \begin{document}
 \VSPtitleframe
 
@@ -17,7 +19,7 @@
 \footnotesize
 现有的 4D 重建系统通常由于成本原因受限于30FPS的帧率，这导致在处理复杂运动如衣物飘动、体育动作时，难以捕捉到足够精细的中间运动信息，从而产生伪影。提高相机硬件帧率成本高昂，且数据传输带宽需求大，为此我们寻找替代方案。
 
-4DSloMo 提出了一种结合\textbf{新型数据采集方案}和\textbf{先进后处理模块}的软硬件协同方法，旨在\textbf{利用低帧率相机实现高帧率的 4D 重建}，并解决由此引入的伪影问题。
+4DSloMo 提出了一种结合\alert{新型数据采集方案}和\alert{先进后处理模块}的软硬件协同方法，旨在\alert{利用低帧率相机实现高帧率的 4D 重建}，并解决由此引入的伪影问题。
 \end{frame}
 
 \begin{frame}[fragile,shrink=12]{1.2 Hardware: Asynchronous Capture Scheme}
@@ -75,7 +77,7 @@ LoRA (Low-Rank Adaptation) 是一种参数高效的微调方法，专为大规�
 
 Method： 冻结预训练模型的权重，在Transformer架构的各层注入可训练的秩分解矩阵，大幅减少可训练参数数量。
 
-\textbf{Pros：}
+\alert{Pros：}
 \begin{itemize}
 \item 相比GPT-3 175B全量微调，可训练参数减少10000倍
 \item GPU显存需求降低3倍
@@ -99,7 +101,7 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
     参数量： 全量微调： \(nm\) LoRA微调： \(nr + rm = r(m+n)\)
   \end{column}
   \begin{column}{.48\textwidth}
-    \textbf{Observation：} 实验表明盲目增大r并不能获得更佳效果，因此r有充分理由取小值。
+    \alert{Observation：} 实验表明盲目增大r并不能获得更佳效果，因此r有充分理由取小值。
     
     \includegraphics[width=\linewidth,height=.54\textheight,keepaspectratio]{practice/Report-4DSloMo/img/Picgo20260123045409.png}
     
@@ -112,7 +114,12 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
 \footnotesize
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.48\textwidth}
-    显存占用来源： 1. 模型参数 2. 激活值（中间结果） 3. 优化器状态和模型梯度
+    显存占用来源：
+    \begin{enumerate}
+    \item 模型参数
+    \item 激活值（中间结果）
+    \item 优化器状态和模型梯度
+    \end{enumerate}
     
     LoRA主要通过减少反向传播时的梯度计算量来节省显存。
     
@@ -146,7 +153,7 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
 \footnotesize
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.48\textwidth}
-    \textbf{Prefix Tuning}
+    \alert{Prefix Tuning}
     
     \begin{itemize}
     \item
@@ -157,10 +164,10 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
       同样用极少参数替代全量模型更新
     \end{itemize}
     
-    \textbf{劣势：} 输入层有效信息长度减少
+    \alert{劣势：} 输入层有效信息长度减少
   \end{column}
   \begin{column}{.48\textwidth}
-    \textbf{Adapter}
+    \alert{Adapter}
     
     \begin{itemize}
     \item
@@ -169,7 +176,7 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
       参数极少，节省显存
     \end{itemize}
     
-    \textbf{劣势：}
+    \alert{劣势：}
 \begin{itemize}
 \item 必须在原始层输出后执行
 \item 无法与其他层并行计算
@@ -181,7 +188,7 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
 
 \begin{frame}[fragile,shrink=12]{3.1 矩阵范数}
 \footnotesize
-\textbf{L2范数（F范数）：} 把矩阵的所有元素的平方加起来开根号：
+\alert{L2范数（F范数）：} 把矩阵的所有元素的平方加起来开根号：
 
 \[\Vert M \Vert_F = \sqrt{\sum_{i=1}^n \sum_{j=1}^m M_{i,j}^2}\] \[\Vert A \Vert_F^2 = \operatorname{tr}(A^T A)\]
 
@@ -250,7 +257,7 @@ Method： 冻结预训练模型的权重，在Transformer架构的各层注入�
     只需保留前r个最大奇异值可达到最小误差。
   \end{column}
   \begin{column}{.48\textwidth}
-    \textbf{在LoRA中的应用意义：}
+    \alert{在LoRA中的应用意义：}
     
     预训练权重 \(W_0 \in \mathbb{R}^{n \times m}\) 的更新量可表示为： \[\Delta W = AB\]
     
