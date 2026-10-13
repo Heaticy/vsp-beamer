@@ -2,6 +2,11 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.3 - 2026-10-14
+
+- Replace the traced crest with a clean vector source (Illustrator-exported SVG of the official emblem, converted to red/white PDFs), eliminating stroke wobble visible at high zoom.
+- Re-trace the background with a grayscale-threshold mask and smoother curve fitting: crest, skyline, and calligraphy details now match the 8K master faithfully.
+
 ## v0.2.2 - 2026-10-13
 
 - Fix inverted crest geometry in the vector logos: the alpha mask must be negated before tracing, otherwise the trace covers the whole canvas minus the crest and the title-page logo renders as a white box.
