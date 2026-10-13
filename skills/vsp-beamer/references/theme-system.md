@@ -38,7 +38,7 @@ Match VSP-Marp's `trans` contract:
 
 - Red, purple, tutorial, and SHTU transitions use a full `VSPPrimary` canvas with centered white `section title` text.
 - SHTU transition pages deliberately suppress the ShanghaiTech master background, just as Marp excludes `.trans` from that background selector.
-- Nailong transitions use `shared-assets/nailong/nailong-bg.png` over white at 45% opacity, with centered white text and a restrained dark shadow.
+- Nailong transitions use `shared-assets/nailong/nailong-bg.pdf` over white at 45% opacity, with centered white text and a restrained dark shadow.
 - Do not draw an underline or decorative horizontal rule below the centered section title.
 - Keep the title at the fixed 22.68/27.22pt `section` preset, which maps Marp's 64px heading through the 1280px-to-453.543pt page scale.
 

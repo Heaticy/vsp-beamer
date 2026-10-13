@@ -2,6 +2,12 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.4 - 2026-10-14
+
+- Vectorize the crest+wordmark lockup (`ShanghaiTech_Name.pdf` / `ShanghaiTech_Name_White.pdf`): official crest SVG composited with the wordmark traced from the 8K master; replaces the 1080×329 raster and fixes the invisible red-on-red wordmark on the SHTU title page.
+- Vectorize the nailong full-page background (`nailong-bg.pdf`) with color tracing; flat cartoon art converts losslessly. The 3D-rendered nailong character PNGs stay raster by nature.
+- All theme backgrounds and brand assets are now vector graphics.
+
 ## v0.2.3 - 2026-10-14
 
 - Replace the traced crest with a clean vector source (Illustrator-exported SVG of the official emblem, converted to red/white PDFs), eliminating stroke wobble visible at high zoom.
