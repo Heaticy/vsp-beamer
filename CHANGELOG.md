@@ -2,6 +2,12 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.1 - 2026-10-13
+
+- Replace the 8K alpha-PNG slide background with a vector trace (`shanghaitech-master.pdf`), cutting per-page PDF render time by ~20x (1.41s to 0.07s) and shrinking `tutorial-red-shtu` from 1.75MB to 0.76MB.
+- Trace the ShanghaiTech crest to vector (`ShanghaiTech_Logo.pdf`, `ShanghaiTech_Logo_White.pdf`) and remove the raster logo PNGs.
+- Sync CS100 Recitation 1 with upstream CS100_Recitation: permission number fixes (664/775), `gzip` command name, wording and typo fixes, and `\texttt` forms for `~` and `#include` that `\lstinline`-based `\code` cannot render.
+
 ## v0.2.0 - 2026-08-20
 
 - Align six Beamer themes, typography presets, section transitions, speaker blocks, callouts, covers, and end frames with VSP-Marp 0.2.0.
