@@ -2,6 +2,12 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.5 - 2026-10-14
+
+- Rebuild the ShanghaiTech slide background with the official vector crest, aligned to the 8K master, instead of tracing its small raster emblem.
+- Smooth the traced wordmark, skyline, and calligraphy while preserving sharp stroke junctions; keep the transparent, single-color path-only PDF below 180KB.
+- Add the offline crest source and reproducible background rebuild script. Track PDF assets in Makefile prerequisites so background updates rebuild affected decks.
+
 ## v0.2.4 - 2026-10-14
 
 - Vectorize the crest+wordmark lockup (`ShanghaiTech_Name.pdf` / `ShanghaiTech_Name_White.pdf`): official crest SVG composited with the wordmark traced from the 8K master; replaces the 1080×329 raster and fixes the invisible red-on-red wordmark on the SHTU title page.
