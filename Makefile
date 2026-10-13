@@ -9,7 +9,7 @@ PACKAGE ?= build/vsp-beamer-$(VERSION).tds.tar.gz
 DOCUMENTS := $(shell find templates practice -type f -name '*.tex' -exec grep -l '\\documentclass' {} + | sort)
 PDFS := $(patsubst %.tex,build/%.pdf,$(DOCUMENTS))
 THEME_FILES := $(shell find themes -type f \( -name '*.sty' -o -name '*.md' \))
-ASSET_FILES := $(shell find shared-assets practice -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' \))
+ASSET_FILES := $(shell find shared-assets practice -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.pdf' \))
 
 .PHONY: all build audit check release-check release render list clean update-check package install status verify-install uninstall rollback upgrade
 
