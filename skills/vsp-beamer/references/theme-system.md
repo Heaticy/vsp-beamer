@@ -95,7 +95,7 @@ Fill the three-slot footline with the course metadata API:
 
 ## SHTU background layering
 
-`tutorial-red-shtu` uses `shared-assets/backgrounds/shanghaitech-master.png` as a full-page background.
+`tutorial-red-shtu` uses `shared-assets/backgrounds/shanghaitech-master.pdf` (vector trace of the 8K PNG master) as a full-page background.
 
 - Keep `normal text` and `frametitle` backgrounds transparent for SHTU.
 - Keep non-SHTU themes on their existing opaque white canvas.
