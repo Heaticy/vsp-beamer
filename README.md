@@ -41,7 +41,7 @@ make check
 
 ```bash
 make release
-# build/vsp-beamer-0.2.0.tds.tar.gz
+# build/vsp-beamer-0.2.2.tds.tar.gz
 ```
 
 编译单份文稿：

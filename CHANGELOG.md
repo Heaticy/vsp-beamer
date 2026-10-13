@@ -2,6 +2,11 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.2 - 2026-10-13
+
+- Fix inverted crest geometry in the vector logos: the alpha mask must be negated before tracing, otherwise the trace covers the whole canvas minus the crest and the title-page logo renders as a white box.
+- Bump `.codex-plugin/plugin.json` alongside VERSION so `make release-check` passes.
+
 ## v0.2.1 - 2026-10-13
 
 - Replace the 8K alpha-PNG slide background with a vector trace (`shanghaitech-master.pdf`), cutting per-page PDF render time by ~20x (1.41s to 0.07s) and shrinking `tutorial-red-shtu` from 1.75MB to 0.76MB.

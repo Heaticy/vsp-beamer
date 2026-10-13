@@ -1,6 +1,6 @@
 {
   "name": "vsp-beamer",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Complete VSP-Beamer skill bundle for planning, asset checks, XeLaTeX generation, rendering, PDF audit, polishing, resume, theme work, and export.",
   "author": {
     "name": "VSP"
