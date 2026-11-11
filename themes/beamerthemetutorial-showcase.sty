@@ -1,0 +1,299 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemetutorial-showcase}[2026/11/11 v0.2.6 VSP showcase tutorial]
+
+% Showcase style: the shared VSP implementation supplies fonts, palette,
+% speaker and footline setters, code and float helpers; this layer replaces
+% every visible template with a gradient cover, navigational section pages
+% and a progress footline, and adds stat, mark, chip, step and meter
+% components. Callouts and blocks drop fill and frame for a rule-headed form.
+\RequirePackage[red,tutorial,sectionpages]{beamerthemeVSP}
+\tcbuselibrary{skins}
+
+\definecolor{VSPDeep}{HTML}{2A0A10}
+\definecolor{VSPBright}{HTML}{C8505A}
+\colorlet{VSPGlow}{VSPTeal!50!white}
+
+\mode<presentation>
+\setbeamerfont{title}{family=\sffamily,series=\bfseries,size=\fontsize{22}{28.5}\selectfont}
+\setbeamerfont{subtitle}{family=\sffamily,series=\mdseries,size=\fontsize{11.5}{15}\selectfont}
+\setbeamerfont{section title}{family=\sffamily,series=\bfseries,size=\fontsize{21.5}{28}\selectfont}
+\setbeamerfont{end title}{family=\sffamily,series=\bfseries,size=\fontsize{30}{36}\selectfont}
+
+\newcommand{\vsp@two}[1]{\ifnum#1<10 0\fi\number#1}
+
+% Number of sections, counted from the previous run's .toc; it drives the
+% footline dots and stays zero on the first pass.
+\newcount\vsp@sectotal
+\AtBeginDocument{%
+  \begingroup
+    \def\beamer@endinputifotherversion#1{}%
+    \def\beamer@sectionintoc#1#2#3#4#5{\global\advance\vsp@sectotal\@ne}%
+    \def\beamer@subsectionintoc#1#2#3#4#5#6{}%
+    \def\beamer@subsubsectionintoc#1#2#3#4#5#6#7{}%
+    \makeatletter\@input{\jobname.toc}%
+  \endgroup}
+
+% Dark field shared by the cover, section and end frames: a deep-red
+% gradient crossed by translucent ribbon curves. The ribbons are computed
+% once per run into a box; recomputing 45 plots on every dark page would
+% dominate compile time.
+\newsavebox\vsp@ribbons
+\AtBeginDocument{%
+  \sbox\vsp@ribbons{%
+    \begin{tikzpicture}[x=\paperwidth/160,y=\paperheight/90]
+      \path[use as bounding box] (0,0) rectangle (160,90);
+      \clip (0,0) rectangle (160,90);
+      \foreach \vsp@i in {0,...,44} {
+        \pgfmathsetmacro{\vsp@o}{0.04+0.20*abs(sin(\vsp@i*9))}
+        \draw[white,opacity=\vsp@o,line width=0.16pt]
+          plot[domain=-4:164,samples=90,smooth]
+          (\x,{8+\vsp@i*0.75+(9+\vsp@i*0.42)*sin(\x*1.35+\vsp@i*3.2)+(3+\vsp@i*0.12)*sin(\x*0.55-\vsp@i*5.5)});}
+    \end{tikzpicture}}}
+\newcommand{\vsp@showfield}{%
+  \shade[left color=VSPDeep,right color=VSPBright!70!VSPPrimary,shading angle=62]
+    (current page.south west) rectangle (current page.north east);
+  \node[anchor=south west,inner sep=0pt] at (current page.south west) {\usebox\vsp@ribbons};}
+
+% Hollow display numerals: PDF text render mode 1 strokes the glyph outline
+% in VSPGlow (#A9D3CF).
+\newcommand{\vsp@outline}[1]{%
+  \special{pdf:literal direct 1 Tr 0.7 w 0.663 0.827 0.812 RG}#1%
+  \special{pdf:literal direct 0 Tr}}
+
+% ---- Frame title and footline -----------------------------------------------
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.04cm,dp=0.22cm]{frametitle}\end{beamercolorbox}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[VSPPrimary] ([yshift=-.30cm]current page.north west)
+      rectangle ([xshift=.33cm,yshift=-1.12cm]current page.north west);
+    \fill[VSPTeal] ([xshift=.33cm,yshift=-.30cm]current page.north west)
+      rectangle ([xshift=.40cm,yshift=-1.12cm]current page.north west);
+    \ifnum\c@section>0
+      \node[anchor=base west,inner sep=0pt,text=VSPTeal!80!black,
+        font=\sffamily\bfseries\fontsize{5.8}{6.4}\selectfont]
+        at ([xshift=.72cm,yshift=-.49cm]current page.north west)
+        {\vsp@two{\c@section}\hspace{.5em}\textcolor{VSPMuted}{\mdseries\insertsection}};
+    \fi
+    \node[anchor=base west,inner sep=0pt,text=VSPAccent,font=\usebeamerfont{frametitle}]
+      at ([xshift=.72cm,yshift=-.99cm]current page.north west) {\insertframetitle};
+    \ifx\vsp@logo\@empty\else
+      \node[anchor=north east,inner sep=0pt] at ([xshift=-.72cm,yshift=-.27cm]current page.north east)
+        {\includegraphics[height=.80cm]{\vsp@logo}};
+    \fi
+    \shade[left color=VSPPrimary,right color=VSPTeal]
+      ([xshift=.72cm,yshift=-1.185cm]current page.north west)
+      rectangle ([xshift=-.72cm,yshift=-1.205cm]current page.north east);
+  \end{tikzpicture}%
+}
+
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=.40cm,dp=.16cm]{footline}\end{beamercolorbox}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \pgfmathsetmacro{\vsp@progress}{min(1,\insertframenumber/max(1,\inserttotalframenumber))}
+    \fill[VSPSoft] (current page.south west) rectangle ([yshift=1.7pt]current page.south east);
+    \shade[left color=VSPPrimary,right color=VSPTeal] (current page.south west)
+      rectangle ([xshift=\vsp@progress\paperwidth,yshift=1.7pt]current page.south west);
+    \node[anchor=base west,inner sep=0pt,text=VSPMuted,font=\sffamily\fontsize{5.8}{7}\selectfont]
+      at ([xshift=.72cm,yshift=.21cm]current page.south west) {\vsp@footleft};
+    \ifnum\vsp@sectotal>0
+      \edef\vsp@n{\the\vsp@sectotal}%
+      \foreach \vsp@i in {1,...,\vsp@n} {
+        \pgfmathsetmacro{\vsp@dx}{(\vsp@i-(\vsp@n+1)/2)*0.21}
+        \ifnum\vsp@i<\c@section
+          \fill[VSPPrimary] ([xshift=\vsp@dx cm,yshift=.265cm]current page.south) circle (1.25pt);
+        \else\ifnum\vsp@i=\c@section
+          \fill[VSPTeal] ([xshift=\vsp@dx cm,yshift=.265cm]current page.south) circle (2.1pt);
+        \else
+          \fill[VSPMuted!45] ([xshift=\vsp@dx cm,yshift=.265cm]current page.south) circle (1.25pt);
+        \fi\fi}
+    \fi
+    \node[anchor=base east,inner sep=0pt,text=VSPMuted,font=\sffamily\fontsize{5.8}{7}\selectfont]
+      at ([xshift=-.72cm,yshift=.21cm]current page.south east)
+      {\vsp@footright\hspace{.8em}{\color{VSPAccent}\bfseries\insertframenumber}\,/\,\inserttotalframenumber};
+  \end{tikzpicture}%
+}
+
+% ---- Cover -------------------------------------------------------------------
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \vsp@showfield
+    \ifx\vsp@namelogo\@empty\else
+      \node[anchor=north west,inner sep=0pt] at ([xshift=.90cm,yshift=-.62cm]current page.north west)
+        {\includegraphics[height=.98cm]{\vsp@namelogo}};
+    \fi
+    \node[anchor=north east,inner sep=0pt,text=white!82!VSPPrimary,font=\usebeamerfont{date}]
+      at ([xshift=-.90cm,yshift=-.85cm]current page.north east) {\insertdate};
+    \fill[VSPGlow] ([xshift=.90cm,yshift=-2.86cm]current page.north west)
+      rectangle ([xshift=2.05cm,yshift=-2.94cm]current page.north west);
+    \node[anchor=north west,text width=.74\paperwidth,align=left,inner sep=0pt]
+      at ([xshift=.90cm,yshift=-3.20cm]current page.north west)
+      {{\usebeamerfont{title}\color{white}\vsp@displaywrap\inserttitle\par}\vspace{7pt}%
+       {\usebeamerfont{subtitle}\color{VSPGlow}\vsp@displaywrap\insertsubtitle\par}};
+    \node[anchor=south west,inner sep=0pt,align=left] (vsp@sp)
+      at ([xshift=1.18cm,yshift=.98cm]current page.south west)
+      {\tcbox[on line,size=minimal,boxrule=0pt,arc=1.5pt,outer arc=1.5pt,colback=VSPGlow,coltext=VSPDeep,
+         left=.14cm,right=.14cm,top=.04cm,bottom=.04cm,
+         fontupper=\sffamily\bfseries\fontsize{6.4}{7.6}\selectfont]{\vsp@speakerlabel}%
+       \hspace{.22cm}{\sffamily\bfseries\fontsize{10.5}{13}\selectfont\color{white}\vsp@speakername}\\[3pt]
+       {\sffamily\fontsize{8}{11}\selectfont\color{white!80!VSPPrimary}\vsp@speakerdetail}};
+    \draw[fill=white,fill opacity=.09,draw=white,draw opacity=.30,line width=.4pt,rounded corners=3pt]
+      ([xshift=-.28cm,yshift=-.22cm]vsp@sp.south west) rectangle ([xshift=.34cm,yshift=.22cm]vsp@sp.north east);
+  \end{tikzpicture}%
+}
+
+% ---- Section pages -----------------------------------------------------------
+% The right-hand list is rebuilt from the .toc and highlights the current
+% section, so every section page doubles as an agenda.
+\newcommand{\vsp@showtoc}{%
+  \begingroup
+    \def\beamer@endinputifotherversion##1{}%
+    \def\beamer@sectionintoc##1##2##3##4##5{%
+      \ifnum##1=\c@section
+        {\color{VSPGlow}\bfseries\vsp@two{##1}\hspace{.7em}\color{white}##2\par}%
+      \else
+        {\color{white!48!VSPPrimary}\vsp@two{##1}\hspace{.7em}##2\par}%
+      \fi\vspace{6pt}}%
+    \def\beamer@subsectionintoc##1##2##3##4##5##6{}%
+    \def\beamer@subsubsectionintoc##1##2##3##4##5##6##7{}%
+    \makeatletter\@input{\jobname.toc}%
+  \endgroup}
+
+\setbeamertemplate{section page}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \vsp@showfield
+    \node[anchor=base west,inner sep=0pt,font=\sffamily\bfseries\fontsize{66}{66}\selectfont,text=VSPGlow]
+      at ([xshift=.98cm,yshift=.70cm]current page.west) {\vsp@outline{\vsp@two{\c@section}}};
+    \fill[VSPGlow] ([xshift=1.10cm,yshift=.26cm]current page.west)
+      rectangle ([xshift=2.25cm,yshift=.19cm]current page.west);
+    \node[anchor=north west,inner sep=0pt,text=white,align=left,text width=.545\paperwidth,
+      font=\usebeamerfont{section title}]
+      at ([xshift=1.10cm,yshift=-.12cm]current page.west) {\vsp@displaywrap\insertsection};
+    \node[anchor=west,inner sep=0pt,align=left,text width=.31\paperwidth,
+      font=\sffamily\fontsize{9.2}{12}\selectfont] (vsp@toc)
+      at ([xshift=.635\paperwidth]current page.west) {\vsp@showtoc};
+    \draw[white,opacity=.30,line width=.4pt] ([xshift=-.36cm,yshift=.10cm]vsp@toc.north west)
+      -- ([xshift=-.36cm,yshift=-.02cm]vsp@toc.south west);
+  \end{tikzpicture}%
+}
+
+\renewcommand{\VSPsectionframe}[2]{%
+  \begin{frame}[plain,noframenumbering]
+    \begin{tikzpicture}[remember picture,overlay]
+      \vsp@showfield
+      \node[text=white,align=center,text width=.86\paperwidth,
+        font=\usebeamerfont{end title}] at ([yshift=.30cm]current page.center)
+        {\vsp@displaywrap #1\\[9pt]{\usebeamerfont{section subtitle}\color{VSPGlow}#2}};
+    \end{tikzpicture}
+  \end{frame}}
+
+% ---- End frame ---------------------------------------------------------------
+\renewcommand{\VSPendframe}[1]{%
+  \begin{frame}[plain,noframenumbering]
+    \begin{tikzpicture}[remember picture,overlay]
+      \vsp@showfield
+      \node[text=white,inner sep=0pt,font=\usebeamerfont{end title}]
+        at ([yshift=.75cm]current page.center) {Thank You};
+      \fill[VSPGlow] ([xshift=-.58cm,yshift=.10cm]current page.center)
+        rectangle ([xshift=.58cm,yshift=.03cm]current page.center);
+      \node[text=white!86!VSPPrimary,inner sep=0pt,align=center,text width=.80\paperwidth,
+        font=\sffamily\fontsize{10}{14}\selectfont] at ([yshift=-.42cm]current page.center) {#1};
+      \node[anchor=south west,inner sep=0pt,text=white!70!VSPPrimary,font=\usebeamerfont{footline}]
+        at ([xshift=.72cm,yshift=.30cm]current page.south west) {\vsp@footleft};
+      \node[anchor=south,inner sep=0pt,text=white!70!VSPPrimary,font=\usebeamerfont{footline}]
+        at ([yshift=.30cm]current page.south) {\vsp@footmid};
+      \node[anchor=south east,inner sep=0pt,text=white!70!VSPPrimary,font=\usebeamerfont{footline}]
+        at ([xshift=-.72cm,yshift=.30cm]current page.south east) {\vsp@footright};
+    \end{tikzpicture}
+  \end{frame}}
+
+% ---- Lists -------------------------------------------------------------------
+\setbeamertemplate{itemize item}{%
+  \tikz[baseline=-.62ex]{\fill[VSPPrimary] (0,0) circle (1.35pt);
+    \draw[VSPTeal,line width=.4pt] (0,0) circle (2.5pt);}}
+\setbeamertemplate{itemize subitem}{\tikz[baseline=-.62ex]\fill[VSPTeal] (0,0) circle (1.2pt);}
+\setbeamertemplate{enumerate item}{%
+  \tikz[baseline=(n.base)]\node[circle,fill=VSPPrimary,text=white,font=\sffamily\scriptsize\bfseries,
+  minimum size=1.55em,inner sep=0pt] (n) {\insertenumlabel};}
+
+% ---- Callouts and blocks: colored title on a hairline, no fill or frame ------
+\tcbset{
+  vsp@headed/.style={enhanced,frame hidden,interior hidden,boxrule=0pt,boxsep=0pt,arc=0pt,
+    left=0pt,right=0pt,top=4.5pt,bottom=2pt,toptitle=0pt,bottomtitle=3.2pt,lefttitle=0pt,righttitle=0pt,
+    title style={opacity=0},coltitle=#1,
+    fonttitle=\sffamily\bfseries\vspbodyfont,fontupper=\rmfamily\vspbodyfont,
+    overlay={\draw[#1!35!white,line width=.5pt] (title.south west) -- (title.south east);
+      \draw[#1,line width=1.6pt] (title.south west) -- ([xshift=1.1cm]title.south west);},
+    before skip=3pt,after skip=9pt},
+}
+\renewtcolorbox{vspcallout}[2][VSPPrimary]{vsp@headed=#1,title={#2}}
+\setbeamertemplate{block begin}{\begin{tcolorbox}[vsp@headed=VSPPrimary,title={\insertblocktitle}]}
+\setbeamertemplate{block end}{\end{tcolorbox}}
+\setbeamertemplate{block alerted begin}{\begin{tcolorbox}[vsp@headed=VSPAccent,title={\insertblocktitle}]}
+\setbeamertemplate{block alerted end}{\end{tcolorbox}}
+\setbeamertemplate{block example begin}{\begin{tcolorbox}[vsp@headed=VSPTeal,title={\insertblocktitle}]}
+\setbeamertemplate{block example end}{\end{tcolorbox}}
+
+% ---- Components --------------------------------------------------------------
+% \VSPstat[color]{figure}{label}{note}: headline number over the callout rule.
+\newcommand{\VSPstat}[4][VSPPrimary]{%
+  \par\noindent
+  \begin{tikzpicture}
+    \pgfmathsetlengthmacro{\vsp@w}{\linewidth}
+    \node[anchor=base west,inner sep=0pt,text=#1,font=\sffamily\bfseries\fontsize{20}{21}\selectfont]
+      at (0,5pt) {#2};
+    \fill[#1!35!white] (0,-.25pt) rectangle (\vsp@w,.25pt);
+    \fill[#1] (0,-.8pt) rectangle (1.1cm,.8pt);
+    \node[anchor=north west,inner sep=0pt,align=left,text width=\vsp@w,text=VSPText,
+      font=\sffamily\bfseries\fontsize{7.6}{9.4}\selectfont] at (0,-4.5pt)
+      {#3\ifstrempty{#4}{}{\\[1pt]{\mdseries\fontsize{6}{7.6}\selectfont\color{VSPMuted}#4}}};
+  \end{tikzpicture}\par}
+
+% \VSPmark{text}: marker-pen highlight behind a short phrase.
+\newcommand{\VSPmark}[1]{%
+  \tikz[baseline=(m.base)]\node[inner xsep=1.2pt,inner ysep=0pt,outer sep=0pt,
+    path picture={\fill[VSPTeal!30]
+      ([yshift=-.20em]path picture bounding box.south west) rectangle
+      ([yshift=.40em]path picture bounding box.south east);}] (m) {\bfseries #1};}
+
+% \VSPchip[color]{text}: pill label.
+\newcommand{\VSPchip}[2][VSPPrimary]{%
+  \tikz[baseline=(c.base)]\node[fill=#1!13!white,text=#1,rounded corners=3.4pt,
+    inner xsep=4.2pt,inner ysep=1.7pt,outer sep=0pt,
+    font=\sffamily\bfseries\fontsize{6.2}{7.2}\selectfont] (c) {#2};}
+
+% \VSPsteps{a,b,c}: chevron process strip across the line, red to teal.
+\newcommand{\VSPsteps}[1]{%
+  \par\noindent
+  \begin{tikzpicture}
+    \def\vsp@n{0}%
+    \foreach \vsp@s in {#1} {\xdef\vsp@n{\the\numexpr\vsp@n+1\relax}}
+    \pgfmathsetlengthmacro{\vsp@t}{6pt}
+    \pgfmathsetlengthmacro{\vsp@d}{(\linewidth-\vsp@t)/\vsp@n}
+    \pgfmathsetlengthmacro{\vsp@h}{19pt}
+    \foreach \vsp@s [count=\vsp@i] in {#1} {
+      \pgfmathsetlengthmacro{\vsp@x}{(\vsp@i-1)*\vsp@d}
+      \pgfmathsetmacro{\vsp@mix}{100-78*(\vsp@i-1)/max(1,\vsp@n-1)}
+      \fill[VSPPrimary!\vsp@mix!VSPTeal] (\vsp@x,0) -- (\vsp@x+\vsp@d-2.4pt,0)
+        -- (\vsp@x+\vsp@d+\vsp@t-2.4pt,.5*\vsp@h) -- (\vsp@x+\vsp@d-2.4pt,\vsp@h) -- (\vsp@x,\vsp@h)
+        \ifnum\vsp@i>1 -- (\vsp@x+\vsp@t,.5*\vsp@h)\fi -- cycle;
+      \node[text=white,inner sep=0pt,font=\sffamily\bfseries\fontsize{6.8}{8}\selectfont]
+        at (\vsp@x+.5*\vsp@d+.5*\vsp@t,.5*\vsp@h) {\vsp@s};
+    }
+  \end{tikzpicture}\par}
+
+% \VSPmeter[color]{fraction}{label}{value}: labelled horizontal meter.
+\newcommand{\VSPmeter}[4][VSPPrimary]{%
+  \par\noindent
+  \begin{tikzpicture}
+    \pgfmathsetlengthmacro{\vsp@w}{\linewidth}
+    \node[anchor=base west,inner sep=0pt,text=VSPText,font=\sffamily\fontsize{7}{8.4}\selectfont]
+      at (0,6.5pt) {#3};
+    \node[anchor=base east,inner sep=0pt,text=#1,font=\sffamily\bfseries\fontsize{7}{8.4}\selectfont]
+      at (\vsp@w,6.5pt) {#4};
+    \fill[VSPSoft,rounded corners=1.5pt] (0,0) rectangle (\vsp@w,3pt);
+    \shade[left color=#1,right color=#1!55!VSPTeal,rounded corners=1.5pt]
+      (0,0) rectangle ({max(3pt,#2*\vsp@w)},3pt);
+  \end{tikzpicture}\par}
+
+\mode<all>

@@ -1,0 +1,144 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[UTF8,fontset=none]{ctex}
+\usepackage{booktabs}
+\usepackage{array}
+\usetheme{tutorial-showcase}
+
+\title[VSP-Beamer Showcase]{VSP-Beamer Showcase}
+\subtitle{渐变封面 / 章节导航 / 进度页脚 / 数据组件}
+\VSPsetspeaker{VSP-Beamer Team}{VSP-Beamer}
+\date{2026年11月}
+\VSPsetupfootline{VSP-Beamer Showcase}{2026}{VSP-Beamer Team}
+
+\begin{document}
+\VSPtitleframe
+
+\section{页面骨架}
+
+\begin{frame}[t]{标题区与页脚}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.56\textwidth}
+    标题上方的小字是\VSPmark{章节面包屑}，由 \texttt{\textbackslash section} 自动生成；标题下方是红到青的渐变分隔线。
+
+    页脚最底部是\VSPmark{全局进度条}，中间的圆点对应全部章节：已讲完的为红色，当前章节为青色。
+
+    \begin{itemize}
+      \item 章节页自带议程：右侧列出全部章节并高亮当前位置
+      \item 封面、章节页与尾页共用深红渐变与丝带曲线
+      \item \alert{alert} 为主题红加粗，\textbf{textbf} 为标准加粗
+    \end{itemize}
+  \end{column}
+  \begin{column}{.40\textwidth}
+    \begin{vspquote}{使用方法}
+      \texttt{\textbackslash usetheme\{tutorial-showcase\}}
+
+      其余接口与 \code{tutorial-red} 相同，文稿可以直接切换。
+    \end{vspquote}
+    \VSPchip{tutorial-red} \VSPchip{report-red} \VSPchip[VSPTeal]{tutorial-showcase}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\section{数据与流程}
+
+\begin{frame}[t]{关键数字}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.235\textwidth}\VSPstat{7}{主题入口}{共享一套实现}\end{column}
+  \begin{column}{.235\textwidth}\VSPstat[VSPTeal]{16:9}{页面比例}{aspectratio=169}\end{column}
+  \begin{column}{.235\textwidth}\VSPstat[VSPCalloutBlue]{XeLaTeX}{编译引擎}{latexmk 驱动}\end{column}
+  \begin{column}{.235\textwidth}\VSPstat[VSPGreen]{100\%}{离线构建}{无远程图片}\end{column}
+\end{columns}
+
+\vspace{4pt}
+\texttt{\textbackslash VSPstat[颜色]\{数字\}\{标签\}\{备注\}} 适合放在多栏中并排展示关键数字。
+
+\VSPmeter{0.82}{进度条 \texttt{\textbackslash VSPmeter}}{82\%}
+\VSPmeter[VSPTeal]{0.46}{可指定颜色}{46\%}
+\end{frame}
+
+\begin{frame}[t]{流程条与提示框}
+\VSPsteps{提出问题,建立方法,实现系统,实验评估,总结展望}
+
+\vspace{6pt}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.32\textwidth}
+    \begin{vspquote}{强调引用}
+      彩色标题压在一条细线上，正文不带底色和边框。
+    \end{vspquote}
+    \begin{vspquoteyellow}{黄色提示}
+      适合补充说明。
+    \end{vspquoteyellow}
+  \end{column}
+  \begin{column}{.32\textwidth}
+    \begin{vspquoteblue}{蓝色提示}
+      适合方法或定义。
+    \end{vspquoteblue}
+    \begin{vspquotegreen}{绿色提示}
+      适合已完成的结果。
+    \end{vspquotegreen}
+  \end{column}
+  \begin{column}{.32\textwidth}
+    \begin{vspquotepurple}{紫色提示}
+      适合旁注与延伸。
+    \end{vspquotepurple}
+    \begin{block}{Beamer block}
+      标准 \code{block} 同样适用。
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\section{图表与代码}
+
+\begin{frame}[t]{图文与表格}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.36\textwidth}
+    \begin{vspquote}{图片}
+      \begin{Figure}[奶龙：\code{nailong-wave.png}]
+        \includegraphics[height=3.2cm]{\VSPasset{nailong-wave.png}}
+      \end{Figure}
+    \end{vspquote}
+  \end{column}
+  \begin{column}{.60\textwidth}
+    \begin{Table}[主题对照]
+      \footnotesize
+      \begin{tabular}{@{}lccc@{}}
+        \toprule
+        主题 & 配色 & 封面 & 页脚 \\
+        \midrule
+        \texttt{tutorial-red} & 红 & 白底标题 & 三格信息栏 \\
+        \texttt{tutorial-red-shtu} & 红 & 校园背景 & 页码 \\
+        \texttt{report-red} & 红 & 居中标题块 & 三格信息栏 \\
+        \texttt{tutorial-showcase} & 红 + 青 & 渐变与丝带 & 进度条 \\
+        \bottomrule
+      \end{tabular}
+    \end{Table}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[t,fragile]{代码与公式}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.48\textwidth}
+    \begin{enumerate}
+      \item 列出全部文稿
+      \item 严格检查全部文稿
+    \end{enumerate}
+\begin{lstlisting}[language=bash]
+make list
+make check
+\end{lstlisting}
+  \end{column}
+  \begin{column}{.48\textwidth}
+    \begin{vspquoteblue}{行间公式}
+      \[
+        \mathcal{L} = \sum_{i=1}^{N} \bigl\lVert \hat{I}_i - I_i \bigr\rVert_1
+          + \lambda\,\mathcal{L}_{\mathrm{SSIM}}
+      \]
+    \end{vspquoteblue}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\VSPendframe{VSP-Beamer \textcolor{white!60}{/} Showcase}
+\end{document}

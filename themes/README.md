@@ -8,6 +8,7 @@
 - `tutorial-nailong`
 - `report-red`
 - `report-nailong`
+- `tutorial-showcase`：在共享实现之上替换封面、章节页、标题区和页脚，并提供 `\VSPstat`、`\VSPmark`、`\VSPchip`、`\VSPsteps`、`\VSPmeter` 组件
 
 共享实现位于 `beamerthemeVSP.sty`。在文稿中使用：
 
@@ -23,4 +24,4 @@ make install
 # 任意目录中的文稿均可直接使用 \usetheme{tutorial-red}
 ```
 
-也可以手工保持当前目录结构使用仓库源码。安装包会提供共享主题、六个主题入口、背景、Logo 和 Nailong 图片；不会安装模板、practice、Agent Skill 或系统字体。Noto CJK SC 是前置依赖（Debian/Ubuntu：`fonts-noto-cjk`）。已安装运行时通过 `vsp-beamer update` 升级，仓库 checkout 通过 `make upgrade` 升级。
+也可以手工保持当前目录结构使用仓库源码。安装包会提供共享主题、七个主题入口、背景、Logo 和 Nailong 图片；不会安装模板、practice、Agent Skill 或系统字体。Noto CJK SC 是前置依赖（Debian/Ubuntu：`fonts-noto-cjk`）。已安装运行时通过 `vsp-beamer update` 升级，仓库 checkout 通过 `make upgrade` 升级。

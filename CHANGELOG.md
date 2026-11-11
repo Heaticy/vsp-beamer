@@ -2,6 +2,13 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.6 - 2026-11-11
+
+- Add the `tutorial-showcase` theme: deep-red gradient cover with ribbon curves, section pages with hollow numerals and a highlighted agenda, frame titles with a section breadcrumb, and a footline with a progress bar and section dots.
+- Showcase callouts and blocks drop fill, frame and shadow: a colored title sits on a hairline with a thickened left end.
+- Showcase components `\VSPstat`, `\VSPmark`, `\VSPchip`, `\VSPsteps` and `\VSPmeter`, demonstrated in `templates/tutorial-showcase.tex`.
+- Remove the GitHub Actions workflow; GitLab CI keeps running `make release`.
+
 ## v0.2.5 - 2026-10-14
 
 - Rebuild the ShanghaiTech slide background with the official vector crest, aligned to the 8K master, instead of tracing its small raster emblem.

@@ -6,6 +6,7 @@ Read this reference when changing `themes/beamerthemeVSP.sty` or a named theme e
 
 - `themes/beamerthemeVSP.sty`: shared colors, fonts, page templates, blocks, lists, code, and helper commands.
 - `themes/beamertheme<name>.sty`: thin option entry only.
+- `themes/beamerthemetutorial-showcase.sty`: the one non-thin entry; a layer over `tutorial-red` that replaces cover, section, frame-title, footline and end templates, restyles callouts/blocks as rule-headed text, and owns the `\VSPstat`/`\VSPmark`/`\VSPchip`/`\VSPsteps`/`\VSPmeter` components.
 - `templates/*.tex`: concise editable examples; no theme implementation.
 - `practice/**/*.tex`: content-heavy examples with local assets.
 
@@ -106,4 +107,4 @@ Fill the three-slot footline with the course metadata API:
 
 ## Change isolation
 
-A shared edit must preserve all six theme entries. Put SHTU-specific behavior inside `\ifvsp@shtu`, Nailong-specific behavior inside `\ifvsp@nailong`, and report/tutorial differences inside the existing report conditional. After shared edits, run `make check`.
+A shared edit must preserve all seven theme entries. Put SHTU-specific behavior inside `\ifvsp@shtu`, Nailong-specific behavior inside `\ifvsp@nailong`, and report/tutorial differences inside the existing report conditional. After shared edits, run `make check`.

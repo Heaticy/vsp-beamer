@@ -15,6 +15,7 @@ Read `../../references/theme-system.md` before changing theme code.
 - `tutorial-red-shtu`: ShanghaiTech teaching with branded background
 - `tutorial-purple`: alternate teaching palette
 - `tutorial-nailong`: light, playful teaching or group meeting
+- `tutorial-showcase`: high-impact talks: gradient cover, agenda section pages, progress footline, stat/step/meter components
 
 ## Process
 
