@@ -2,6 +2,13 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.7 - 2026-11-11
+
+- Rebrand `tutorial-showcase` as the ShanghaiTech showcase: crest red `#A40006` with a gold accent replaces the red/teal palette; the cover, section and end pages carry the white crest, wordmark, motto and campus skyline; body frames carry the crest beside the title and as a faint watermark; body text is sans-serif.
+- Add `shared-assets/backgrounds/shanghaitech-master-white.pdf`, the white variant of the master background, used for the skyline and motto cut-outs.
+- Remove the `/a0 gs` alpha reset from the ShanghaiTech PDFs so TikZ `opacity` applies to them; rendering at full opacity is unchanged.
+- Installer and TDS package now ship the PDF assets (previously only PNGs, which left `tutorial-red-shtu` without its vector background after `make install`); `verify-install` checks the current asset names.
+
 ## v0.2.6 - 2026-11-11
 
 - Add the `tutorial-showcase` theme: deep-red gradient cover with ribbon curves, section pages with hollow numerals and a highlighted agenda, frame titles with a section breadcrumb, and a footline with a progress bar and section dots.

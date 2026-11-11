@@ -41,7 +41,7 @@ make check
 
 ```bash
 make release
-# build/vsp-beamer-0.2.6.tds.tar.gz
+# build/vsp-beamer-0.2.7.tds.tar.gz
 ```
 
 编译单份文稿：
@@ -125,7 +125,7 @@ scripts/                PDF 审计、更新检查和安装管理器
 | `templates/tutorial-nailong.tex` | `tutorial-nailong` | 奶龙黄色教学 |
 | `templates/report-red.tex` | `report-red` | 默认红色报告 |
 | `templates/report-nailong.tex` | `report-nailong` | 奶龙黄色报告 |
-| `templates/tutorial-showcase.tex` | `tutorial-showcase` | 炫技版：渐变封面、章节议程、进度页脚、数据组件 |
+| `templates/tutorial-showcase.tex` | `tutorial-showcase` | 上海科技大学炫技版：深红渐变封面、校徽校名与校园剪影、章节议程、进度页脚、数据组件 |
 
 每份模板均包含封面、目录、章节页、固定标题、双栏/三栏、图片、列表、引用、代码和尾页。
 

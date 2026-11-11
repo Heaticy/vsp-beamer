@@ -8,7 +8,7 @@
 - `tutorial-nailong`
 - `report-red`
 - `report-nailong`
-- `tutorial-showcase`：在共享实现之上替换封面、章节页、标题区和页脚，并提供 `\VSPstat`、`\VSPmark`、`\VSPchip`、`\VSPsteps`、`\VSPmeter` 组件
+- `tutorial-showcase`：上海科技大学炫技版，上科大红 `#A40006` 配金色；封面、章节页、尾页使用深红渐变、校徽、校名、校训与校园剪影，正文页带校徽与进度页脚，并提供 `\VSPstat`、`\VSPmark`、`\VSPchip`、`\VSPsteps`、`\VSPmeter` 组件
 
 共享实现位于 `beamerthemeVSP.sty`。在文稿中使用：
 

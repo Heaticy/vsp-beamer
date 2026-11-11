@@ -6,7 +6,7 @@ Read this reference when changing `themes/beamerthemeVSP.sty` or a named theme e
 
 - `themes/beamerthemeVSP.sty`: shared colors, fonts, page templates, blocks, lists, code, and helper commands.
 - `themes/beamertheme<name>.sty`: thin option entry only.
-- `themes/beamerthemetutorial-showcase.sty`: the one non-thin entry; a layer over `tutorial-red` that replaces cover, section, frame-title, footline and end templates, restyles callouts/blocks as rule-headed text, and owns the `\VSPstat`/`\VSPmark`/`\VSPchip`/`\VSPsteps`/`\VSPmeter` components.
+- `themes/beamerthemetutorial-showcase.sty`: the one non-thin entry; a ShanghaiTech-branded layer over `tutorial-red` that switches the palette to crest red `#A40006` with gold, replaces cover, section, frame-title, footline and end templates (crest, white wordmark, and the skyline/motto cut from `shanghaitech-master-white.pdf`), restyles callouts/blocks as rule-headed text, and owns the `\VSPstat`/`\VSPmark`/`\VSPchip`/`\VSPsteps`/`\VSPmeter` components.
 - `templates/*.tex`: concise editable examples; no theme implementation.
 - `practice/**/*.tex`: content-heavy examples with local assets.
 

@@ -4,9 +4,9 @@
 \usepackage{array}
 \usetheme{tutorial-showcase}
 
-\title[VSP-Beamer Showcase]{VSP-Beamer Showcase}
+\title[VSP-Beamer Showcase]{VSP-Beamer Showcase\\上海科技大学幻灯片模板 · 炫技版}
 \subtitle{渐变封面 / 章节导航 / 进度页脚 / 数据组件}
-\VSPsetspeaker{VSP-Beamer Team}{VSP-Beamer}
+\VSPsetspeaker[汇报人]{VSP-Beamer Team}{上海科技大学 \quad 信息科学与技术学院}
 \date{2026年11月}
 \VSPsetupfootline{VSP-Beamer Showcase}{2026}{VSP-Beamer Team}
 
@@ -18,13 +18,13 @@
 \begin{frame}[t]{标题区与页脚}
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.56\textwidth}
-    标题上方的小字是\VSPmark{章节面包屑}，由 \texttt{\textbackslash section} 自动生成；标题下方是红到青的渐变分隔线。
+    标题上方的小字是\VSPmark{章节面包屑}，由 \texttt{\textbackslash section} 自动生成；标题下方是红到金的渐变分隔线，右上角为上科大校徽。
 
-    页脚最底部是\VSPmark{全局进度条}，中间的圆点对应全部章节：已讲完的为红色，当前章节为青色。
+    页脚最底部是\VSPmark{全局进度条}，中间的圆点对应全部章节：已讲完的为红色，当前章节为金色。
 
     \begin{itemize}
       \item 章节页自带议程：右侧列出全部章节并高亮当前位置
-      \item 封面、章节页与尾页共用深红渐变与丝带曲线
+      \item 封面、章节页与尾页共用深红渐变、丝带曲线与校园剪影
       \item \alert{alert} 为主题红加粗，\textbf{textbf} 为标准加粗
     \end{itemize}
   \end{column}
@@ -34,7 +34,7 @@
 
       其余接口与 \code{tutorial-red} 相同，文稿可以直接切换。
     \end{vspquote}
-    \VSPchip{tutorial-red} \VSPchip{report-red} \VSPchip[VSPTeal]{tutorial-showcase}
+    \VSPchip{tutorial-red} \VSPchip{tutorial-red-shtu} \VSPchip[SHTUGold]{tutorial-showcase}
   \end{column}
 \end{columns}
 \end{frame}
@@ -43,17 +43,17 @@
 
 \begin{frame}[t]{关键数字}
 \begin{columns}[T,onlytextwidth]
-  \begin{column}{.235\textwidth}\VSPstat{7}{主题入口}{共享一套实现}\end{column}
-  \begin{column}{.235\textwidth}\VSPstat[VSPTeal]{16:9}{页面比例}{aspectratio=169}\end{column}
-  \begin{column}{.235\textwidth}\VSPstat[VSPCalloutBlue]{XeLaTeX}{编译引擎}{latexmk 驱动}\end{column}
-  \begin{column}{.235\textwidth}\VSPstat[VSPGreen]{100\%}{离线构建}{无远程图片}\end{column}
+  \begin{column}{.235\textwidth}\VSPstat{2013}{建校年份}{立志成才，报国裕民}\end{column}
+  \begin{column}{.235\textwidth}\VSPstat[SHTUGold]{7}{主题入口}{共享一套实现}\end{column}
+  \begin{column}{.235\textwidth}\VSPstat[VSPCalloutBlue]{16:9}{页面比例}{aspectratio=169}\end{column}
+  \begin{column}{.235\textwidth}\VSPstat[VSPCalloutGreen]{100\%}{矢量素材}{校徽、校名、校园剪影}\end{column}
 \end{columns}
 
 \vspace{4pt}
 \texttt{\textbackslash VSPstat[颜色]\{数字\}\{标签\}\{备注\}} 适合放在多栏中并排展示关键数字。
 
 \VSPmeter{0.82}{进度条 \texttt{\textbackslash VSPmeter}}{82\%}
-\VSPmeter[VSPTeal]{0.46}{可指定颜色}{46\%}
+\VSPmeter[SHTUGold]{0.46}{可指定颜色}{46\%}
 \end{frame}
 
 \begin{frame}[t]{流程条与提示框}
@@ -65,7 +65,7 @@
     \begin{vspquote}{强调引用}
       彩色标题压在一条细线上，正文不带底色和边框。
     \end{vspquote}
-    \begin{vspquoteyellow}{黄色提示}
+    \begin{vspquoteyellow}{金色提示}
       适合补充说明。
     \end{vspquoteyellow}
   \end{column}
@@ -94,8 +94,8 @@
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.36\textwidth}
     \begin{vspquote}{图片}
-      \begin{Figure}[奶龙：\code{nailong-wave.png}]
-        \includegraphics[height=3.2cm]{\VSPasset{nailong-wave.png}}
+      \begin{Figure}[校徽与校名：\code{ShanghaiTech\_Name.pdf}]
+        \includegraphics[width=.95\linewidth]{\VSPasset{ShanghaiTech_Name.pdf}}
       \end{Figure}
     \end{vspquote}
   \end{column}
@@ -109,7 +109,7 @@
         \texttt{tutorial-red} & 红 & 白底标题 & 三格信息栏 \\
         \texttt{tutorial-red-shtu} & 红 & 校园背景 & 页码 \\
         \texttt{report-red} & 红 & 居中标题块 & 三格信息栏 \\
-        \texttt{tutorial-showcase} & 红 + 青 & 渐变与丝带 & 进度条 \\
+        \texttt{tutorial-showcase} & 红 + 金 & 渐变、校徽与剪影 & 进度条 \\
         \bottomrule
       \end{tabular}
     \end{Table}
@@ -140,5 +140,5 @@ make check
 \end{columns}
 \end{frame}
 
-\VSPendframe{VSP-Beamer \textcolor{white!60}{/} Showcase}
+\VSPendframe{立志成才 \quad 报国裕民}
 \end{document}
