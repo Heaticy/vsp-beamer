@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{beamerthemetutorial-showcase}[2026/11/22 v0.2.8 VSP ShanghaiTech showcase]
+\ProvidesPackage{beamerthemetutorial-showcase}[2026/11/22 v0.2.9 VSP ShanghaiTech showcase]
 
 % ShanghaiTech showcase style: the shared VSP implementation supplies fonts,
 % speaker and footline setters, code and float helpers; this layer switches
@@ -13,12 +13,12 @@
 
 % ---- Palette ---------------------------------------------------------------
 % SHTURed is the crest color of the official vector emblem (#A40006).
-\definecolor{SHTURed}{HTML}{A40006}
-\definecolor{SHTURedSoft}{HTML}{F5E6E7}
-\definecolor{SHTUDeep}{HTML}{2A0305}
-\definecolor{SHTUBright}{HTML}{C4161F}
-\definecolor{SHTUGold}{HTML}{C59B3E}
-\definecolor{SHTUGoldLight}{HTML}{E9C46A}
+\providecolor{SHTURed}{HTML}{A40006}
+\providecolor{SHTURedSoft}{HTML}{F5E6E7}
+\providecolor{SHTUDeep}{HTML}{2A0305}
+\providecolor{SHTUBright}{HTML}{C4161F}
+\providecolor{SHTUGold}{HTML}{C59B3E}
+\providecolor{SHTUGoldLight}{HTML}{E9C46A}
 \colorlet{VSPPrimary}{SHTURed}
 \colorlet{VSPAccent}{SHTURed}
 \colorlet{VSPSoft}{SHTURedSoft}
@@ -77,7 +77,7 @@
           (\x,{8+\vsp@i*0.75+(9+\vsp@i*0.42)*sin(\x*1.35+\vsp@i*3.2)+(3+\vsp@i*0.12)*sin(\x*0.55-\vsp@i*5.5)});}
     \end{tikzpicture}}}
 \newcommand{\vsp@showfield}{%
-  \shade[left color=SHTUDeep,right color=SHTUBright!55!SHTURed,shading angle=62]
+  \shade[left color=SHTUDeep,right color=SHTUBright,shading angle=62]
     (current page.south west) rectangle (current page.north east);
   \node[anchor=south west,inner sep=0pt] at (current page.south west) {\usebox\vsp@ribbons};}
 
@@ -105,7 +105,7 @@
     \fill[SHTUGold] ([xshift=.33cm,yshift=-.30cm]current page.north west)
       rectangle ([xshift=.40cm,yshift=-1.12cm]current page.north west);
     \ifnum\c@section>0
-      \node[anchor=base west,inner sep=0pt,text=SHTUGold!85!black,
+      \node[anchor=base west,inner sep=0pt,text=SHTUGold,
         font=\sffamily\bfseries\fontsize{5.8}{6.4}\selectfont]
         at ([xshift=.72cm,yshift=-.49cm]current page.north west)
         {\vsp@two{\c@section}\hspace{.5em}\textcolor{VSPMuted}{\mdseries\insertsection}};
@@ -114,7 +114,7 @@
       at ([xshift=.72cm,yshift=-.99cm]current page.north west) {\insertframetitle};
     \node[anchor=north east,inner sep=0pt] at ([xshift=-.72cm,yshift=-.27cm]current page.north east)
       {\includegraphics[height=.80cm]{\VSPasset{ShanghaiTech_Logo.pdf}}};
-    \shade[left color=SHTURed,right color=SHTUGold]
+    \fill[SHTURed]
       ([xshift=.72cm,yshift=-1.185cm]current page.north west)
       rectangle ([xshift=-.72cm,yshift=-1.205cm]current page.north east);
   \end{tikzpicture}%
@@ -257,8 +257,12 @@
     left=0pt,right=0pt,top=4.5pt,bottom=2pt,toptitle=0pt,bottomtitle=3.2pt,lefttitle=0pt,righttitle=0pt,
     title style={opacity=0},coltitle=#1,
     fonttitle=\sffamily\bfseries\vspbodyfont,fontupper=\sffamily\vspbodyfont,
-    overlay={\draw[#1!35!white,line width=.5pt] (title.south west) -- (title.south east);
-      \draw[#1,line width=1.6pt] (title.south west) -- ([xshift=1.1cm]title.south west);},
+    left=5pt,right=4pt,lefttitle=5pt,bottom=4pt,
+    underlay={\shade[left color=#1!9!white,right color=white,shading angle=90]
+        (frame.south west) rectangle (frame.north east);
+      \shade[top color=#1,bottom color=SHTUGold] (frame.north west) rectangle ([xshift=1.6pt]frame.south west);},
+    overlay={\shade[left color=#1!60!white,right color=white] ([yshift=-.25pt]title.south west) rectangle ([yshift=.25pt]title.south east);
+      \shade[left color=#1,right color=SHTUGold] ([yshift=-.8pt]title.south west) rectangle ([xshift=1.4cm,yshift=.8pt]title.south west);},
     before skip=3pt,after skip=9pt},
 }
 \renewtcolorbox{vspcallout}[2][SHTURed]{vsp@headed=#1,title={#2}}
@@ -277,8 +281,8 @@
     \pgfmathsetlengthmacro{\vsp@w}{\linewidth}
     \node[anchor=base west,inner sep=0pt,text=#1,font=\sffamily\bfseries\fontsize{20}{21}\selectfont]
       at (0,5pt) {#2};
-    \fill[#1!35!white] (0,-.25pt) rectangle (\vsp@w,.25pt);
-    \fill[#1] (0,-.8pt) rectangle (1.1cm,.8pt);
+    \shade[left color=#1!60!white,right color=white] (0,-.25pt) rectangle (\vsp@w,.25pt);
+    \shade[left color=#1,right color=SHTUGold] (0,-.8pt) rectangle (1.4cm,.8pt);
     \node[anchor=north west,inner sep=0pt,align=left,text width=\vsp@w,text=VSPText,
       font=\sffamily\bfseries\fontsize{7.6}{9.4}\selectfont] at (0,-4.5pt)
       {#3\ifstrempty{#4}{}{\\[1pt]{\mdseries\fontsize{6}{7.6}\selectfont\color{VSPMuted}#4}}};
@@ -293,7 +297,7 @@
 
 % \VSPchip[color]{text}: pill label.
 \newcommand{\VSPchip}[2][SHTURed]{%
-  \tikz[baseline=(c.base)]\node[fill=#1!11!white,text=#1,rounded corners=3.4pt,
+  \tikz[baseline=(c.base)]\node[left color=#1!16!white,right color=SHTUGoldLight!30!white,text=#1,rounded corners=3.4pt,
     inner xsep=4.2pt,inner ysep=1.7pt,outer sep=0pt,
     font=\sffamily\bfseries\fontsize{6.2}{7.2}\selectfont] (c) {#2};}
 

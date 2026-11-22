@@ -16,6 +16,8 @@ Read `../../references/theme-system.md` before changing theme code.
 - `tutorial-purple`: alternate teaching palette
 - `tutorial-nailong`: light, playful teaching or group meeting
 - `tutorial-showcase`: ShanghaiTech-branded high-impact talks: crimson gradient cover with crest, wordmark, motto and campus skyline; agenda section pages; progress footline; stat/step/meter components
+- `tutorial-showcase-sakura`: showcase layout in sakura pink with moon-white blue
+- `tutorial-showcase-coral`: showcase layout in coral red with dawn apricot
 
 ## Process
 

@@ -2,6 +2,12 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.9 - 2026-11-22
+
+- Add `tutorial-showcase-sakura` (sakura pink + moon-white blue) and `tutorial-showcase-coral` (coral red + dawn apricot): thin palette entries over the showcase layout, with matching templates.
+- Showcase palette colors use `\providecolor`, so palette entries can override them.
+- Showcase callouts, stat rules and chips use gradients (theme color to accent / to white); the frame-title rule is solid theme color; the cover gradient ends in the bright color.
+
 ## v0.2.8 - 2026-11-22
 
 - Frame-title rule now uses the theme accent color (red for the red themes) instead of teal, matching `tutorial-showcase`.
