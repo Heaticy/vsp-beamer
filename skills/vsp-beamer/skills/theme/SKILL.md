@@ -18,6 +18,7 @@ Read `../../references/theme-system.md` before changing theme code.
 - `tutorial-showcase`: ShanghaiTech-branded high-impact talks: crimson gradient cover with crest, wordmark, motto and campus skyline; agenda section pages; progress footline; stat/step/meter components
 - `tutorial-showcase-sakura`: showcase layout in sakura pink with moon-white blue
 - `tutorial-showcase-coral`: showcase layout in coral red with dawn apricot
+- `tech-dark` / `tech-light`: SI100B circuit look for technical talks: PCB-trace title band with the school logo, serif titles, rounded cards, stat/image cards; dark near-black-blue or light grey canvas
 
 ## Process
 

@@ -41,7 +41,7 @@ make check
 
 ```bash
 make release
-# build/vsp-beamer-0.2.9.tds.tar.gz
+# build/vsp-beamer-0.3.0.tds.tar.gz
 ```
 
 编译单份文稿：
@@ -74,7 +74,7 @@ make status
 make verify-install
 ```
 
-安装只写用户目录，不需要 `sudo`，也不会复制或覆盖模板、practice 或用户文稿。安装内容包括九个主题入口、共享主题、背景、Logo 和 Nailong 素材；Noto CJK 是系统前置依赖，不会重复打进 TDS 包。卸载和回滚使用：
+安装只写用户目录，不需要 `sudo`，也不会复制或覆盖模板、practice 或用户文稿。安装内容包括十一个主题入口、共享主题、背景、Logo、电路插画和 Nailong 素材；Noto CJK 是系统前置依赖，不会重复打进 TDS 包。卸载和回滚使用：
 
 ```bash
 make rollback
@@ -103,8 +103,8 @@ VSP_SKIP_UPDATE_CHECK=1 make
 ## 目录结构
 
 ```text
-themes/                 Beamer 共享主题和 9 个主题入口
-templates/              9 份完整、可直接编辑的标准模板
+themes/                 Beamer 共享主题和 11 个主题入口
+templates/              11 份完整、可直接编辑的标准模板
 practice/               5 份完整内容型演示及其本地图片
 shared-assets/          Logo、背景和示例图片
 skills/vsp-beamer/      Agent Skill 入口
@@ -128,6 +128,8 @@ scripts/                PDF 审计、更新检查和安装管理器
 | `templates/tutorial-showcase.tex` | `tutorial-showcase` | 上海科技大学炫技版：深红渐变封面、校徽校名与校园剪影、章节议程、进度页脚、数据组件 |
 | `templates/tutorial-showcase-sakura.tex` | `tutorial-showcase-sakura` | 炫技版版式，樱花粉配月白蓝：蓝到粉渐变封面 |
 | `templates/tutorial-showcase-coral.tex` | `tutorial-showcase-coral` | 炫技版版式，珊瑚红配扶光色：深红到珊瑚红渐变封面 |
+| `templates/tech-dark.tex` | `tech-dark` | 电路风格深色版：近黑蓝底、PCB 走线标题栏、卡片与衬线标题 |
+| `templates/tech-light.tex` | `tech-light` | 电路风格浅色版：浅灰底，版式与 `tech-dark` 相同 |
 
 每份模板均包含封面、目录、章节页、固定标题、双栏/三栏、图片、列表、引用、代码和尾页。
 
@@ -164,7 +166,7 @@ plan  start  resume  generate  render
 audit theme  assets  export    polish
 ```
 
-根入口位于 `skills/vsp-beamer/SKILL.md`。每项能力也可以通过 `skills/vsp-beamer/skills/<capability>/SKILL.md` 独立执行；Skill 内含九份模板快照、五份 practice 摘要和十项能力评测集。
+根入口位于 `skills/vsp-beamer/SKILL.md`。每项能力也可以通过 `skills/vsp-beamer/skills/<capability>/SKILL.md` 独立执行；Skill 内含十一份模板快照、五份 practice 摘要和十项能力评测集。
 
 ## 主题使用
 

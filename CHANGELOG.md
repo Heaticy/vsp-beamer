@@ -2,6 +2,11 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.3.0 - 2026-11-22
+
+- Add `tech-dark` and `tech-light`, a circuit style taken from the SI100B course slides: PCB-trace title band with the school logo, blue-violet rule, serif titles, rounded card callouts, `\VSPstat` number cards and the `VSPcard` image card. `beamerthemetech.sty` holds the layer; the two entries only pick the variant.
+- Add `shared-assets/tech/`: cover, section and title-band circuit art for both variants, and the red and white school logos.
+
 ## v0.2.9 - 2026-11-22
 
 - Add `tutorial-showcase-sakura` (sakura pink + moon-white blue) and `tutorial-showcase-coral` (coral red + dawn apricot): thin palette entries over the showcase layout, with matching templates.

@@ -1,0 +1,119 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[UTF8,fontset=none]{ctex}
+\usepackage{booktabs}
+\usepackage{array}
+\usetheme{tech-dark}
+
+\title[VSP-Beamer Tech]{VSP-Beamer Tech\\电路风格幻灯片模板}
+\subtitle{Title band with circuit traces / cards / serif titles}
+\VSPsetspeaker[Speaker]{VSP-Beamer Team}{ShanghaiTech University \quad SIST}
+\date{November 2026}
+\VSPsetupfootline{VSP-Beamer Tech}{Template}{VSP-Beamer Team}
+
+\begin{document}
+\VSPtitleframe
+
+\begin{frame}{Contents}
+  \tableofcontents
+\end{frame}
+
+\section{Page Structure}
+
+\begin{frame}[t]{Title band and footline}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.56\textwidth}
+    标题栏右侧是电路走线与校徽，下沿是蓝紫渐变细线；标题上方的小字是当前章节名。
+    \begin{itemize}
+      \item 标题用 Noto Serif，正文用 Inter，中文用 Noto Sans CJK
+      \item \alert{alert} 为紫色强调，\textbf{textbf} 为标准加粗
+      \item 页脚左侧是 \texttt{\textbackslash VSPsetupfootline} 的前两格，右侧是页码
+    \end{itemize}
+  \end{column}
+  \begin{column}{.40\textwidth}
+    \begin{vspquote}{使用方法}
+      \texttt{\textbackslash usetheme\{tech-dark\}}\\
+      \texttt{\textbackslash usetheme\{tech-light\}}
+
+      深浅两版接口相同，文稿可以直接切换。
+    \end{vspquote}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\section{Cards and Numbers}
+
+\begin{frame}[t]{Key numbers}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.31\textwidth}\VSPstat{33\,ms}{Reconstruct}{per frame}\end{column}
+  \begin{column}{.31\textwidth}\VSPstat[TechViolet]{100\,Mbit/s}{Transmit}{5G downlink}\end{column}
+  \begin{column}{.31\textwidth}\VSPstat[TechGreen]{22.1\,ms}{Decode}{laptop GPU}\end{column}
+\end{columns}
+
+\vspace{6pt}
+\texttt{\textbackslash VSPstat[颜色]\{数字\}\{标签\}\{备注\}} 把关键数字放在卡片上。
+\end{frame}
+
+\begin{frame}[t]{Callouts}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.32\textwidth}
+    \begin{vspquote}{Note}默认强调色。\end{vspquote}
+    \begin{vspquotepurple}{Violet}旁注与延伸。\end{vspquotepurple}
+  \end{column}
+  \begin{column}{.32\textwidth}
+    \begin{vspquoteblue}{Blue}方法或定义。\end{vspquoteblue}
+    \begin{vspquotegreen}{Green}已完成的结果。\end{vspquotegreen}
+  \end{column}
+  \begin{column}{.32\textwidth}
+    \begin{vspquotered}{Warning}需要注意的地方。\end{vspquotered}
+    \begin{block}{Beamer block}标准 \code{block} 同样适用。\end{block}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\section{Figures and Code}
+
+\begin{frame}[t]{Figure on a card and a table}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.40\textwidth}
+    \centering
+    \begin{VSPcard}
+      \includegraphics[width=.86\linewidth]{\VSPasset{ShanghaiTech_Logo.pdf}}
+    \end{VSPcard}
+  \end{column}
+  \begin{column}{.56\textwidth}
+    \begin{Table}[Variants]
+      \footnotesize
+      \begin{tabular}{@{}lll@{}}
+        \toprule
+        Theme & Canvas & Logo \\
+        \midrule
+        \texttt{tech-dark} & near-black blue & white \\
+        \texttt{tech-light} & light grey & red \\
+        \bottomrule
+      \end{tabular}
+    \end{Table}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[t,fragile]{Code and formula}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.48\textwidth}
+\begin{lstlisting}[language=bash]
+make list
+make check
+\end{lstlisting}
+  \end{column}
+  \begin{column}{.48\textwidth}
+    \begin{vspquoteblue}{Loss}
+      \[
+        \mathcal{L} = \sum_{i=1}^{N} \bigl\lVert \hat{I}_i - I_i \bigr\rVert_1
+          + \lambda\,\mathcal{L}_{\mathrm{SSIM}}
+      \]
+    \end{vspquoteblue}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\VSPendframe{VSP-Beamer \quad Tech theme}
+\end{document}

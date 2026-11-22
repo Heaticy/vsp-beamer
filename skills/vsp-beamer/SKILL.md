@@ -66,6 +66,6 @@ Read only what the task needs:
 - [references/vsp-marp-parity.md](references/vsp-marp-parity.md): VSP-Marp design/workflow parity and semantic layout mapping
 - [references/theme-system.md](references/theme-system.md): theme ownership, typography, and SHTU layering
 - [references/pdf-review.md](references/pdf-review.md): automated and visual PDF review
-- `references/templates/*.tex`: distributable snapshots of the nine standard templates
+- `references/templates/*.tex`: distributable snapshots of the eleven standard templates
 
 Prefer root `templates/` and `practice/` in a full checkout; use reference snapshots for Skill-only context.

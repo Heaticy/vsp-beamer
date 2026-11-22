@@ -162,6 +162,7 @@ verify_install() {
     beamerthemeVSP.sty beamerthemetutorial-red-shtu.sty beamerthemetutorial-purple.sty \
     beamerthemetutorial-nailong.sty beamerthemereport-red.sty beamerthemetutorial-showcase.sty \
     beamerthemetutorial-showcase-sakura.sty beamerthemetutorial-showcase-coral.sty \
+    beamerthemetech.sty beamerthemetech-dark.sty beamerthemetech-light.sty tech-dark-cover.pdf \
     beamerthemereport-nailong.sty shanghaitech-master.pdf shanghaitech-master-white.pdf \
     ShanghaiTech_Logo.pdf ShanghaiTech_Name_White.pdf nailong-bg.pdf; do
     local found
