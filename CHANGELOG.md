@@ -2,6 +2,10 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.2.8 - 2026-11-22
+
+- Frame-title rule now uses the theme accent color (red for the red themes) instead of teal, matching `tutorial-showcase`.
+
 ## v0.2.7 - 2026-11-11
 
 - Rebrand `tutorial-showcase` as the ShanghaiTech showcase: crest red `#A40006` with a gold accent replaces the red/teal palette; the cover, section and end pages carry the white crest, wordmark, motto and campus skyline; body frames carry the crest beside the title and as a faint watermark; body text is sans-serif.
