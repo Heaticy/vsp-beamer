@@ -55,11 +55,10 @@
 \definecolor{VSPAmber}{HTML}{F6CF3D}
 \definecolor{VSPAmberAccent}{HTML}{E7AD16}
 \definecolor{VSPAmberSoft}{HTML}{FFF2BE}
-\definecolor{VSPAmberInk}{HTML}{071317}
+\definecolor{VSPAmberInk}{HTML}{211A0E}
 \definecolor{VSPInk}{HTML}{211112}
-\definecolor{VSPPurpleInk}{HTML}{0D2528}
+\definecolor{VSPPurpleInk}{HTML}{1E1428}
 \definecolor{VSPMuted}{HTML}{8C8C8C}
-\definecolor{VSPTeal}{HTML}{53A7A0}
 \definecolor{VSPCodeRed}{HTML}{F6EEEF}
 \definecolor{VSPCodePurple}{HTML}{F5EFFD}
 \definecolor{VSPGreen}{HTML}{6F8F42}
@@ -131,10 +130,10 @@
 \setbeamercolor{block body}{fg=VSPText,bg=VSPSoft!58!white}
 \setbeamercolor{block title alerted}{fg=white,bg=VSPAccent}
 \setbeamercolor{block body alerted}{fg=VSPText,bg=VSPCodeBackground}
-\setbeamercolor{block title example}{fg=white,bg=VSPTeal}
-\setbeamercolor{block body example}{fg=VSPText,bg=VSPTeal!10!white}
+\setbeamercolor{block title example}{fg=white,bg=VSPGreen}
+\setbeamercolor{block body example}{fg=VSPText,bg=VSPGreen!10!white}
 \setbeamercolor{itemize item}{fg=VSPAccent}
-\setbeamercolor{itemize subitem}{fg=VSPTeal}
+\setbeamercolor{itemize subitem}{fg=VSPAccent!70!white}
 \setbeamercolor{enumerate item}{fg=white,bg=VSPPrimary}
 \setbeamercolor{caption name}{fg=VSPAccent}
 
@@ -167,7 +166,7 @@
 \setbeamerfont{page number}{family=\sffamily,size=\vsppagefont}
 
 \setbeamertemplate{itemize item}{\raise0.15ex\hbox{\color{VSPAccent}\rule{0.62ex}{0.62ex}}}
-\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\color{VSPTeal}\scriptsize$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\color{VSPAccent!70!white}\scriptsize$\blacktriangleright$}}
 \setbeamertemplate{enumerate item}{%
   \tikz[baseline=(n.base)]\node[fill=VSPPrimary,text=white,font=\sffamily\scriptsize\bfseries,
   minimum size=1.65em,inner sep=0pt,rounded corners=0.8pt] (n) {\insertenumlabel};}
@@ -206,7 +205,7 @@
     % three-slot row would be occluded; it renders on the end frame only.
     \hbox{%
       \begin{beamercolorbox}[wd=\paperwidth,ht=0.31cm,dp=0.20cm,center]{footline}%
-        \tikz[baseline=(p.base)]\node[draw=VSPTeal,text=VSPMuted,rounded corners=1.3pt,
+        \tikz[baseline=(p.base)]\node[draw=VSPAccent,text=VSPMuted,rounded corners=1.3pt,
         inner xsep=4pt,inner ysep=1.5pt,font=\usebeamerfont{page number}] (p)
         {\insertframenumber\,/\,\inserttotalframenumber};
       \end{beamercolorbox}%
@@ -497,7 +496,7 @@
 \lstset{
   basicstyle=\ttfamily,
   keywordstyle=\bfseries\color{blue},
-  ndkeywordstyle=\bfseries\color{teal},
+  ndkeywordstyle=\bfseries\color{VSPAccent},
   commentstyle=\color{red},
   stringstyle=\color{magenta},
   flexiblecolumns,

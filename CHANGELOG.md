@@ -5,6 +5,7 @@ All notable changes to VSP-Beamer are documented in this file.
 ## v0.2.8 - 2026-11-22
 
 - Frame-title rule now uses the theme accent color (red for the red themes) instead of teal, matching `tutorial-showcase`.
+- Remove teal everywhere: sub-bullets, shtu page-number frame and code secondary keywords use the accent color; example blocks use `VSPGreen`; amber/purple body inks lose their teal tint.
 
 ## v0.2.7 - 2026-11-11
 
