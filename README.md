@@ -41,7 +41,7 @@ make check
 
 ```bash
 make release
-# build/vsp-beamer-0.3.0.tds.tar.gz
+# build/vsp-beamer-0.3.1.tds.tar.gz
 ```
 
 编译单份文稿：
@@ -125,11 +125,11 @@ scripts/                PDF 审计、更新检查和安装管理器
 | `templates/tutorial-nailong.tex` | `tutorial-nailong` | 奶龙黄色教学 |
 | `templates/report-red.tex` | `report-red` | 默认红色报告 |
 | `templates/report-nailong.tex` | `report-nailong` | 奶龙黄色报告 |
-| `templates/tutorial-showcase.tex` | `tutorial-showcase` | 上海科技大学炫技版：深红渐变封面、校徽校名与校园剪影、章节议程、进度页脚、数据组件 |
-| `templates/tutorial-showcase-sakura.tex` | `tutorial-showcase-sakura` | 炫技版版式，樱花粉配月白蓝：蓝到粉渐变封面 |
-| `templates/tutorial-showcase-coral.tex` | `tutorial-showcase-coral` | 炫技版版式，珊瑚红配扶光色：深红到珊瑚红渐变封面 |
-| `templates/tech-dark.tex` | `tech-dark` | 电路风格深色版：近黑蓝底、PCB 走线标题栏、卡片与衬线标题 |
-| `templates/tech-light.tex` | `tech-light` | 电路风格浅色版：浅灰底，版式与 `tech-dark` 相同 |
+| `templates/presentation-blackred.tex` | `presentation-blackred` | 上海科技大学演示黑红版：黑红渐变封面、校徽校名与校园剪影、章节议程、进度页脚、数据组件 |
+| `templates/presentation-bluepink.tex` | `presentation-bluepink` | 演示蓝粉版：蓝到粉渐变封面、校徽校名与校园剪影、章节议程、进度页脚 |
+| `templates/presentation-lightred.tex` | `presentation-lightred` | 演示浅红版：深红到珊瑚浅红渐变封面、校徽校名与校园剪影、章节议程、进度页脚 |
+| `templates/tutorial-tech-dark.tex` | `tutorial-tech-dark` | 电路风格深色教学：近黑蓝底、PCB 走线标题栏、矢量校徽校名与圆角卡片 |
+| `templates/tutorial-tech-light.tex` | `tutorial-tech-light` | 电路风格浅色教学：浅灰底，版式与 `tutorial-tech-dark` 相同 |
 
 每份模板均包含封面、目录、章节页、固定标题、双栏/三栏、图片、列表、引用、代码和尾页。
 

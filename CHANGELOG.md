@@ -2,6 +2,12 @@
 
 All notable changes to VSP-Beamer are documented in this file.
 
+## v0.3.1 - 2026-11-27
+
+- Unify callouts (`vspcallout` / `vspquote*`) and Beamer `block` environments across all themes into rounded cards with a soft-tinted header band and clean body area, removing vertical accent bars and cross-color gradients; tune base callout colors for legibility.
+- Rename `tutorial-showcase`, `tutorial-showcase-sakura`, and `tutorial-showcase-coral` to `presentation-blackred`, `presentation-bluepink`, and `presentation-lightred` (shared layer `beamerthemepresentation.sty`), preserving the three palettes while refining covers, section/end pages, headers, `\VSPstat` number cards, `\VSPsteps`, and progress bars with all decorative lines removed.
+- Rename `tech-dark` and `tech-light` to `tutorial-tech-dark` and `tutorial-tech-light` (shared layer `beamerthemetutorial-tech.sty`), keeping the circuit aesthetic while aligning top-right/cover logos to the shared vector `ShanghaiTech_Name*.pdf` assets (`7.2mm` in the title band), standardizing on Latin Modern + Noto Sans CJK SC typography, and fixing frame-title baseline alignment to match the `tutorial` family.
+
 ## v0.3.0 - 2026-11-22
 
 - Add `tech-dark` and `tech-light`, a circuit style taken from the SI100B course slides: PCB-trace title band with the school logo, blue-violet rule, serif titles, rounded card callouts, `\VSPstat` number cards and the `VSPcard` image card. `beamerthemetech.sty` holds the layer; the two entries only pick the variant.

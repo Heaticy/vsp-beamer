@@ -160,11 +160,13 @@ verify_install() {
   release="$(current_release)" || { printf '%s: not installed\n' "$PROGRAM" >&2; return 1; }
   for file in \
     beamerthemeVSP.sty beamerthemetutorial-red-shtu.sty beamerthemetutorial-purple.sty \
-    beamerthemetutorial-nailong.sty beamerthemereport-red.sty beamerthemetutorial-showcase.sty \
-    beamerthemetutorial-showcase-sakura.sty beamerthemetutorial-showcase-coral.sty \
-    beamerthemetech.sty beamerthemetech-dark.sty beamerthemetech-light.sty tech-dark-cover.pdf \
+    beamerthemetutorial-nailong.sty beamerthemereport-red.sty beamerthemepresentation.sty \
+    beamerthemepresentation-blackred.sty beamerthemepresentation-bluepink.sty \
+    beamerthemepresentation-lightred.sty \
+    beamerthemetutorial-tech.sty beamerthemetutorial-tech-dark.sty beamerthemetutorial-tech-light.sty tech-dark-cover.pdf \
     beamerthemereport-nailong.sty shanghaitech-master.pdf shanghaitech-master-white.pdf \
-    ShanghaiTech_Logo.pdf ShanghaiTech_Name_White.pdf nailong-bg.pdf; do
+    ShanghaiTech_Logo.pdf ShanghaiTech_Logo_White.pdf ShanghaiTech_Name.pdf \
+    ShanghaiTech_Name_White.pdf nailong-bg.pdf; do
     local found
     found="$(TEXMFHOME="$home" kpsewhich "$file" || true)"
     [[ -n "$found" && "$(readlink -f "$found")" == "$release"/* ]] || {

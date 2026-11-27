@@ -2,13 +2,13 @@
 \usepackage[UTF8,fontset=none]{ctex}
 \usepackage{booktabs}
 \usepackage{array}
-\usetheme{tutorial-showcase-coral}
+\usetheme{presentation-blackred}
 
-\title[VSP-Beamer Showcase]{VSP-Beamer Showcase\\上海科技大学幻灯片模板 · 炫技珊瑚版}
+\title[VSP-Beamer Presentation]{VSP-Beamer Presentation\\上海科技大学幻灯片模板 · 黑红版}
 \subtitle{渐变封面 / 章节导航 / 进度页脚 / 数据组件}
 \VSPsetspeaker[汇报人]{VSP-Beamer Team}{上海科技大学 \quad 信息科学与技术学院}
 \date{2026年11月}
-\VSPsetupfootline{VSP-Beamer Showcase}{2026}{VSP-Beamer Team}
+\VSPsetupfootline{VSP-Beamer Presentation}{2026}{VSP-Beamer Team}
 
 \begin{document}
 \VSPtitleframe
@@ -24,17 +24,17 @@
 
     \begin{itemize}
       \item 章节页自带议程：右侧列出全部章节并高亮当前位置
-      \item 封面、章节页与尾页共用深红渐变、丝带曲线与校园剪影
+      \item 封面、章节页与尾页共用黑红渐变底色与校园剪影
       \item \alert{alert} 为主题红加粗，\textbf{textbf} 为标准加粗
     \end{itemize}
   \end{column}
   \begin{column}{.40\textwidth}
     \begin{vspquote}{使用方法}
-      \texttt{\textbackslash usetheme}\\\texttt{\{tutorial-showcase-coral\}}
+      \texttt{\textbackslash usetheme}\\\texttt{\{presentation-blackred\}}
 
       其余接口与 \code{tutorial-red} 相同，文稿可以直接切换。
     \end{vspquote}
-    \VSPchip{tutorial-red} \VSPchip{tutorial-red-shtu} \VSPchip[SHTUGold]{tutorial-showcase}
+    \VSPchip{blackred} \VSPchip[SHTUGold]{bluepink} \VSPchip{lightred}
   \end{column}
 \end{columns}
 \end{frame}
@@ -44,7 +44,7 @@
 \begin{frame}[t]{关键数字}
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.235\textwidth}\VSPstat{2013}{建校年份}{立志成才，报国裕民}\end{column}
-  \begin{column}{.235\textwidth}\VSPstat[SHTUGold]{7}{主题入口}{共享一套实现}\end{column}
+  \begin{column}{.235\textwidth}\VSPstat[SHTUGold]{11}{主题入口}{共享一套实现}\end{column}
   \begin{column}{.235\textwidth}\VSPstat[VSPCalloutBlue]{16:9}{页面比例}{aspectratio=169}\end{column}
   \begin{column}{.235\textwidth}\VSPstat[VSPCalloutGreen]{100\%}{矢量素材}{校徽、校名、校园剪影}\end{column}
 \end{columns}
@@ -63,7 +63,7 @@
 \begin{columns}[T,onlytextwidth]
   \begin{column}{.32\textwidth}
     \begin{vspquote}{强调引用}
-      彩色标题压在一条细线上，正文不带底色和边框。
+      柔和浅底标题栏配圆角卡片，突出关键结论与提示。
     \end{vspquote}
     \begin{vspquoteyellow}{金色提示}
       适合补充说明。
@@ -109,7 +109,7 @@
         \texttt{tutorial-red} & 红 & 白底标题 & 三格信息栏 \\
         \texttt{tutorial-red-shtu} & 红 & 校园背景 & 页码 \\
         \texttt{report-red} & 红 & 居中标题块 & 三格信息栏 \\
-        \texttt{tutorial-showcase*} & 三种配色 & 渐变、校徽与剪影 & 进度条 \\
+        \texttt{presentation-*} & 三种配色 & 渐变、校徽与剪影 & 进度条 \\
         \bottomrule
       \end{tabular}
     \end{Table}

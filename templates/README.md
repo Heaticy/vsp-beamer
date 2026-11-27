@@ -1,6 +1,6 @@
 # Templates
 
-本目录包含 11 份完整的 VSP-Beamer 模板，覆盖教学、正式报告、上海科技大学、奶龙、炫技（含樱花、珊瑚两种配色）和电路风格（深浅两版）视觉变体。所有文件均可通过根目录 Makefile 独立编译：
+本目录包含 11 份完整的 VSP-Beamer 模板，覆盖教学、正式报告、上海科技大学、奶龙、演示（黑红、蓝粉、浅红三种配色）和电路风格（深浅两版）视觉变体。所有文件均可通过根目录 Makefile 独立编译：
 
 ```bash
 make render INPUT=templates/tutorial-red.tex OUTPUT=/tmp/tutorial-red.pdf

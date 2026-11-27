@@ -15,10 +15,10 @@ Read `../../references/theme-system.md` before changing theme code.
 - `tutorial-red-shtu`: ShanghaiTech teaching with branded background
 - `tutorial-purple`: alternate teaching palette
 - `tutorial-nailong`: light, playful teaching or group meeting
-- `tutorial-showcase`: ShanghaiTech-branded high-impact talks: crimson gradient cover with crest, wordmark, motto and campus skyline; agenda section pages; progress footline; stat/step/meter components
-- `tutorial-showcase-sakura`: showcase layout in sakura pink with moon-white blue
-- `tutorial-showcase-coral`: showcase layout in coral red with dawn apricot
-- `tech-dark` / `tech-light`: SI100B circuit look for technical talks: PCB-trace title band with the school logo, serif titles, rounded cards, stat/image cards; dark near-black-blue or light grey canvas
+- `presentation-blackred`: ShanghaiTech-branded presentation: black-red crimson gradient cover with crest, wordmark, motto and campus skyline; agenda section pages; progress footline; stat/step/meter components
+- `presentation-bluepink`: presentation layout in blue and pink
+- `presentation-lightred`: presentation layout in light coral red and dawn apricot
+- `tutorial-tech-dark` / `tutorial-tech-light`: SI100B circuit look for technical teaching and talks: PCB-trace title band with the shared vector school logo, unified Latin Modern / Noto Sans CJK SC typography, rounded cards, stat/image cards; dark near-black-blue or light grey canvas
 
 ## Process
 

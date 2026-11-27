@@ -2,10 +2,10 @@
 \usepackage[UTF8,fontset=none]{ctex}
 \usepackage{booktabs}
 \usepackage{array}
-\usetheme{tech-light}
+\usetheme{tutorial-tech-light}
 
 \title[VSP-Beamer Tech]{VSP-Beamer Tech\\电路风格幻灯片模板}
-\subtitle{Title band with circuit traces / cards / serif titles}
+\subtitle{Title band with circuit traces / cards / vector crest}
 \VSPsetspeaker[Speaker]{VSP-Beamer Team}{ShanghaiTech University \quad SIST}
 \date{November 2026}
 \VSPsetupfootline{VSP-Beamer Tech}{Template}{VSP-Beamer Team}
@@ -24,15 +24,15 @@
   \begin{column}{.56\textwidth}
     标题栏右侧是电路走线与校徽，下沿是蓝紫渐变细线；标题上方的小字是当前章节名。
     \begin{itemize}
-      \item 标题用 Noto Serif，正文用 Inter，中文用 Noto Sans CJK
+      \item 西文使用 Latin Modern，中文使用 Noto Sans CJK SC，与其他主题统一
       \item \alert{alert} 为紫色强调，\textbf{textbf} 为标准加粗
       \item 页脚左侧是 \texttt{\textbackslash VSPsetupfootline} 的前两格，右侧是页码
     \end{itemize}
   \end{column}
   \begin{column}{.40\textwidth}
     \begin{vspquote}{使用方法}
-      \texttt{\textbackslash usetheme\{tech-dark\}}\\
-      \texttt{\textbackslash usetheme\{tech-light\}}
+      \texttt{\textbackslash usetheme\{tutorial-tech-dark\}}\\
+      \texttt{\textbackslash usetheme\{tutorial-tech-light\}}
 
       深浅两版接口相同，文稿可以直接切换。
     \end{vspquote}
@@ -87,8 +87,8 @@
         \toprule
         Theme & Canvas & Logo \\
         \midrule
-        \texttt{tech-light} & near-black blue & white \\
-        \texttt{tech-light} & light grey & red \\
+        \texttt{tutorial-tech-dark} & near-black blue & white \\
+        \texttt{tutorial-tech-light} & light grey & red \\
         \bottomrule
       \end{tabular}
     \end{Table}

@@ -1,12 +1,13 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{beamerthemetech}[2026/11/22 v0.3.0 VSP tech]
+\ProvidesPackage{beamerthemetutorial-tech}[2026/11/27 v0.3.1 VSP tutorial tech]
 
-% Tech style: the SI100B circuit look (vsplab.cn/courses/si100b/slides) as a
-% VSP layer. Near-black blue canvas (dark) or light grey (light), a title
-% band with PCB traces and the school logo, blue-violet accents, Noto Serif
-% titles over an Inter body, cards for figures and callouts. Circuit artwork
-% is pre-rendered per variant in shared-assets/tech/. The entries
-% tech-dark and tech-light set \VSPtechvariant before loading this layer.
+% Tech tutorial style: the SI100B circuit look (vsplab.cn/courses/si100b/slides)
+% as a VSP layer. Near-black blue canvas (dark) or light grey (light), a title
+% band with PCB traces and the shared vector school logo, blue-violet accents,
+% Latin Modern / Noto Sans CJK SC typography, cards for figures and callouts.
+% Circuit artwork is pre-rendered per variant in shared-assets/tech/. The
+% entries tutorial-tech-dark and tutorial-tech-light set \VSPtechvariant before
+% loading this layer.
 \providecommand{\VSPtechvariant}{dark}
 \RequirePackage[red,tutorial,sectionpages]{beamerthemeVSP}
 \tcbuselibrary{skins}
@@ -23,8 +24,9 @@
   \definecolor{TechBlue}{HTML}{2353D6}\definecolor{TechCyan}{HTML}{1F6FE0}
   \definecolor{TechViolet}{HTML}{6E3FDB}\definecolor{TechLilac}{HTML}{5F33C8}
   \definecolor{TechGreen}{HTML}{0E8F64}
-  \def\vsp@techglow{0.10}\def\vsp@techshadow{0.10}
-  \def\vsp@techlogo{tech-logo-red.pdf}}{%
+  \def\vsp@techglow{0.10}\def\vsp@techshadow{0.10}\def\vsp@techheadmix{10}
+  \def\vsp@techcrest{ShanghaiTech_Logo.pdf}
+  \def\vsp@techname{ShanghaiTech_Name.pdf}}{%
   \definecolor{TechBg}{HTML}{0A0E17}\definecolor{TechBgLift}{HTML}{0F1522}
   \definecolor{TechBand}{HTML}{111929}\definecolor{TechPanel}{HTML}{151C2B}
   \definecolor{TechPanelTop}{HTML}{182134}\definecolor{TechPanelHi}{HTML}{1C2538}
@@ -34,8 +36,9 @@
   \definecolor{TechBlue}{HTML}{4F8CFF}\definecolor{TechCyan}{HTML}{7CC4FF}
   \definecolor{TechViolet}{HTML}{9A6BFF}\definecolor{TechLilac}{HTML}{C3A6FF}
   \definecolor{TechGreen}{HTML}{6EE7B7}
-  \def\vsp@techglow{0.24}\def\vsp@techshadow{0.45}
-  \def\vsp@techlogo{tech-logo-white.pdf}}
+  \def\vsp@techglow{0.24}\def\vsp@techshadow{0.45}\def\vsp@techheadmix{16}
+  \def\vsp@techcrest{ShanghaiTech_Logo_White.pdf}
+  \def\vsp@techname{ShanghaiTech_Name_White.pdf}}
 \newcommand{\vsp@techart}[1]{\VSPasset{tech-\VSPtechvariant-#1.pdf}}
 
 \colorlet{VSPPrimary}{TechBlue}
@@ -53,13 +56,9 @@
 \colorlet{VSPCalloutBlack}{TechMuted}
 
 % ---- Type ------------------------------------------------------------------
-% Inter body and Noto Serif titles, as on the course pages; both fall back to
-% the VSP defaults when the font is not installed.
-\IfFontExistsTF{Inter}{\setsansfont{Inter}[Scale=0.94]}{}
-\IfFontExistsTF{Noto Serif}
-  {\newfontfamily\vsp@techtitle{Noto Serif}}{\let\vsp@techtitle\sffamily}
-
+% Align with the repository font system: Latin Modern Sans + Noto Sans CJK SC.
 \mode<presentation>
+\renewcommand{\familydefault}{\sfdefault}
 \setbeamercolor{normal text}{fg=TechInk,bg=TechBg}
 \setbeamercolor{background canvas}{bg=TechBg}
 \setbeamercolor{structure}{fg=TechAccent}
@@ -68,13 +67,13 @@
 \setbeamercolor{caption name}{fg=TechAccent}
 \setbeamercolor{caption}{fg=TechMuted}
 \setbeamerfont{normal text}{family=\sffamily}
-\setbeamerfont{title}{family=\vsp@techtitle,series=\bfseries,size=\fontsize{18}{23}\selectfont}
-\setbeamerfont{subtitle}{family=\sffamily,series=\bfseries,size=\fontsize{10}{13}\selectfont}
-\setbeamerfont{frametitle}{family=\vsp@techtitle,series=\bfseries,size=\fontsize{15}{18}\selectfont}
-\setbeamerfont{section title}{family=\vsp@techtitle,series=\bfseries,size=\fontsize{20}{25}\selectfont}
-\setbeamerfont{end title}{family=\vsp@techtitle,series=\bfseries,size=\fontsize{24}{29}\selectfont}
+\setbeamerfont{title}{family=\sffamily,series=\bfseries,size=\fontsize{20}{26}\selectfont}
+\setbeamerfont{subtitle}{family=\sffamily,series=\mdseries,size=\fontsize{10.5}{14}\selectfont}
+\setbeamerfont{frametitle}{family=\sffamily,series=\bfseries,size=\vspheadingfont}
+\setbeamerfont{section title}{family=\sffamily,series=\bfseries,size=\fontsize{21}{27}\selectfont}
+\setbeamerfont{end title}{family=\sffamily,series=\bfseries,size=\fontsize{26}{32}\selectfont}
 \AtBeginDocument{\sffamily}
-\setbeamersize{text margin left=10mm,text margin right=10mm}
+\setbeamersize{text margin left=7.2mm,text margin right=7.2mm}
 \lstset{basicstyle=\ttfamily\vspcodefont\color{TechInk},backgroundcolor=\color{TechPanel},
   keywordstyle=\color{TechAccent},ndkeywordstyle=\color{TechViolet},stringstyle=\color{TechLilac},
   commentstyle=\color{TechDim},rulecolor=\color{TechLine},frame=single,framerule=.4pt}
@@ -93,7 +92,7 @@
   \draw[TechLine,line width=0.5pt,rounded corners=#3] (#1) rectangle (#2);}
 
 % ---- Canvas, title band and footline ---------------------------------------
-\newlength{\vsp@techband}\setlength{\vsp@techband}{14.5mm}
+\newlength{\vsp@techband}\setlength{\vsp@techband}{12.6mm}
 \pgfdeclarehorizontalshading{vsp@techedge}{1bp}{%
   color(0bp)=(TechBlue);color(50bp)=(TechBlue!50!TechViolet);color(100bp)=(TechViolet)}
 \setbeamertemplate{background}{%
@@ -103,43 +102,45 @@
     \foreach \s in {0.6,1.3,2.2}{%
       \fill[TechShadow,opacity=\vsp@techshadow/5] ([yshift=-\s mm]bl) rectangle (current page.north east);}
     \fill[TechBand] (bl) rectangle (current page.north east);
-    \node[anchor=north east,inner sep=0pt] at ([xshift=-30mm]current page.north east)
+    \node[anchor=north east,inner sep=0pt] at ([xshift=-35mm]current page.north east)
       {\includegraphics[height=\vsp@techband]{\vsp@techart{edge}}};
-    \node[anchor=east,inner sep=0pt] at ([xshift=-10mm,yshift=-0.5\vsp@techband]current page.north east)
-      {\includegraphics[height=4.4mm]{\VSPasset{\vsp@techlogo}}};
+    \node[anchor=east,inner sep=0pt] at ([xshift=-7.2mm,yshift=-0.5\vsp@techband]current page.north east)
+      {\includegraphics[height=7.2mm]{\VSPasset{\vsp@techname}}};
     \fill[TechBlue,opacity=\vsp@techglow,path fading=south] (bl) rectangle ([yshift=-1.4mm]br);
     \shade[shading=vsp@techedge] ([yshift=-0.2mm]bl) rectangle ([yshift=0.15mm]br);
   \end{tikzpicture}}
 
-% Eyebrow (current section, spaced capitals) above a serif title; the band
-% colour is repainted behind the title so long titles stop the traces.
+% Eyebrow (current section) above a fixed-baseline title matching tutorial/presentation;
+% the band colour is repainted behind the title so long titles stop the traces.
 \setbeamertemplate{frametitle}{%
   \nointerlineskip
-  \vbox to 17.5mm{%
-    \vskip 4.2mm
-    \setbox0\hbox{\usebeamerfont{frametitle}\insertframetitle}%
-    \hbox to\textwidth{%
-      \begin{tikzpicture}[overlay]
-        \fill[TechBand] (-1mm,-2.2mm) rectangle (\wd0+1.5mm,7.2mm);
-        \fill[TechBand,path fading=east] (\wd0+1.5mm,-2.2mm) rectangle (\wd0+6.5mm,7.2mm);
-      \end{tikzpicture}%
-      \vbox{%
-        \ifnum\c@section>0
-          {\sffamily\bfseries\fontsize{6.6}{8}\selectfont\addfontfeature{LetterSpace=12}%
-           \color{TechAccent}\MakeUppercase{\insertsectionhead}\par}\vskip.6mm
-        \fi
-        {\usebeamerfont{frametitle}\color{TechInk}\insertframetitle\par}}\hss}%
-    \vss}}
+  \vbox to 1.48cm{\vss}%
+  \setbox0\hbox{\usebeamerfont{frametitle}\insertframetitle}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[TechBand] ([xshift=6.2mm,yshift=-12.3mm]current page.north west)
+      rectangle ([xshift=\dimexpr 7.2mm+\wd0+2mm\relax,yshift=-1.5mm]current page.north west);
+    \fill[TechBand,path fading=east] ([xshift=\dimexpr 7.2mm+\wd0+2mm\relax,yshift=-12.3mm]current page.north west)
+      rectangle ([xshift=\dimexpr 7.2mm+\wd0+7mm\relax,yshift=-1.5mm]current page.north west);
+    \ifnum\c@section>0
+      \node[anchor=base west,inner sep=0pt,text=TechAccent,
+        font=\sffamily\bfseries\fontsize{6}{6.8}\selectfont]
+        at ([xshift=7.2mm,yshift=-4.6mm]current page.north west)
+        {\MakeUppercase{\insertsectionhead}};
+    \fi
+    \node[anchor=base west,inner sep=0pt,text=TechInk,font=\usebeamerfont{frametitle}]
+      at ([xshift=7.2mm,yshift=-9.9mm]current page.north west) {\insertframetitle};
+  \end{tikzpicture}%
+}
 
 \setbeamertemplate{footline}{%
-  \hbox to\paperwidth{\hskip10mm%
-    \vbox to9mm{\vss
-      \hbox to\dimexpr\paperwidth-20mm\relax{%
+  \hbox to\paperwidth{\hskip7.2mm%
+    \vbox to8mm{\vss
+      \hbox to\dimexpr\paperwidth-14.4mm\relax{%
         \sffamily\bfseries\fontsize{6.3}{8}\selectfont
         {\color{TechDim}\vsp@footleft
          \ifx\vsp@footmid\@empty\else\quad\textcolor{TechLine}{|}\quad\vsp@footmid\fi}%
         \hfill{\color{TechDim}\insertframenumber\,/\,\inserttotalframenumber}}%
-      \vskip4mm}\hss}}
+      \vskip3.2mm}\hss}}
 
 % ---- Cover -----------------------------------------------------------------
 \setbeamertemplate{title page}{%
@@ -150,7 +151,7 @@
     \node[anchor=north west,inner sep=0pt,text width=92mm,align=flush left]
       at ([xshift=12mm,yshift=-8mm]current page.north west) {%
       \setlength{\parskip}{0pt}%
-      \includegraphics[height=7.5mm]{\VSPasset{\vsp@techlogo}}\par
+      \includegraphics[height=9.8mm]{\VSPasset{\vsp@techname}}\par
       \vskip5mm
       {\usebeamerfont{title}\color{TechInk}\vsp@displaywrap\inserttitle\par}%
       \vskip3mm
@@ -195,7 +196,7 @@
       \node[inner sep=0pt] at (current page.center)
         {\includegraphics[width=\paperwidth,height=\paperheight]{\vsp@techart{section}}};
       \node[anchor=north west,inner sep=0pt] at ([xshift=12mm,yshift=-8mm]current page.north west)
-        {\includegraphics[height=7.5mm]{\VSPasset{\vsp@techlogo}}};
+        {\includegraphics[height=9.8mm]{\VSPasset{\vsp@techname}}};
       \node[anchor=south west,inner sep=0pt,text width=130mm,align=flush left]
         at ([xshift=12mm,yshift=-6mm]current page.west) {%
         {\usebeamerfont{end title}\color{TechInk}Thank You\par}\vskip3mm
@@ -208,15 +209,27 @@
 \setbeamertemplate{itemize subitem}{\raisebox{0.22em}{\tikz\fill[TechMuted] (0,0) circle (0.35mm);}}
 \setbeamertemplate{enumerate item}{{\color{TechAccent}\bfseries\insertenumlabel.}}
 
-% ---- Callouts and blocks: panel card with a coloured left edge -------------
+% ---- Callouts and blocks: panel card with a soft-tinted header band --------
 \tcbset{
-  vsp@techbox/.style={enhanced,frame hidden,interior hidden,boxrule=0pt,arc=1.2mm,
-    underlay={\vsp@techcard{frame.south west}{frame.north east}{1.2mm}%
-      \fill[#1,rounded corners=0.35mm] ([xshift=0.4mm,yshift=1.2mm]frame.south west)
-        rectangle ([xshift=1.1mm,yshift=-1.2mm]frame.north west);},
-    coltext=TechInk,coltitle=#1,fonttitle=\sffamily\bfseries\vspbodyfont,fontupper=\sffamily\vspbodyfont,
-    title style={opacity=0},detach title,before upper={{\color{#1}\bfseries\tcbtitle\par}\smallskip},
-    left=3.6mm,right=3mm,top=2.2mm,bottom=2.2mm,before skip=3pt,after skip=8pt},
+  vsp@techbox/.style={
+    enhanced,frame hidden,interior hidden,boxrule=0pt,boxsep=0pt,arc=1.5mm,
+    underlay={%
+      \vsp@techcard{frame.south west}{frame.north east}{1.5mm}%
+      \begin{scope}
+        \clip[rounded corners=1.5mm] (frame.south west) rectangle (frame.north east);
+        \fill[#1!\vsp@techheadmix!TechPanel] (title.south west) rectangle (frame.north east);
+      \end{scope}
+      \draw[#1!22!TechLine,line width=0.45pt] (title.south west) -- (title.south east);
+      \draw[TechLine,line width=0.5pt,rounded corners=1.5mm] (frame.south west) rectangle (frame.north east);},
+    coltext=TechInk,coltitle=#1,
+    fonttitle=\sffamily\bfseries\vspbodyfont,
+    fontupper=\sffamily\vspbodyfont,
+    title style={opacity=0},
+    lefttitle=3mm,righttitle=3mm,toptitle=1.7mm,bottomtitle=1.6mm,
+    left=3mm,right=3mm,top=2.1mm,bottom=2.2mm,
+    before upper={\setlength{\parskip}{4pt}},
+    before skip=3pt,after skip=8pt
+  },
 }
 \renewtcolorbox{vspcallout}[2][TechAccent]{vsp@techbox=#1,title={#2}}
 \setbeamertemplate{block begin}{\begin{tcolorbox}[vsp@techbox=TechAccent,title={\insertblocktitle}]}

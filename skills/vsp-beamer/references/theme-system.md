@@ -6,9 +6,9 @@ Read this reference when changing `themes/beamerthemeVSP.sty` or a named theme e
 
 - `themes/beamerthemeVSP.sty`: shared colors, fonts, page templates, blocks, lists, code, and helper commands.
 - `themes/beamertheme<name>.sty`: thin option entry only.
-- `themes/beamerthemetutorial-showcase.sty`: a non-thin entry; a ShanghaiTech-branded layer over `tutorial-red` that switches the palette to crest red `#A40006` with gold, replaces cover, section, frame-title, footline and end templates (crest, white wordmark, and the skyline/motto cut from `shanghaitech-master-white.pdf`), restyles callouts/blocks as rule-headed text, and owns the `\VSPstat`/`\VSPmark`/`\VSPchip`/`\VSPsteps`/`\VSPmeter` components.
-- `themes/beamerthemetutorial-showcase-{sakura,coral}.sty`: thin palette entries; they define the six `SHTU*` colors before requiring `beamerthemetutorial-showcase`, whose palette uses `\providecolor` so the entry values win. Add further showcase palettes the same way.
-- `themes/beamerthemetech.sty`: the second non-thin layer, the SI100B circuit look over `tutorial-red`. It replaces background, cover, section, frame-title (PCB-trace band and logo from `shared-assets/tech/`), footline and end templates, draws callouts/blocks as rounded cards, and owns its own `\VSPstat` and `VSPcard`. `beamerthemetech-{dark,light}.sty` only set `\VSPtechvariant` before requiring it; the layer picks palette and `tech-<variant>-*.pdf` art from that macro.
+- `themes/beamerthemepresentation.sty`: shared presentation layer over `tutorial-red` that switches the default palette to crest red `#A40006` with gold (overridable via `\providecolor`), replaces cover, section, frame-title, footline and end templates (crest, white wordmark, and the skyline/motto cut from `shanghaitech-master-white.pdf`), inherits the soft-header rounded card callouts/blocks with sans-serif body text, and owns the `\VSPstat`/`\VSPmark`/`\VSPchip`/`\VSPsteps`/`\VSPmeter` components.
+- `themes/beamerthemepresentation-{blackred,bluepink,lightred}.sty`: thin palette entries; `blackred` uses the default deep-crimson/gold palette, while `bluepink` and `lightred` define the six `SHTU*` colors before requiring `beamerthemepresentation`. Add further presentation palettes the same way.
+- `themes/beamerthemetutorial-tech.sty`: the second non-thin layer, the SI100B circuit look over `tutorial-red`. It replaces background, cover, section, frame-title (PCB-trace band and shared vector logo from `shared-assets/logos/`), footline and end templates, keeps the shared Latin Modern / Noto Sans CJK SC typography and fixed tutorial title alignment, draws callouts/blocks as rounded cards with a soft-tinted header band, and owns its own `\VSPstat` and `VSPcard`. `beamerthemetutorial-tech-{dark,light}.sty` only set `\VSPtechvariant` before requiring it; the layer picks palette and `tech-<variant>-*.pdf` art from that macro.
 - `templates/*.tex`: concise editable examples; no theme implementation.
 - `practice/**/*.tex`: content-heavy examples with local assets.
 
@@ -47,9 +47,9 @@ Match VSP-Marp's `trans` contract:
 
 ## Emphasis callouts
 
-Match Marp's `bq-*` structure with a colored title strip and a shared light body, not a plain LaTeX quote or left rule.
+All themes render callouts (`vspcallout` / `vspquote*`) and Beamer `block` environments as rounded cards with a subtle border, a soft-tinted header band with bold colored title text, and a clean body area (no vertical accent bars or cross-color gradients).
 
-| Marp class | Beamer environment | Header color |
+| Marp class | Beamer environment | Accent color |
 | --- | --- | --- |
 | `bq` | `vspquote` | preset-aware `VSPCalloutDefault` |
 | `bq-blue` | `vspquoteblue` | `VSPCalloutBlue` |
@@ -59,7 +59,7 @@ Match Marp's `bq-*` structure with a colored title strip and a shared light body
 | `bq-black` | `vspquoteblack` | `VSPCalloutBlack` |
 | `bq-yellow` | `vspquoteyellow` | `VSPCalloutYellow` |
 
-The default header follows the exported Marp preset: tutorial red/SHTU/purple use `VSPCalloutRed`, report-red and Nailong use their current `VSPPrimary`. Variant environments always use the explicitly named color.
+The default accent follows the active theme (`VSPCalloutRed` for red tutorials, `VSPPrimary` for purple/report, `VSPAmberCallout` for Nailong, `SHTURed` for `presentation-*`, and `TechAccent` for `tech-*`). Variant environments always use the explicitly named color.
 
 Pass the callout title as the required environment argument, then place the body inside:
 

@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{beamerthemeVSP}[2026/11/22 v0.3.0 VSP Beamer theme]
+\ProvidesPackage{beamerthemeVSP}[2026/11/27 v0.3.1 VSP Beamer theme]
 
 \RequirePackage{iftex}
 \ifXeTeX\else
@@ -16,6 +16,7 @@
 \RequirePackage{tabularray}
 \RequirePackage{xurl}
 \RequirePackage{tcolorbox}
+\tcbuselibrary{skins}
 
 % Runtime assets are resolved through Kpathsea, so the same source works both
 % inside this repository and after installation into TEXMFHOME.
@@ -54,6 +55,7 @@
 \definecolor{VSPPurpleSoft}{HTML}{EADCFB}
 \definecolor{VSPAmber}{HTML}{F6CF3D}
 \definecolor{VSPAmberAccent}{HTML}{E7AD16}
+\definecolor{VSPAmberCallout}{HTML}{B87E0B}
 \definecolor{VSPAmberSoft}{HTML}{FFF2BE}
 \definecolor{VSPAmberInk}{HTML}{211A0E}
 \definecolor{VSPInk}{HTML}{211112}
@@ -61,14 +63,14 @@
 \definecolor{VSPMuted}{HTML}{8C8C8C}
 \definecolor{VSPCodeRed}{HTML}{F6EEEF}
 \definecolor{VSPCodePurple}{HTML}{F5EFFD}
-\definecolor{VSPGreen}{HTML}{6F8F42}
+\definecolor{VSPGreen}{HTML}{4F8242}
 \definecolor{VSPOrange}{HTML}{C5681F}
-\definecolor{VSPCalloutBlue}{HTML}{81A1C1}
-\definecolor{VSPCalloutRed}{HTML}{BF616A}
-\definecolor{VSPCalloutGreen}{HTML}{ACCE8D}
-\definecolor{VSPCalloutPurple}{HTML}{B48EAD}
+\definecolor{VSPCalloutBlue}{HTML}{4A6FA5}
+\definecolor{VSPCalloutRed}{HTML}{B03A48}
+\definecolor{VSPCalloutGreen}{HTML}{4F8242}
+\definecolor{VSPCalloutPurple}{HTML}{6E3B7A}
 \definecolor{VSPCalloutBlack}{HTML}{434C5E}
-\definecolor{VSPCalloutYellow}{HTML}{ECC20B}
+\definecolor{VSPCalloutYellow}{HTML}{B8891F}
 \definecolor{VSPCalloutBodyRed}{HTML}{E4EAF6}
 \definecolor{VSPCalloutBodyPurple}{HTML}{EEE6FA}
 \definecolor{VSPCalloutBodyNailong}{HTML}{FFF8E6}
@@ -97,12 +99,14 @@
 \fi\fi
 
 \ifvsp@nailong
+  \colorlet{VSPCalloutDefault}{VSPAmberCallout}
+\else\ifvsp@purple
   \colorlet{VSPCalloutDefault}{VSPPrimary}
 \else\ifvsp@report
   \colorlet{VSPCalloutDefault}{VSPPrimary}
 \else
   \colorlet{VSPCalloutDefault}{VSPCalloutRed}
-\fi\fi
+\fi\fi\fi
 
 \mode<presentation>
 \usefonttheme{professionalfonts}
@@ -170,7 +174,6 @@
 \setbeamertemplate{enumerate item}{%
   \tikz[baseline=(n.base)]\node[fill=VSPPrimary,text=white,font=\sffamily\scriptsize\bfseries,
   minimum size=1.65em,inner sep=0pt,rounded corners=0.8pt] (n) {\insertenumlabel};}
-\setbeamertemplate{blocks}[rounded][shadow=false]
 
 % Marp emphasis parity: \alert colors in the accent color and bolds, while
 % \textbf keeps its standard meaning. Beamer's own titles and labels use font
@@ -420,26 +423,35 @@
 \def\vsp@footmid{}
 \def\vsp@footright{}
 
-\newtcolorbox{vspcallout}[2][VSPPrimary]{%
-  size=minimal,
-  width=\dimexpr\linewidth-.31cm\relax,
-  center,
-  colback=VSPCalloutBody,
-  colframe=#1,
-  colbacktitle=#1,
-  coltitle=white,
-  title={#2},
-  fonttitle=\sffamily\vspbodyfont,
-  fontupper=\rmfamily\vspbodyfont,
-  boxrule=0pt,
-  titlerule=0pt,
-  arc=.10cm,
-  outer arc=.10cm,
-  lefttitle=.214cm,righttitle=.07cm,toptitle=.205cm,bottomtitle=.205cm,
-  left=.285cm,right=.285cm,top=.195cm,bottom=.195cm,
-  boxsep=0pt,
-  before skip=.04cm,after skip=.16cm
+\tcbset{
+  vsp@callout/.style={
+    enhanced,
+    colback=white,
+    colframe=#1!28!white,
+    colbacktitle=#1!11!white,
+    coltitle=#1,
+    coltext=VSPText,
+    boxrule=0.55pt,
+    titlerule=0.45pt,
+    titlerule style={#1!18!white},
+    arc=1.5mm,
+    outer arc=1.5mm,
+    fonttitle=\sffamily\bfseries\vspbodyfont,
+    fontupper=\rmfamily\vspbodyfont,
+    lefttitle=3mm,righttitle=3mm,toptitle=1.7mm,bottomtitle=1.6mm,
+    left=3mm,right=3mm,top=2.1mm,bottom=2.2mm,
+    boxsep=0pt,
+    before upper={\setlength{\parskip}{4pt}},
+    before skip=3pt,after skip=8pt
+  },
 }
+\newtcolorbox{vspcallout}[2][VSPPrimary]{vsp@callout=#1,title={#2}}
+\setbeamertemplate{block begin}{\begin{tcolorbox}[vsp@callout=VSPCalloutDefault,title={\insertblocktitle}]}
+\setbeamertemplate{block end}{\end{tcolorbox}}
+\setbeamertemplate{block alerted begin}{\begin{tcolorbox}[vsp@callout=VSPCalloutRed,title={\insertblocktitle}]}
+\setbeamertemplate{block alerted end}{\end{tcolorbox}}
+\setbeamertemplate{block example begin}{\begin{tcolorbox}[vsp@callout=VSPGreen,title={\insertblocktitle}]}
+\setbeamertemplate{block example end}{\end{tcolorbox}}
 
 \newenvironment{vspquote}[1]
   {\begin{vspcallout}[VSPCalloutDefault]{#1}}
